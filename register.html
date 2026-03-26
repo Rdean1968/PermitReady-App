@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join the Network — PermitReady</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--forest:#1e3a2f;--moss:#4a7c59;--sage:#8ab39a;--cream:#f5f0e8;--sand:#e8dfc8;--warm:#faf8f4;--txt:#1a2820;--txtm:#3d5a47;--txtl:#6b8f78;--accent:#c8863a;--acl:#e8a85a;--border:#e8dfc8}
+body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--txt)}
+nav{background:var(--forest);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--cream);text-decoration:none}
+.logo span{color:var(--acl)}
+.nav-phone{font-size:13px;color:var(--acl);text-decoration:none}
+.tab-bar{background:var(--forest);padding:0 32px;display:flex;border-top:1px solid rgba(255,255,255,.08)}
+.tab{padding:13px 20px;font-size:13px;font-weight:500;color:var(--sage);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s}
+.tab:hover{color:var(--cream)}
+.tab.active{color:var(--cream);border-bottom-color:var(--acl)}
+.form-hdr{padding:28px 40px 20px;border-bottom:1px solid var(--border);background:white}
+.form-eye{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,4vw,32px);font-weight:600;color:var(--forest);margin-bottom:6px}
+.form-sub{font-size:13px;color:var(--txtl);max-width:500px;line-height:1.6}
+.prog-wrap{background:var(--sand);padding:13px 40px;border-bottom:1px solid var(--border)}
+.prog-row{display:flex;justify-content:space-between;margin-bottom:6px;font-size:11px}
+.prog-name{font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--txtm)}
+.prog-count{color:var(--txtl)}
+.prog-track{height:3px;background:rgba(0,0,0,.08);border-radius:2px}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--moss),var(--accent));border-radius:2px;transition:width .4s}
+.wrap{max-width:640px;margin:0 auto;padding:28px 40px}
+.step{display:none}
+.step.active{display:block}
+.stitle{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--forest);margin-bottom:6px}
+.ssub{font-size:13px;color:var(--txtl);margin-bottom:20px;line-height:1.5}
+.field{margin-bottom:16px}
+.fl{display:block;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--txtm);margin-bottom:6px}
+.fi{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--txt);background:white;outline:none;transition:border-color .2s}
+.fi:focus{border-color:var(--moss)}
+textarea.fi{min-height:100px;resize:vertical;line-height:1.6}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.chk{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;background:white;transition:all .15s;user-select:none}
+.chk:hover{border-color:var(--moss)}
+.chk.on{border-color:var(--forest);background:var(--forest)}
+.chk.on .chk-lbl{color:var(--cream)}
+.chk-box{width:16px;height:16px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;background:white;font-weight:700}
+.chk.on .chk-box{background:var(--acl);border-color:var(--acl);color:var(--forest)}
+.chk-lbl{font-size:12px;font-weight:500;color:var(--txtm)}
+.btn-row{display:flex;gap:10px;margin-top:20px}
+.btn-back{padding:11px 22px;border:1.5px solid var(--border);border-radius:8px;background:white;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--txtm);cursor:pointer;transition:all .15s}
+.btn-back:hover{border-color:var(--moss);color:var(--forest)}
+.btn-next{flex:1;padding:11px 22px;border:none;border-radius:8px;background:var(--forest);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--cream);cursor:pointer;transition:all .2s}
+.btn-next:hover{background:var(--moss)}
+.btn-next:disabled{background:var(--sage);cursor:not-allowed}
+.disc{font-size:11px;color:var(--txtl);margin-top:12px;line-height:1.5}
+.confirm{text-align:center;padding:20px 0}
+.ccirc{width:68px;height:68px;background:var(--forest);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;color:var(--cream)}
+.ctitle{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--forest);margin-bottom:8px}
+.csub{font-size:13px;color:var(--txtl);max-width:400px;margin:0 auto 20px;line-height:1.6}
+.ccard{background:var(--cream);border:1px solid var(--sand);border-radius:10px;padding:16px;text-align:left;max-width:380px;margin:0 auto 16px}
+.crow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--sand);font-size:12px}
+.crow:last-child{border-bottom:none}
+.ck{color:var(--txtl)}
+.cv{font-weight:500;color:var(--txt)}
+.api-box{background:var(--forest);border-radius:8px;padding:16px;max-width:380px;margin:0 auto 16px;text-align:left}
+.api-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-bottom:6px}
+.api-val{font-family:monospace;font-size:13px;color:var(--acl);word-break:break-all}
+.api-note{font-size:11px;color:var(--sage);margin-top:6px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Permit<span>Ready</span></a>
+  <a class="nav-phone" href="tel:8663699698">(866) 369-9698</a>
+</nav>
+
+<div class="tab-bar">
+  <div class="tab active" id="tab-gc" onclick="switchType('gc')">Builder / GC</div>
+  <div class="tab" id="tab-architect" onclick="switchType('architect')">Architect</div>
+  <div class="tab" id="tab-designer" onclick="switchType('designer')">Designer</div>
+  <div class="tab" id="tab-engineer" onclick="switchType('engineer')">Engineer</div>
+</div>
+
+<div id="form-hdr" class="form-hdr">
+  <div class="form-eye" id="hdr-eye">Builder / GC Registration</div>
+  <div class="form-title" id="hdr-title">Join the PermitReady network</div>
+  <div class="form-sub" id="hdr-sub">Get matched with qualified homeowners before they hire anyone else. 1.5% fee only on projects you win — no monthly subscription. Questions? Call <a href="tel:8663699698" style="color:var(--accent)">(866) 369-9698</a></div>
+</div>
+
+<div class="prog-wrap">
+  <div class="prog-row"><span class="prog-name" id="pname">Company Info</span><span class="prog-count" id="pcount">Step 1 of 4</span></div>
+  <div class="prog-track"><div class="prog-fill" id="pfill" style="width:25%"></div></div>
+</div>
+
+<div class="wrap">
+
+<!-- ═══ GC FORM ═══ -->
+<div id="form-gc">
+
+  <div class="step active" id="gc-s1">
+    <div class="stitle">Company Info</div>
+    <div class="ssub">Tell us about your business.</div>
+    <div class="frow">
+      <div class="field"><label class="fl">Company Name</label><input class="fi" id="gc-company" type="text" placeholder="Cascade Built LLC"></div>
+      <div class="field"><label class="fl">Your Name</label><input class="fi" id="gc-contact" type="text" placeholder="Mike Johnson"></div>
+    </div>
+    <div class="frow">
+      <div class="field"><label class="fl">Email Address</label><input class="fi" id="gc-email" type="email" placeholder="mike@cascadebuilt.com"></div>
+      <div class="field"><label class="fl">Phone Number</label><input class="fi" id="gc-phone" type="tel" placeholder="(206) 555-0000"></div>
+    </div>
+    <div class="field"><label class="fl">Create a Password</label><input class="fi" id="gc-password" type="password" placeholder="Minimum 8 characters"></div>
+    <div class="field"><label class="fl">Website <span style="font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label><input class="fi" id="gc-website" type="text" placeholder="www.cascadebuilt.com"></div>
+    <div class="btn-row"><button class="btn-next" onclick="gcNext(1)">Continue</button></div>
+  </div>
+
+  <div class="step" id="gc-s2">
+    <div class="stitle">License & Experience</div>
+    <div class="ssub">Homeowners expect licensed, experienced contractors.</div>
+    <div class="frow">
+      <div class="field"><label class="fl">WA Contractor License #</label><input class="fi" id="gc-license" type="text" placeholder="e.g. CASCABL123BN"></div>
+      <div class="field"><label class="fl">Years in Business</label><input class="fi" id="gc-years" type="text" placeholder="e.g. 18"></div>
+    </div>
+    <div class="field"><label class="fl">Are you bonded and insured?</label>
+      <div class="check-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="chk" id="gc-bond-yes" onclick="gcPick('bond','yes')"><div class="chk-box">v</div><div class="chk-lbl">Yes — bonded and insured</div></div>
+        <div class="chk" id="gc-bond-bond" onclick="gcPick('bond','bond')"><div class="chk-box">v</div><div class="chk-lbl">Bonded only</div></div>
+        <div class="chk" id="gc-bond-no" onclick="gcPick('bond','no')"><div class="chk-box">v</div><div class="chk-lbl">Not yet</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="gcGo(1)">Back</button><button class="btn-next" onclick="gcNext(2)">Continue</button></div>
+  </div>
+
+  <div class="step" id="gc-s3">
+    <div class="stitle">Project Types & Service Area</div>
+    <div class="ssub">Select everything that applies.</div>
+    <div class="field"><label class="fl">Project types you take on</label>
+      <div class="check-grid">
+        <div class="chk" id="gc-pt-adu" onclick="gcChk('pt','adu')"><div class="chk-box">v</div><div class="chk-lbl">ADU / DADU Builds</div></div>
+        <div class="chk" id="gc-pt-addition" onclick="gcChk('pt','addition')"><div class="chk-box">v</div><div class="chk-lbl">Home Additions</div></div>
+        <div class="chk" id="gc-pt-kitchen" onclick="gcChk('pt','kitchen')"><div class="chk-box">v</div><div class="chk-lbl">Kitchen & Bath Remodels</div></div>
+        <div class="chk" id="gc-pt-remodel" onclick="gcChk('pt','remodel')"><div class="chk-box">v</div><div class="chk-lbl">Full Home Remodels</div></div>
+        <div class="chk" id="gc-pt-newbuild" onclick="gcChk('pt','newbuild')"><div class="chk-box">v</div><div class="chk-lbl">New Construction</div></div>
+        <div class="chk" id="gc-pt-commercial" onclick="gcChk('pt','commercial')"><div class="chk-box">v</div><div class="chk-lbl">Commercial / TI</div></div>
+        <div class="chk" id="gc-pt-deck" onclick="gcChk('pt','deck')"><div class="chk-box">v</div><div class="chk-lbl">Deck & Outdoor</div></div>
+        <div class="chk" id="gc-pt-basement" onclick="gcChk('pt','basement')"><div class="chk-box">v</div><div class="chk-lbl">Basement Finish</div></div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px"><label class="fl">Areas you serve</label>
+      <div class="check-grid">
+        <div class="chk" id="gc-sa-seattle" onclick="gcChk('sa','seattle')"><div class="chk-box">v</div><div class="chk-lbl">Seattle</div></div>
+        <div class="chk" id="gc-sa-bellevue" onclick="gcChk('sa','bellevue')"><div class="chk-box">v</div><div class="chk-lbl">Bellevue</div></div>
+        <div class="chk" id="gc-sa-kirkland" onclick="gcChk('sa','kirkland')"><div class="chk-box">v</div><div class="chk-lbl">Kirkland</div></div>
+        <div class="chk" id="gc-sa-redmond" onclick="gcChk('sa','redmond')"><div class="chk-box">v</div><div class="chk-lbl">Redmond</div></div>
+        <div class="chk" id="gc-sa-bothell" onclick="gcChk('sa','bothell')"><div class="chk-box">v</div><div class="chk-lbl">Bothell</div></div>
+        <div class="chk" id="gc-sa-millcreek" onclick="gcChk('sa','millcreek')"><div class="chk-box">v</div><div class="chk-lbl">Mill Creek</div></div>
+        <div class="chk" id="gc-sa-everett" onclick="gcChk('sa','everett')"><div class="chk-box">v</div><div class="chk-lbl">Everett</div></div>
+        <div class="chk" id="gc-sa-edmonds" onclick="gcChk('sa','edmonds')"><div class="chk-box">v</div><div class="chk-lbl">Edmonds</div></div>
+        <div class="chk" id="gc-sa-shoreline" onclick="gcChk('sa','shoreline')"><div class="chk-box">v</div><div class="chk-lbl">Shoreline</div></div>
+        <div class="chk" id="gc-sa-kenmore" onclick="gcChk('sa','kenmore')"><div class="chk-box">v</div><div class="chk-lbl">Kenmore</div></div>
+        <div class="chk" id="gc-sa-snohomish" onclick="gcChk('sa','snohomish')"><div class="chk-box">v</div><div class="chk-lbl">Snohomish</div></div>
+        <div class="chk" id="gc-sa-monroe" onclick="gcChk('sa','monroe')"><div class="chk-box">v</div><div class="chk-lbl">Monroe</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="gcGo(2)">Back</button><button class="btn-next" onclick="gcNext(3)">Continue</button></div>
+  </div>
+
+  <div class="step" id="gc-s4">
+    <div class="stitle">Your Profile</div>
+    <div class="ssub">This is what homeowners read before deciding to contact you.</div>
+    <div class="field"><label class="fl">Tell homeowners about your company</label>
+      <textarea class="fi" id="gc-bio" placeholder="We are a family-owned GC with 18 years building in the Pacific Northwest. We specialize in ADU builds and additions and have completed 40 permitted projects in King County..."></textarea>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="gcGo(3)">Back</button><button class="btn-next" onclick="gcSubmit()">Submit Application</button></div>
+    <div class="disc">By submitting you agree to PermitReady's professional terms. Your application will be reviewed within 1-2 business days.</div>
+  </div>
+
+</div><!-- end gc form -->
+
+<!-- ═══ ARCHITECT FORM ═══ -->
+<div id="form-architect" style="display:none">
+
+  <div class="step active" id="arch-s1">
+    <div class="stitle">Firm Info</div>
+    <div class="ssub">Tell us about your architecture practice.</div>
+    <div class="frow">
+      <div class="field"><label class="fl">Firm Name</label><input class="fi" id="arch-company" type="text" placeholder="Smith Architecture PLLC"></div>
+      <div class="field"><label class="fl">Your Name</label><input class="fi" id="arch-contact" type="text" placeholder="Sarah Smith AIA"></div>
+    </div>
+    <div class="frow">
+      <div class="field"><label class="fl">Email Address</label><input class="fi" id="arch-email" type="email" placeholder="sarah@smitharch.com"></div>
+      <div class="field"><label class="fl">Phone Number</label><input class="fi" id="arch-phone" type="tel" placeholder="(206) 555-0300"></div>
+    </div>
+    <div class="frow">
+      <div class="field"><label class="fl">WA Architecture License #</label><input class="fi" id="arch-license" type="text" placeholder="e.g. ARCH-1234"></div>
+      <div class="field"><label class="fl">Years in Practice</label><input class="fi" id="arch-years" type="text" placeholder="e.g. 14"></div>
+    </div>
+    <div class="field"><label class="fl">Create a Password</label><input class="fi" id="arch-password" type="password" placeholder="Minimum 8 characters"></div>
+    <div class="field"><label class="fl">Website <span style="font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label><input class="fi" id="arch-website" type="text" placeholder="www.smitharchitecture.com"></div>
+    <div class="btn-row"><button class="btn-next" onclick="archNext(1)">Continue</button></div>
+  </div>
+
+  <div class="step" id="arch-s2">
+    <div class="stitle">Specialties & Software</div>
+    <div class="ssub">Select everything that applies.</div>
+    <div class="field"><label class="fl">Project types you specialize in</label>
+      <div class="check-grid">
+        <div class="chk" id="arch-pt-adu" onclick="archChk('pt','adu')"><div class="chk-box">v</div><div class="chk-lbl">ADU / DADU Design</div></div>
+        <div class="chk" id="arch-pt-addition" onclick="archChk('pt','addition')"><div class="chk-box">v</div><div class="chk-lbl">Home Additions</div></div>
+        <div class="chk" id="arch-pt-custom" onclick="archChk('pt','custom')"><div class="chk-box">v</div><div class="chk-lbl">Custom New Homes</div></div>
+        <div class="chk" id="arch-pt-kitchen" onclick="archChk('pt','kitchen')"><div class="chk-box">v</div><div class="chk-lbl">Kitchen & Bath</div></div>
+        <div class="chk" id="arch-pt-historic" onclick="archChk('pt','historic')"><div class="chk-box">v</div><div class="chk-lbl">Historic Renovation</div></div>
+        <div class="chk" id="arch-pt-commercial" onclick="archChk('pt','commercial')"><div class="chk-box">v</div><div class="chk-lbl">Commercial / TI</div></div>
+        <div class="chk" id="arch-pt-multi" onclick="archChk('pt','multi')"><div class="chk-box">v</div><div class="chk-lbl">Multifamily</div></div>
+        <div class="chk" id="arch-pt-passive" onclick="archChk('pt','passive')"><div class="chk-box">v</div><div class="chk-lbl">Passive House / Net Zero</div></div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px"><label class="fl">Software you use</label>
+      <div class="check-grid">
+        <div class="chk" id="arch-sw-revit" onclick="archChk('sw','revit')"><div class="chk-box">v</div><div class="chk-lbl">Revit</div></div>
+        <div class="chk" id="arch-sw-autocad" onclick="archChk('sw','autocad')"><div class="chk-box">v</div><div class="chk-lbl">AutoCAD</div></div>
+        <div class="chk" id="arch-sw-sketchup" onclick="archChk('sw','sketchup')"><div class="chk-box">v</div><div class="chk-lbl">SketchUp</div></div>
+        <div class="chk" id="arch-sw-archicad" onclick="archChk('sw','archicad')"><div class="chk-box">v</div><div class="chk-lbl">ArchiCAD</div></div>
+        <div class="chk" id="arch-sw-rhino" onclick="archChk('sw','rhino')"><div class="chk-box">v</div><div class="chk-lbl">Rhino</div></div>
+        <div class="chk" id="arch-sw-chief" onclick="archChk('sw','chief')"><div class="chk-box">v</div><div class="chk-lbl">Chief Architect</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="archGo(1)">Back</button><button class="btn-next" onclick="archNext(2)">Continue</button></div>
+  </div>
+
+  <div class="step" id="arch-s3">
+    <div class="stitle">Service Area</div>
+    <div class="ssub">Which cities do you serve?</div>
+    <div class="check-grid">
+      <div class="chk" id="arch-sa-seattle" onclick="archChk('sa','seattle')"><div class="chk-box">v</div><div class="chk-lbl">Seattle</div></div>
+      <div class="chk" id="arch-sa-bellevue" onclick="archChk('sa','bellevue')"><div class="chk-box">v</div><div class="chk-lbl">Bellevue</div></div>
+      <div class="chk" id="arch-sa-kirkland" onclick="archChk('sa','kirkland')"><div class="chk-box">v</div><div class="chk-lbl">Kirkland</div></div>
+      <div class="chk" id="arch-sa-redmond" onclick="archChk('sa','redmond')"><div class="chk-box">v</div><div class="chk-lbl">Redmond</div></div>
+      <div class="chk" id="arch-sa-bothell" onclick="archChk('sa','bothell')"><div class="chk-box">v</div><div class="chk-lbl">Bothell</div></div>
+      <div class="chk" id="arch-sa-millcreek" onclick="archChk('sa','millcreek')"><div class="chk-box">v</div><div class="chk-lbl">Mill Creek</div></div>
+      <div class="chk" id="arch-sa-everett" onclick="archChk('sa','everett')"><div class="chk-box">v</div><div class="chk-lbl">Everett</div></div>
+      <div class="chk" id="arch-sa-edmonds" onclick="archChk('sa','edmonds')"><div class="chk-box">v</div><div class="chk-lbl">Edmonds</div></div>
+      <div class="chk" id="arch-sa-shoreline" onclick="archChk('sa','shoreline')"><div class="chk-box">v</div><div class="chk-lbl">Shoreline</div></div>
+      <div class="chk" id="arch-sa-kenmore" onclick="archChk('sa','kenmore')"><div class="chk-box">v</div><div class="chk-lbl">Kenmore</div></div>
+      <div class="chk" id="arch-sa-snohomish" onclick="archChk('sa','snohomish')"><div class="chk-box">v</div><div class="chk-lbl">Snohomish</div></div>
+      <div class="chk" id="arch-sa-monroe" onclick="archChk('sa','monroe')"><div class="chk-box">v</div><div class="chk-lbl">Monroe</div></div>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="archGo(2)">Back</button><button class="btn-next" onclick="archNext(3)">Continue</button></div>
+  </div>
+
+  <div class="step" id="arch-s4">
+    <div class="stitle">Your Profile</div>
+    <div class="ssub">Tell homeowners about your practice.</div>
+    <div class="field"><textarea class="fi" id="arch-bio" placeholder="We are a boutique architecture firm focused on thoughtful residential design in the Pacific Northwest. We have completed 60 ADU and addition projects in King County..."></textarea></div>
+    <div class="btn-row"><button class="btn-back" onclick="archGo(3)">Back</button><button class="btn-next" onclick="archSubmit()">Submit Application</button></div>
+    <div class="disc">By submitting you agree to PermitReady's professional terms. Reviewed within 1-2 business days.</div>
+  </div>
+
+</div><!-- end architect form -->
+
+<!-- ═══ DESIGNER FORM ═══ -->
+<div id="form-designer" style="display:none">
+
+  <div class="step active" id="des-s1">
+    <div class="stitle">Studio Info</div>
+    <div class="ssub">Tell us about your design practice.</div>
+    <div class="frow">
+      <div class="field"><label class="fl">Studio / Business Name</label><input class="fi" id="des-company" type="text" placeholder="Modern Home Studio"></div>
+      <div class="field"><label class="fl">Your Name</label><input class="fi" id="des-contact" type="text" placeholder="Emily Chen"></div>
+    </div>
+    <div class="frow">
+      <div class="field"><label class="fl">Email Address</label><input class="fi" id="des-email" type="email" placeholder="emily@modernhomestudio.com"></div>
+      <div class="field"><label class="fl">Phone Number</label><input class="fi" id="des-phone" type="tel" placeholder="(206) 555-0000"></div>
+    </div>
+    <div class="frow">
+      <div class="field"><label class="fl">Years of Experience</label><input class="fi" id="des-years" type="text" placeholder="e.g. 9"></div>
+      <div class="field"><label class="fl">Portfolio / Instagram <span style="font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label><input class="fi" id="des-website" type="text" placeholder="instagram.com/modernhomestudio"></div>
+    </div>
+    <div class="btn-row"><button class="btn-next" onclick="desNext(1)">Continue</button></div>
+  </div>
+
+  <div class="step" id="des-s2">
+    <div class="stitle">Style & Specialties</div>
+    <div class="ssub">Select everything that applies.</div>
+    <div class="field"><label class="fl">Design styles you specialize in</label>
+      <div class="check-grid">
+        <div class="chk" id="des-st-modern" onclick="desChk('st','modern')"><div class="chk-box">v</div><div class="chk-lbl">Modern / Contemporary</div></div>
+        <div class="chk" id="des-st-pnw" onclick="desChk('st','pnw')"><div class="chk-box">v</div><div class="chk-lbl">Pacific Northwest</div></div>
+        <div class="chk" id="des-st-craftsman" onclick="desChk('st','craftsman')"><div class="chk-box">v</div><div class="chk-lbl">Craftsman / Traditional</div></div>
+        <div class="chk" id="des-st-scandi" onclick="desChk('st','scandi')"><div class="chk-box">v</div><div class="chk-lbl">Scandinavian / Minimalist</div></div>
+        <div class="chk" id="des-st-mcm" onclick="desChk('st','mcm')"><div class="chk-box">v</div><div class="chk-lbl">Mid-Century Modern</div></div>
+        <div class="chk" id="des-st-transitional" onclick="desChk('st','transitional')"><div class="chk-box">v</div><div class="chk-lbl">Transitional</div></div>
+        <div class="chk" id="des-st-farmhouse" onclick="desChk('st','farmhouse')"><div class="chk-box">v</div><div class="chk-lbl">Farmhouse / Rustic</div></div>
+        <div class="chk" id="des-st-luxury" onclick="desChk('st','luxury')"><div class="chk-box">v</div><div class="chk-lbl">Luxury / High-End</div></div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px"><label class="fl">Spaces you design</label>
+      <div class="check-grid">
+        <div class="chk" id="des-sp-full" onclick="desChk('sp','full')"><div class="chk-box">v</div><div class="chk-lbl">Full Home Interiors</div></div>
+        <div class="chk" id="des-sp-kitchen" onclick="desChk('sp','kitchen')"><div class="chk-box">v</div><div class="chk-lbl">Kitchen Design</div></div>
+        <div class="chk" id="des-sp-bath" onclick="desChk('sp','bath')"><div class="chk-box">v</div><div class="chk-lbl">Bathroom Design</div></div>
+        <div class="chk" id="des-sp-adu" onclick="desChk('sp','adu')"><div class="chk-box">v</div><div class="chk-lbl">ADU Interiors</div></div>
+        <div class="chk" id="des-sp-addition" onclick="desChk('sp','addition')"><div class="chk-box">v</div><div class="chk-lbl">Home Additions</div></div>
+        <div class="chk" id="des-sp-master" onclick="desChk('sp','master')"><div class="chk-box">v</div><div class="chk-lbl">Master Suite</div></div>
+        <div class="chk" id="des-sp-living" onclick="desChk('sp','living')"><div class="chk-box">v</div><div class="chk-lbl">Living & Dining</div></div>
+        <div class="chk" id="des-sp-office" onclick="desChk('sp','office')"><div class="chk-box">v</div><div class="chk-lbl">Home Office</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="desGo(1)">Back</button><button class="btn-next" onclick="desNext(2)">Continue</button></div>
+  </div>
+
+  <div class="step" id="des-s3">
+    <div class="stitle">Service Area & Profile</div>
+    <div class="ssub">Where do you work and who are you?</div>
+    <div class="field"><label class="fl">Areas you serve</label>
+      <div class="check-grid">
+        <div class="chk" id="des-sa-seattle" onclick="desChk('sa','seattle')"><div class="chk-box">v</div><div class="chk-lbl">Seattle</div></div>
+        <div class="chk" id="des-sa-bellevue" onclick="desChk('sa','bellevue')"><div class="chk-box">v</div><div class="chk-lbl">Bellevue</div></div>
+        <div class="chk" id="des-sa-kirkland" onclick="desChk('sa','kirkland')"><div class="chk-box">v</div><div class="chk-lbl">Kirkland</div></div>
+        <div class="chk" id="des-sa-redmond" onclick="desChk('sa','redmond')"><div class="chk-box">v</div><div class="chk-lbl">Redmond</div></div>
+        <div class="chk" id="des-sa-bothell" onclick="desChk('sa','bothell')"><div class="chk-box">v</div><div class="chk-lbl">Bothell</div></div>
+        <div class="chk" id="des-sa-millcreek" onclick="desChk('sa','millcreek')"><div class="chk-box">v</div><div class="chk-lbl">Mill Creek</div></div>
+        <div class="chk" id="des-sa-everett" onclick="desChk('sa','everett')"><div class="chk-box">v</div><div class="chk-lbl">Everett</div></div>
+        <div class="chk" id="des-sa-edmonds" onclick="desChk('sa','edmonds')"><div class="chk-box">v</div><div class="chk-lbl">Edmonds</div></div>
+        <div class="chk" id="des-sa-snohomish" onclick="desChk('sa','snohomish')"><div class="chk-box">v</div><div class="chk-lbl">Snohomish</div></div>
+        <div class="chk" id="des-sa-monroe" onclick="desChk('sa','monroe')"><div class="chk-box">v</div><div class="chk-lbl">Monroe</div></div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px"><label class="fl">Tell homeowners about your process</label>
+      <textarea class="fi" id="des-bio" placeholder="I help homeowners make confident design decisions before construction starts..."></textarea>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="desGo(2)">Back</button><button class="btn-next" onclick="desSubmit()">Submit Application</button></div>
+    <div class="disc">By submitting you agree to PermitReady's professional terms. Reviewed within 1-2 business days.</div>
+  </div>
+
+</div><!-- end designer form -->
+
+<!-- ═══ ENGINEER FORM ═══ -->
+<div id="form-engineer" style="display:none">
+
+  <div class="step active" id="eng-s1">
+    <div class="stitle">Firm Info</div>
+    <div class="ssub">Tell us about your engineering practice.</div>
+    <div class="frow">
+      <div class="field"><label class="fl">Firm Name</label><input class="fi" id="eng-company" type="text" placeholder="Pacific NW Structural Engineering"></div>
+      <div class="field"><label class="fl">Your Name</label><input class="fi" id="eng-contact" type="text" placeholder="David Park PE"></div>
+    </div>
+    <div class="frow">
+      <div class="field"><label class="fl">Email Address</label><input class="fi" id="eng-email" type="email" placeholder="david@pnwstructural.com"></div>
+      <div class="field"><label class="fl">Phone Number</label><input class="fi" id="eng-phone" type="tel" placeholder="(206) 555-0500"></div>
+    </div>
+    <div class="frow">
+      <div class="field"><label class="fl">WA PE License #</label><input class="fi" id="eng-license" type="text" placeholder="e.g. SE-12345"></div>
+      <div class="field"><label class="fl">Years in Practice</label><input class="fi" id="eng-years" type="text" placeholder="e.g. 20"></div>
+    </div>
+    <div class="btn-row"><button class="btn-next" onclick="engNext(1)">Continue</button></div>
+  </div>
+
+  <div class="step" id="eng-s2">
+    <div class="stitle">Disciplines & Project Types</div>
+    <div class="ssub">Select everything that applies.</div>
+    <div class="field"><label class="fl">Engineering disciplines</label>
+      <div class="check-grid">
+        <div class="chk" id="eng-di-structural" onclick="engChk('di','structural')"><div class="chk-box">v</div><div class="chk-lbl">Structural Engineering</div></div>
+        <div class="chk" id="eng-di-civil" onclick="engChk('di','civil')"><div class="chk-box">v</div><div class="chk-lbl">Civil Engineering</div></div>
+        <div class="chk" id="eng-di-geotech" onclick="engChk('di','geotech')"><div class="chk-box">v</div><div class="chk-lbl">Geotechnical</div></div>
+        <div class="chk" id="eng-di-seismic" onclick="engChk('di','seismic')"><div class="chk-box">v</div><div class="chk-lbl">Seismic / Lateral</div></div>
+        <div class="chk" id="eng-di-foundation" onclick="engChk('di','foundation')"><div class="chk-box">v</div><div class="chk-lbl">Foundation Design</div></div>
+        <div class="chk" id="eng-di-retaining" onclick="engChk('di','retaining')"><div class="chk-box">v</div><div class="chk-lbl">Retaining Walls</div></div>
+        <div class="chk" id="eng-di-drainage" onclick="engChk('di','drainage')"><div class="chk-box">v</div><div class="chk-lbl">Stormwater / Drainage</div></div>
+        <div class="chk" id="eng-di-soils" onclick="engChk('di','soils')"><div class="chk-box">v</div><div class="chk-lbl">Soils Reporting</div></div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px"><label class="fl">Project types you work on</label>
+      <div class="check-grid">
+        <div class="chk" id="eng-pt-adu" onclick="engChk('pt','adu')"><div class="chk-box">v</div><div class="chk-lbl">ADU / DADU Structural</div></div>
+        <div class="chk" id="eng-pt-addition" onclick="engChk('pt','addition')"><div class="chk-box">v</div><div class="chk-lbl">Home Additions</div></div>
+        <div class="chk" id="eng-pt-secondstory" onclick="engChk('pt','secondstory')"><div class="chk-box">v</div><div class="chk-lbl">Second Story Additions</div></div>
+        <div class="chk" id="eng-pt-custom" onclick="engChk('pt','custom')"><div class="chk-box">v</div><div class="chk-lbl">Custom New Homes</div></div>
+        <div class="chk" id="eng-pt-deck" onclick="engChk('pt','deck')"><div class="chk-box">v</div><div class="chk-lbl">Deck & Structural Framing</div></div>
+        <div class="chk" id="eng-pt-commercial" onclick="engChk('pt','commercial')"><div class="chk-box">v</div><div class="chk-lbl">Commercial / TI</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="engGo(1)">Back</button><button class="btn-next" onclick="engNext(2)">Continue</button></div>
+  </div>
+
+  <div class="step" id="eng-s3">
+    <div class="stitle">Service Area & Profile</div>
+    <div class="ssub">Where do you work and what makes your firm stand out?</div>
+    <div class="field"><label class="fl">Areas you serve</label>
+      <div class="check-grid">
+        <div class="chk" id="eng-sa-seattle" onclick="engChk('sa','seattle')"><div class="chk-box">v</div><div class="chk-lbl">Seattle</div></div>
+        <div class="chk" id="eng-sa-bellevue" onclick="engChk('sa','bellevue')"><div class="chk-box">v</div><div class="chk-lbl">Bellevue</div></div>
+        <div class="chk" id="eng-sa-kirkland" onclick="engChk('sa','kirkland')"><div class="chk-box">v</div><div class="chk-lbl">Kirkland</div></div>
+        <div class="chk" id="eng-sa-redmond" onclick="engChk('sa','redmond')"><div class="chk-box">v</div><div class="chk-lbl">Redmond</div></div>
+        <div class="chk" id="eng-sa-bothell" onclick="engChk('sa','bothell')"><div class="chk-box">v</div><div class="chk-lbl">Bothell</div></div>
+        <div class="chk" id="eng-sa-millcreek" onclick="engChk('sa','millcreek')"><div class="chk-box">v</div><div class="chk-lbl">Mill Creek</div></div>
+        <div class="chk" id="eng-sa-everett" onclick="engChk('sa','everett')"><div class="chk-box">v</div><div class="chk-lbl">Everett</div></div>
+        <div class="chk" id="eng-sa-edmonds" onclick="engChk('sa','edmonds')"><div class="chk-box">v</div><div class="chk-lbl">Edmonds</div></div>
+        <div class="chk" id="eng-sa-snohomish" onclick="engChk('sa','snohomish')"><div class="chk-box">v</div><div class="chk-lbl">Snohomish</div></div>
+        <div class="chk" id="eng-sa-monroe" onclick="engChk('sa','monroe')"><div class="chk-box">v</div><div class="chk-lbl">Monroe</div></div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px"><label class="fl">Tell us about your firm</label>
+      <textarea class="fi" id="eng-bio" placeholder="We provide residential and light commercial structural engineering services throughout King and Snohomish County..."></textarea>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="engGo(2)">Back</button><button class="btn-next" onclick="engSubmit()">Submit Application</button></div>
+    <div class="disc">By submitting you agree to PermitReady's professional terms. Reviewed within 1-2 business days.</div>
+  </div>
+
+</div><!-- end engineer form -->
+
+<!-- ═══ CONFIRM ═══ -->
+<div id="form-confirm" style="display:none">
+  <div class="confirm">
+    <div class="ccirc">&#10003;</div>
+    <div class="ctitle">Application submitted!</div>
+    <div class="csub">We will review your application and contact you within 1-2 business days. Questions? Call <a href="tel:8663699698" style="color:var(--forest);font-weight:600">(866) 369-9698</a></div>
+    <div class="ccard" id="confirm-card"></div>
+    <div class="api-box" id="api-box" style="display:none !important">
+      <div class="api-lbl">Your API Key — Save This Now</div>
+      <div class="api-val" id="api-key-val"></div>
+      <div class="api-note">This key gives you access to your pro dashboard. It will not be shown again.</div>
+    </div>
+    <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a href="dashboard.html" style="display:inline-block;padding:12px 28px;background:var(--forest);color:var(--cream);text-decoration:none;border-radius:8px;font-weight:600;font-size:14px">Go to Dashboard</a><a href="index.html" style="display:inline-block;padding:12px 28px;background:transparent;color:var(--forest);text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;border:2px solid var(--forest)">Back to Home</a></div>
+  </div>
+</div>
+
+</div><!-- end wrap -->
+
+<script>
+var API = 'http://localhost:5001';
+var currentType = 'gc';
+var checks = {};
+
+var headers = {
+  gc: {eye:'Builder / GC Registration', title:'Join the PermitReady network', sub:'Get matched with qualified homeowners before they hire anyone else. 1.5% fee only on projects you win.', steps:4},
+  architect: {eye:'Architect Registration', title:'Get matched with project-ready clients', sub:'PermitReady connects you with homeowners who need design services before they break ground.', steps:4},
+  designer: {eye:'Interior Designer Registration', title:'Connect with clients planning their next project', sub:'Get matched with homeowners who need design guidance during their remodel or new build.', steps:3},
+  engineer: {eye:'Structural / Civil Engineer Registration', title:'Join the PermitReady professional network', sub:'Get matched with projects that need structural, civil, or geotechnical engineering services.', steps:3}
+};
+
+function switchType(type) {
+  currentType = type;
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('tab-'+type).classList.add('active');
+  document.querySelectorAll('[id^="form-"]').forEach(function(f){f.style.display='none';});
+  document.getElementById('form-'+type).style.display='block';
+  document.querySelectorAll('#form-'+type+' .step').forEach(function(s,i){s.classList.toggle('active',i===0);});
+  var h = headers[type];
+  document.getElementById('hdr-eye').textContent = h.eye;
+  document.getElementById('hdr-title').textContent = h.title;
+  document.getElementById('hdr-sub').innerHTML = h.sub + ' Questions? Call <a href="tel:8663699698" style="color:var(--accent)">(866) 369-9698</a>';
+  updateProg(type, 1, h.steps);
+}
+
+function updateProg(type, step, total) {
+  var names = {
+    gc: ['Company Info','License & Experience','Project Types & Area','Your Profile'],
+    architect: ['Firm Info','Specialties & Software','Service Area','Your Profile'],
+    designer: ['Studio Info','Style & Specialties','Service Area & Profile'],
+    engineer: ['Firm Info','Disciplines & Projects','Service Area & Profile']
+  };
+  document.getElementById('pname').textContent = names[type][step-1] || '';
+  document.getElementById('pcount').textContent = 'Step '+step+' of '+total;
+  document.getElementById('pfill').style.width = Math.round(step/total*100)+'%';
+}
+
+function showStep(type, n) {
+  document.querySelectorAll('#form-'+type+' .step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(type.substring(0,type==='architect'?4:type==='designer'?3:type==='engineer'?3:2)+'-s'+n).classList.add('active');
+  updateProg(type, n, headers[type].steps);
+  window.scrollTo(0,0);
+}
+
+// Short prefix helpers
+function gcGo(n){showStep('gc',n);}
+function archGo(n){showStep('architect',n);}
+function desGo(n){showStep('designer',n);}
+function engGo(n){showStep('engineer',n);}
+
+function gcNext(from) {
+  if(from===1){var c=document.getElementById('gc-company').value,e=document.getElementById('gc-email').value;if(!c||!e){alert('Please fill in Company Name and Email.');return;}}
+  if(from===2){var l=document.getElementById('gc-license').value,y=document.getElementById('gc-years').value;if(!l||!y){alert('Please fill in License Number and Years in Business.');return;}}
+  if(from===3){var pt=Object.keys(checks).filter(function(k){return k.startsWith('gc-pt')&&checks[k];});if(!pt.length){alert('Please select at least one project type.');return;}}
+  gcGo(from+1);
+}
+function archNext(from) {
+  if(from===1){var c=document.getElementById('arch-company').value,e=document.getElementById('arch-email').value;if(!c||!e){alert('Please fill in Firm Name and Email.');return;}}
+  if(from===2){var pt=Object.keys(checks).filter(function(k){return k.startsWith('arch-pt')&&checks[k];});if(!pt.length){alert('Please select at least one project type.');return;}}
+  showStep('architect',from+1);
+}
+function desNext(from) {
+  if(from===1){var c=document.getElementById('des-company').value,e=document.getElementById('des-email').value;if(!c||!e){alert('Please fill in Studio Name and Email.');return;}}
+  if(from===2){var st=Object.keys(checks).filter(function(k){return k.startsWith('des-st')&&checks[k];});if(!st.length){alert('Please select at least one design style.');return;}}
+  showStep('designer',from+1);
+}
+function engNext(from) {
+  if(from===1){var c=document.getElementById('eng-company').value,e=document.getElementById('eng-email').value;if(!c||!e){alert('Please fill in Firm Name and Email.');return;}}
+  if(from===2){var di=Object.keys(checks).filter(function(k){return k.startsWith('eng-di')&&checks[k];});if(!di.length){alert('Please select at least one discipline.');return;}}
+  showStep('engineer',from+1);
+}
+
+function gcPick(group, val) {
+  document.querySelectorAll('[id^="gc-'+group+'-"]').forEach(function(e){
+    e.classList.remove('on');
+    e.querySelector('.chk-box').textContent='';
+  });
+  var el = document.getElementById('gc-'+group+'-'+val);
+  el.classList.add('on');
+  el.querySelector('.chk-box').textContent='v';
+}
+
+function toggle(id) {
+  var el = document.getElementById(id);
+  var on = el.classList.toggle('on');
+  el.querySelector('.chk-box').textContent = on ? 'v' : '';
+  checks[id] = on;
+}
+
+function gcChk(g,v){toggle('gc-'+g+'-'+v);}
+function archChk(g,v){toggle('arch-'+g+'-'+v);}
+function desChk(g,v){toggle('des-'+g+'-'+v);}
+function engChk(g,v){toggle('eng-'+g+'-'+v);}
+
+function getChecked(prefix) {
+  return Object.keys(checks).filter(function(k){return k.startsWith(prefix)&&checks[k];}).map(function(k){return k.replace(prefix,'');}).join(', ');
+}
+
+function showConfirm(company, email, type, apiKey) {
+  document.querySelectorAll('[id^="form-"]').forEach(function(f){f.style.display='none';});
+  document.getElementById('form-confirm').style.display='block';
+  document.getElementById('pfill').style.width='100%';
+  document.getElementById('pname').textContent='Complete';
+  document.getElementById('pcount').textContent='Done';
+  document.getElementById('confirm-card').innerHTML =
+    '<div class="crow"><span class="ck">Company</span><span class="cv">'+company+'</span></div>'+
+    '<div class="crow"><span class="ck">Type</span><span class="cv">'+headers[type].eye+'</span></div>'+
+    '<div class="crow"><span class="ck">Email</span><span class="cv">'+email+'</span></div>'+
+    '<div class="crow"><span class="ck">Status</span><span class="cv" style="color:var(--accent)">Pending approval</span></div>';
+  if(false && apiKey){
+    document.getElementById('api-box').style.display='block';
+    document.getElementById('api-key-val').textContent=apiKey;
+  }
+  window.scrollTo(0,0);
+}
+
+async function doSubmit(payload, type) {
+  try {
+    var r = await fetch(API+'/api/pros/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    var data = await r.json();
+    if(r.ok){showConfirm(payload.company_name,payload.email,type,data.api_key);}
+    else{alert('Error: '+(data.error||'Registration failed. Please try again.'));}
+  } catch(e){
+    alert('Cannot connect to API. Make sure the server is running on port 5001.');
+  }
+}
+
+function gcSubmit(){
+  doSubmit({
+    company_name: document.getElementById('gc-company').value,
+    contact_name: document.getElementById('gc-contact').value,
+    email: document.getElementById('gc-email').value,
+    phone: document.getElementById('gc-phone').value,
+    website: document.getElementById('gc-website').value,
+    license_number: document.getElementById('gc-license').value,
+    years_experience: parseInt(document.getElementById('gc-years').value)||null,
+    password: document.getElementById('gc-password').value,
+    pro_type:'gc',
+    project_types: getChecked('gc-pt-'),
+    service_area: getChecked('gc-sa-'),
+    bio: document.getElementById('gc-bio').value
+  },'gc');
+}
+
+function archSubmit(){
+  doSubmit({
+    company_name: document.getElementById('arch-company').value,
+    contact_name: document.getElementById('arch-contact').value,
+    email: document.getElementById('arch-email').value,
+    phone: document.getElementById('arch-phone').value,
+    website: document.getElementById('arch-website').value,
+    license_number: document.getElementById('arch-license').value,
+    years_experience: parseInt(document.getElementById('arch-years').value)||null,
+    password: document.getElementById('arch-password').value,
+    pro_type:'architect',
+    project_types: getChecked('arch-pt-'),
+    service_area: getChecked('arch-sa-'),
+    bio: document.getElementById('arch-bio').value
+  },'architect');
+}
+
+function desSubmit(){
+  doSubmit({
+    company_name: document.getElementById('des-company').value,
+    contact_name: document.getElementById('des-contact').value,
+    email: document.getElementById('des-email').value,
+    phone: document.getElementById('des-phone').value,
+    website: document.getElementById('des-website').value,
+    years_experience: parseInt(document.getElementById('des-years').value)||null,
+    password: document.getElementById('des-password').value,
+    pro_type:'designer',
+    project_types: getChecked('des-sp-'),
+    service_area: getChecked('des-sa-'),
+    bio: document.getElementById('des-bio').value
+  },'designer');
+}
+
+function engSubmit(){
+  doSubmit({
+    company_name: document.getElementById('eng-company').value,
+    contact_name: document.getElementById('eng-contact').value,
+    email: document.getElementById('eng-email').value,
+    phone: document.getElementById('eng-phone').value,
+    license_number: document.getElementById('eng-license').value,
+    years_experience: parseInt(document.getElementById('eng-years').value)||null,
+    password: document.getElementById('eng-password').value,
+    pro_type:'engineer',
+    project_types: getChecked('eng-pt-'),
+    service_area: getChecked('eng-sa-'),
+    bio: document.getElementById('eng-bio').value
+  },'engineer');
+}
+
+// Handle URL param
+var urlType = new URLSearchParams(window.location.search).get('type');
+if(urlType && headers[urlType]) switchType(urlType);
+</script>
+</body>
+</html>

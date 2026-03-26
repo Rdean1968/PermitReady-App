@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — PermitReady</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--forest:#1e3a2f;--moss:#4a7c59;--sage:#8ab39a;--cream:#f5f0e8;--sand:#e8dfc8;--warm:#faf8f4;--txt:#1a2820;--txtm:#3d5a47;--txtl:#6b8f78;--accent:#c8863a;--acl:#e8a85a;--border:#e8dfc8}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--txt);line-height:1.7}
+nav{background:var(--forest);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--cream);text-decoration:none}
+.nav-logo span{color:var(--acl)}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-link{font-size:13px;color:var(--sage);text-decoration:none}
+.nav-link:hover{color:var(--cream)}
+.btn-nav{padding:8px 20px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:500;text-decoration:none}
+.btn-nav:hover{background:var(--acl);color:var(--forest)}
+.hero{background:var(--forest);padding:60px 48px;text-align:center}
+.hero-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--acl);margin-bottom:10px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,46px);font-weight:600;color:var(--cream);margin-bottom:12px}
+.hero-sub{font-size:15px;color:var(--sage);max-width:600px;margin:0 auto;line-height:1.6}
+.content{max-width:900px;margin:0 auto;padding:60px 48px}
+@media(max-width:768px){.content{padding:40px 24px}}
+.section{margin-bottom:60px}
+.section:last-child{margin-bottom:0}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--forest);margin-bottom:16px}
+.section p{font-size:15px;color:var(--txtm);margin-bottom:16px;line-height:1.8}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;margin:40px 0}
+.stat-card{background:var(--warm);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--forest)}
+.stat-lbl{font-size:12px;color:var(--txtl);margin-top:4px}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:30px}
+.value-card{background:var(--warm);border:1px solid var(--border);border-radius:12px;padding:24px}
+.value-icon{font-size:28px;margin-bottom:12px}
+.value-title{font-size:16px;font-weight:600;color:var(--forest);margin-bottom:8px}
+.value-desc{font-size:13px;color:var(--txtm);line-height:1.6}
+.founder-card{background:var(--forest);border-radius:16px;padding:40px;display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;margin-top:40px}
+@media(max-width:600px){.founder-card{grid-template-columns:1fr;text-align:center}}
+.founder-avatar{width:120px;height:120px;background:var(--moss);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:48px;color:var(--cream)}
+.founder-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--cream);margin-bottom:4px}
+.founder-role{font-size:13px;color:var(--acl);margin-bottom:12px}
+.founder-bio{font-size:14px;color:var(--sage);line-height:1.7}
+.cta-box{background:var(--accent);border-radius:16px;padding:40px;text-align:center;margin-top:60px}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#fff;margin-bottom:10px}
+.cta-sub{font-size:14px;color:rgba(255,255,255,.85);margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-white{background:#fff;color:var(--accent);padding:12px 26px;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s}
+.btn-white:hover{background:var(--cream)}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4);padding:12px 26px;border-radius:8px;font-size:13px;text-decoration:none;transition:all .2s}
+.btn-ghost:hover{border-color:#fff}
+.footer{background:var(--forest);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:60px}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--cream)}
+.footer-logo span{color:var(--acl)}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-link{font-size:12px;color:var(--txtl);text-decoration:none}
+.footer-link:hover{color:var(--sage)}
+.footer-copy{font-size:11px;color:var(--txtl)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px}.hamburger span{display:block;width:24px;height:2px;background:var(--cream)}.mobile-nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--forest);padding:20px}.mobile-nav a{display:block;padding:12px 0;color:var(--sage);text-decoration:none;font-size:14px}.mobile-nav .btn-nav{display:inline-block;margin-top:16px;width:100%}@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}.mobile-nav.open{display:block}nav{position:relative}}</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Permit<span>Ready</span></a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="index.html#how">How it works</a>
+    <a class="nav-link" href="index.html#faq">FAQ</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="btn-nav" href="homeowner.html">Start a Project</a>
+  </div>
+<button class="hamburger" onclick="document.getElementById('mobile-nav').classList.toggle('open')"><span></span><span></span><span></span></button><div class="mobile-nav" id="mobile-nav"><a href="index.html">Home</a><a href="index.html#faq">FAQ</a><a href="contact.html">Contact</a><a class="btn-nav" href="homeowner.html">Start My Project</a></div></nav>
+<div class="hero">
+  <div class="hero-eyebrow">Our story</div>
+  <h1 class="hero-title">Built by construction professionals, for construction professionals</h1>
+  <p class="hero-sub">PermitReady was founded on a simple belief: finding the right team for a construction project shouldn't be so hard.</p>
+</div>
+<div class="content">
+  <div class="section">
+    <h2 class="section-title">Why We Started PermitReady</h2>
+    <p>After three decades in the construction industry, we saw the same problems over and over: homeowners overwhelmed by the process of finding trustworthy professionals, and skilled contractors wasting time and money chasing unqualified leads.</p>
+    <p>The typical homeowner has no idea where to start. They get bombarded by ads, read conflicting reviews, and end up choosing based on who calls back first — not who's actually the best fit for their project.</p>
+    <p>Meanwhile, contractors pay for "leads" that turn out to be tire-kickers, get undercut by lowball competitors on platforms designed to start bidding wars, and spend more time marketing than building.</p>
+    <p>PermitReady fixes this by connecting serious homeowners with vetted professionals <strong>before</strong> anyone else gets involved — and only charging when a project actually closes.</p>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-val">30+</div><div class="stat-lbl">Years of industry experience</div></div>
+    <div class="stat-card"><div class="stat-val">PNW</div><div class="stat-lbl">Local to King & Snohomish County</div></div>
+    <div class="stat-card"><div class="stat-val">$0</div><div class="stat-lbl">Cost to homeowners — always</div></div>
+    <div class="stat-card"><div class="stat-val">1.5%</div><div class="stat-lbl">Success fee — only when you win</div></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Our Values</h2>
+    <div class="values-grid">
+      <div class="value-card"><div class="value-icon">🤝</div><div class="value-title">Aligned Incentives</div><div class="value-desc">We only get paid when you close. Every homeowner has signed an agreement, secured permits and drawings if required, and is ready to start. These aren't leads — they're committed clients.</div></div>
+      <div class="value-card"><div class="value-icon">🔒</div><div class="value-title">Protected Transactions</div><div class="value-desc">Every project flows through our escrow process. Homeowners are protected, and pros know they're working with committed clients.</div></div>
+      <div class="value-card"><div class="value-icon">✓</div><div class="value-title">Vetted Professionals</div><div class="value-desc">Every pro on PermitReady is manually reviewed. We verify licenses, insurance, and track records before approving anyone.</div></div>
+      <div class="value-card"><div class="value-icon">📍</div><div class="value-title">Local Expertise</div><div class="value-desc">We're based in the Pacific Northwest and focus exclusively on King and Snohomish County. We know this market inside and out.</div></div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Leadership</h2>
+    <p>PermitReady was founded by a team with deep roots in Pacific Northwest construction — people who have spent careers building homes, managing projects, and navigating the complexities of the industry firsthand.</p>
+    <div class="founder-card">
+      <div class="founder-avatar">🏗️</div>
+      <div>
+        <div class="founder-name">Founder & CEO</div>
+        <div class="founder-role">30+ Years in Construction · King & Snohomish County</div>
+        <div class="founder-bio">With three decades of hands-on experience in residential and commercial construction across the Puget Sound region, our founder built PermitReady to solve the problems they witnessed every day: talented contractors struggling to find good clients, and homeowners overwhelmed by a confusing, fragmented industry. PermitReady is the platform they wished existed 30 years ago.</div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-box">
+    <div class="cta-title">Ready to get started?</div>
+    <p class="cta-sub">Join the network of homeowners and professionals who are building better, together.</p>
+    <div class="cta-btns">
+      <a class="btn-white" href="homeowner.html">I'm a Homeowner</a>
+      <a class="btn-ghost" href="register.html">I'm a Professional</a>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footer-logo">Permit<span>Ready</span></div>
+  <div class="footer-links">
+    <a class="footer-link" href="index.html">Home</a>
+    <a class="footer-link" href="about.html">About</a>
+    <a class="footer-link" href="terms.html">Terms</a>
+    <a class="footer-link" href="privacy.html">Privacy</a>
+    <a class="footer-link" href="contact.html">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 PermitReady. All rights reserved.</div>
+</footer>
+</body>
+</html>

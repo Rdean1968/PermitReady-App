@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro Dashboard — PermitReady</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+body{display:flex;min-height:100vh;font-size:13px}
+.sidebar{width:210px;background:var(--forest);min-height:100vh;display:flex;flex-direction:column;flex-shrink:0}
+.sb-logo{padding:20px 18px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo-txt{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--cream)}
+.sb-logo-txt span{color:var(--acl)}
+.pro-info{margin:12px 14px;background:rgba(200,134,58,.12);border:1px solid rgba(200,134,58,.25);border-radius:7px;padding:10px}
+.pro-name-txt{font-size:12px;font-weight:500;color:var(--cream)}
+.pro-type-txt{font-size:10px;color:var(--acl);margin-top:2px}
+nav{padding:8px 0;flex:1}
+.nav-sec{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txtl);padding:10px 18px 4px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--sage);cursor:pointer;border-left:3px solid transparent;font-size:12px;transition:all .15s}
+.nav-item:hover{color:var(--cream);background:rgba(255,255,255,.05)}
+.nav-item.active{color:var(--cream);background:rgba(255,255,255,.07);border-left-color:var(--acl)}
+.nav-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px}
+.sb-footer{padding:12px 18px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:var(--txtl);line-height:1.6}
+.login-wrap{display:flex;align-items:center;justify-content:center;flex:1;padding:40px}
+.login-card{background:white;border:1px solid var(--border);border-radius:12px;padding:32px;max-width:400px;width:100%}
+.login-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--forest);margin-bottom:8px}
+.login-sub{font-size:13px;color:var(--txtl);margin-bottom:24px;line-height:1.5}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{background:white;border-bottom:1px solid var(--border);padding:12px 22px;display:flex;align-items:center;justify-content:space-between}
+.topbar-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--forest)}
+.live-dot{width:7px;height:7px;background:#2ecc71;border-radius:50%;animation:pulse 2s infinite;display:inline-block;margin-left:8px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.stat-box{background:white;padding:14px 18px}
+.stat-lbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txtl);margin-bottom:4px}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--forest)}
+.stat-sub{font-size:11px;color:var(--txtl);margin-top:2px}
+.content-area{flex:1;display:flex;overflow:hidden}
+.lead-list{width:360px;flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;background:white}
+.list-hdr{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:white;z-index:2}
+.list-hdr-title{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--txtm)}
+.lead-card{padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.lead-card:hover{background:var(--warm)}
+.lead-card.active{background:#f0f7f3;border-left:3px solid var(--moss)}
+.lead-type{font-size:13px;font-weight:500;color:var(--forest);margin-bottom:2px}
+.lead-loc{font-size:11px;color:var(--txtl);margin-bottom:5px}
+.lead-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.lead-meta-item{font-size:11px;color:var(--txtm)}
+.lead-budget{font-weight:600;color:var(--accent)}
+.badge-new{background:var(--forest);color:var(--cream);font-size:10px;padding:2px 6px;border-radius:3px}
+.badge-claimed{background:#f0f9f4;color:var(--moss);border:1px solid rgba(74,124,89,.3);font-size:10px;padding:2px 6px;border-radius:3px}
+.team-flags{display:flex;gap:5px;flex-wrap:wrap}
+.flag{font-size:10px;padding:2px 7px;border-radius:3px;border:1px solid}
+.flag-needed{border-color:var(--accent);color:var(--accent);background:rgba(200,134,58,.07)}
+.flag-has{border-color:var(--sage);color:var(--txtl);background:transparent}
+.lead-detail{flex:1;overflow-y:auto;padding:24px;background:var(--warm)}
+.empty-detail{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;color:var(--txtl);padding:40px}
+.empty-icon{font-size:40px;margin-bottom:14px}
+.detail-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--forest);margin-bottom:4px}
+.detail-loc{font-size:13px;color:var(--txtl);margin-bottom:18px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.detail-cell{background:white;border:1px solid var(--border);border-radius:8px;padding:13px}
+.detail-cell-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txtl);margin-bottom:4px}
+.detail-cell-val{font-size:14px;font-weight:500;color:var(--txt)}
+.detail-cell-val.accent{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--accent);font-weight:600}
+.desc-card{background:white;border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px}
+.desc-card h4{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txtl);margin-bottom:8px}
+.desc-card p{font-size:13px;color:var(--txtm);line-height:1.7;font-style:italic}
+.fee-strip{background:var(--forest);border-radius:8px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.fee-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-bottom:3px}
+.fee-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--acl)}
+.fee-note{font-size:11px;color:var(--sage)}
+.action-btns{display:flex;gap:8px;margin-bottom:14px}
+.btn-claim{padding:11px 22px;background:var(--forest);color:var(--cream);border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s}
+.btn-claim:hover{background:var(--moss);transform:translateY(-1px)}
+.btn-pass{padding:11px 16px;background:white;color:var(--txtm);border:1.5px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .15s}
+.btn-pass:hover{border-color:#e74c3c;color:#e74c3c}
+.claimed-banner{background:#f0f9f4;border:1px solid rgba(74,124,89,.3);border-radius:7px;padding:12px 16px;display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:13px;color:#2e7d32;font-weight:500}
+.contact-revealed{background:white;border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px}
+.contact-revealed h4{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txtl);margin-bottom:10px}
+.contact-row{display:flex;gap:16px;flex-wrap:wrap}
+.contact-item{font-size:13px;color:var(--txtm)}
+.contact-item strong{color:var(--forest);display:block;font-size:11px;margin-bottom:2px}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-txt">Permit<span>Ready</span></div>
+  </div>
+  <div class="pro-info" id="pro-info">
+    <div class="pro-name-txt" id="pro-name">Not logged in</div>
+    <div class="pro-type-txt" id="pro-type">Enter API key to continue</div>
+  </div>
+  <nav>
+    <div class="nav-sec">Leads</div>
+    <div class="nav-item active">📋 New Leads <span class="nav-badge" id="nb-leads">—</span></div>
+    <div class="nav-item">📌 My Claims</div>
+    <div class="nav-item">✅ Won Projects</div>
+    <div class="nav-sec">Account</div>
+    <div class="nav-item">👤 My Profile</div>
+    <div class="nav-item">⚙️ Settings</div>
+  </nav>
+  <div class="sb-footer">
+    PermitReady Pro Portal<br>
+    $500 deposit to claim — applied to your fee<br>
+    1.5% on signed contract · Refunded if no deal
+  </div>
+</div>
+
+<div class="main" id="main-area">
+  <div class="login-wrap" id="login-wrap">
+    <div class="login-card">
+      <div class="login-title">Pro Dashboard</div>
+      <div class="login-sub">Sign in to access your lead feed. Not registered yet? <a href="register.html" style="color:var(--accent)">Join the network</a> or call us: <a href="tel:8663699698" style="color:var(--accent)">(866) 369-9698</a></div>
+      <div class="field-group">
+        <label class="field-label">Email Address</label>
+        <input class="field-input" type="email" id="login-email" placeholder="you@yourcompany.com" onkeydown="if(event.key==='Enter')login()">
+      </div>
+      <div class="field-group" style="margin-top:20px">
+        <label class="field-label">Password</label>
+        <input class="field-input" type="password" id="login-password" placeholder="Your password" onkeydown="if(event.key==='Enter')login()">
+      </div>
+      <button class="btn btn-forest" style="width:100%;padding:12px;font-size:14px;margin-top:20px" onclick="login()">Sign In →</button>
+      <div id="login-error" style="font-size:12px;color:#e74c3c;margin-top:10px;display:none"></div>
+      <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--txtl)">Trouble signing in? Call us at <a href="tel:8663699698" style="color:var(--accent)">(866) 369-9698</a></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--forest);color:var(--cream);padding:12px 20px;border-radius:8px;font-size:13px;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;z-index:9999"></div>
+
+<script>
+const API = 'http://localhost:5001';
+let apiKey = localStorage.getItem('pr_api_key')||'';
+let proData = null;
+let leads = [];
+let activeLeadId = null;
+let claimedLeads = new Set();
+const BUDGET = {under_75k:'Under $75K','75_150k':'$75K–$150K','150_300k':'$150K–$300K','300_600k':'$300K–$600K','600k_1m':'$600K–$1M',over_1m:'Over $1M'};
+const PTYPE = {kitchen_bath:'Kitchen/Bath Remodel',addition:'Home Addition',adu:'ADU / DADU Build',new_construction:'New Construction',full_remodel:'Full Home Remodel',commercial:'Commercial / TI'};
+const TL = {asap:'ASAP','3months':'1–3 Months','6months':'3–6 Months',exploring:'Exploring'};
+const MID = {under_75k:37500,'75_150k':112500,'150_300k':225000,'300_600k':450000,'600k_1m':800000,over_1m:1200000};
+
+async function proFetch(path,opts={}){
+  try {
+    const r = await fetch(API+path,{...opts,headers:{'Content-Type':'application/json','X-API-Key':apiKey,...(opts.headers||{})}});
+    return {ok:r.ok,data:await r.json()};
+  } catch(e){ return {ok:false,data:null}; }
+}
+
+if(apiKey){ login(); }
+
+async function login(){
+  var errEl = document.getElementById('login-error');
+  var emailEl = document.getElementById('login-email');
+  var passEl = document.getElementById('login-password');
+  if(!emailEl || !passEl){ if(errEl){errEl.textContent='Login form not found';errEl.style.display='block';} return; }
+  var email = emailEl.value.trim();
+  var password = passEl.value;
+  if(!email || !password){ if(errEl){errEl.textContent='Please enter your email and password.';errEl.style.display='block';} return; }
+  try {
+    var r = await fetch(API+'/api/pros/login', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email:email, password:password})
+    });
+    var data = await r.json();
+    if(!r.ok){
+      if(errEl){errEl.textContent = data.error||'Sign in failed. Please try again.';errEl.style.display='block';}
+      return;
+    }
+    apiKey = data.api_key;
+    proData = data;
+    localStorage.setItem('pr_api_key', apiKey);
+    document.getElementById('pro-name').textContent = data.company_name;
+    document.getElementById('pro-type').textContent = {gc:'General Contractor',architect:'Architect',designer:'Designer',engineer:'Engineer'}[data.pro_type]||data.pro_type;
+    if(data.credit_balance && data.credit_balance > 0){
+      document.getElementById('credit-box').style.display='block';
+      document.getElementById('credit-amount').textContent='$'+data.credit_balance.toFixed(2);
+    }
+    showDashboard();
+  } catch(e) {
+    if(errEl){errEl.textContent='Cannot connect to server. Please try again.';errEl.style.display='block';}
+  }
+}
+
+function showDashboard(){
+  document.getElementById('login-wrap').style.display='none';
+  const main = document.getElementById('main-area');
+  main.innerHTML = `
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="topbar-title">New Leads</div>
+        <span class="live-dot"></span>
+        <span style="font-size:11px;color:var(--txtl)">Live</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button onclick="loadLeads()" style="padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:white;font-family:DM Sans,sans-serif;font-size:11px;color:var(--txtm);cursor:pointer">↺ Refresh</button>
+        <button onclick="logout()" style="padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:white;font-family:DM Sans,sans-serif;font-size:11px;color:var(--txtm);cursor:pointer">Log out</button>
+        <a href="index.html" style="padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:white;font-family:DM Sans,sans-serif;font-size:11px;color:var(--txtm);text-decoration:none">← Site</a>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-lbl">New This Week</div><div class="stat-val" id="d-new">—</div><div class="stat-sub">Available leads</div></div>
+      <div class="stat-box"><div class="stat-lbl">Leads Claimed</div><div class="stat-val" id="d-claimed">0</div><div class="stat-sub">In active pursuit</div></div>
+      <div class="stat-box"><div class="stat-lbl">Pipeline Value</div><div class="stat-val" id="d-pipeline">—</div><div class="stat-sub">Est. claimed value</div></div>
+      <div class="stat-box"><div class="stat-lbl">Est. Fees if Won</div><div class="stat-val" id="d-fees" style="color:var(--accent)">—</div><div class="stat-sub">@ 1.5%</div></div>
+    </div>
+    <div class="content-area">
+      <div class="lead-list">
+        <div class="list-hdr"><div class="list-hdr-title" id="list-title">Loading...</div></div>
+        <div id="lead-list-items"><div style="padding:20px;text-align:center;color:var(--txtl)">Loading leads...</div></div>
+      </div>
+      <div class="lead-detail" id="lead-detail">
+        <div class="empty-detail">
+          <div class="empty-icon">📋</div>
+          <div style="font-family:Cormorant Garamond,serif;font-size:20px;color:var(--txtm);margin-bottom:8px">Select a lead to review</div>
+          <div style="font-size:12px;color:var(--txtl)">Click any lead on the left to see the full project brief and claim it.</div>
+        </div>
+      </div>
+    </div>`;
+  loadLeads();
+}
+
+async function loadLeads(){
+  const {ok,data} = await proFetch('/api/projects');
+  if(!ok||!data){ showToast('Cannot load leads — check API connection'); return; }
+  leads = data;
+  document.getElementById('d-new').textContent = leads.filter(l=>l.my_status==='new').length;
+  const claimed = leads.filter(l=>l.my_status==='claimed');
+  document.getElementById('d-claimed').textContent = claimed.length;
+  const pipelineVal = claimed.reduce((sum,l)=>sum+(MID[l.budget]||0),0);
+  document.getElementById('d-pipeline').textContent = pipelineVal?'$'+Math.round(pipelineVal/1000)+'K':'$0';
+  document.getElementById('d-fees').textContent = pipelineVal?'$'+Math.round(pipelineVal*.015).toLocaleString():'$0';
+  document.getElementById('list-title').textContent = leads.length+' Lead'+(leads.length!==1?'s':'');
+  renderLeadList();
+}
+
+function renderLeadList(){
+  const el = document.getElementById('lead-list-items');
+  if(!leads.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--txtl)">No leads available yet.</div>';return;}
+  el.innerHTML = leads.map(l=>{
+    const claimed = l.my_status==='claimed'||claimedLeads.has(l.id);
+    return `<div class="lead-card ${activeLeadId===l.id?'active':''}" onclick="selectLead(${l.id})">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px">
+        <div class="lead-type">${PTYPE[l.project_type]||l.project_type}</div>
+        ${claimed?`<span class="badge-claimed">Claimed</span>`:`<span class="badge-new">New</span>`}
+      </div>
+      <div class="lead-loc">📍 ${l.location}</div>
+      <div class="lead-meta">
+        <div class="lead-meta-item"><span class="lead-budget">${BUDGET[l.budget]||l.budget}</span></div>
+        <div class="lead-meta-item">⏱ ${TL[l.timeline]||l.timeline}</div>
+      </div>
+      <div class="team-flags">
+        ${l.has_architect==='no'?`<span class="flag flag-needed">Needs Architect</span>`:`<span class="flag flag-has">Has Architect</span>`}
+        ${l.has_builder==='no'?`<span class="flag flag-needed">Needs Builder</span>`:`<span class="flag flag-has">Has Builder</span>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function selectLead(id){
+  activeLeadId=id;
+  renderLeadList();
+  renderLeadDetail(id);
+}
+
+function renderLeadDetail(id, tab) {
+  tab = tab || 'details';
+  const lead = leads.find(l=>l.id===id);
+  if(!lead) return;
+  const claimed = lead.my_status==='claimed'||claimedLeads.has(id);
+  const fee = ((MID[lead.budget]||200000)*0.015).toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+  const contact = claimed&&lead.homeowner_name?`
+    <div class="claimed-banner">✅ Lead claimed — homeowner contact below</div>
+    <div class="contact-revealed">
+      <h4>Homeowner Contact</h4>
+      <div class="contact-row">
+        <div class="contact-item"><strong>Name</strong>${lead.homeowner_name}</div>
+        <div class="contact-item"><strong>Email</strong><a href="mailto:${lead.homeowner_email}" style="color:var(--accent)">${lead.homeowner_email}</a></div>
+        ${lead.homeowner_phone?`<div class="contact-item"><strong>Phone</strong><a href="tel:${lead.homeowner_phone}" style="color:var(--accent)">${lead.homeowner_phone}</a></div>`:''}
+      </div>
+    </div>`:'';
+  const actions = claimed?`<div class="action-btns"><button class="btn-claim" style="background:var(--moss);cursor:default">✓ Lead Claimed</button><button class="btn-claim" style="background:#4a7c59;margin-left:8px" onclick="renderLeadDetail(${id},'activities')">💬 Activities</button></div>`:
+    `<div class="action-btns"><button class="btn-pass" onclick="passLead(${id})">Pass</button><button class="btn-claim" onclick="claimLead(${id})">Pay $500 Deposit to Claim →</button></div>`;
+  if(tab === 'activities') {
+    document.getElementById('lead-detail').innerHTML = 
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">'
+      +'<div><div class="detail-title">'+(PTYPE[lead.project_type]||lead.project_type)+'</div>'
+      +'<div class="detail-loc">📍 '+lead.location+'</div></div>'
+      +'<div style="display:flex;gap:8px">'
+      +'<button class="btn-claim" style="background:var(--moss)" onclick="renderLeadDetail('+id+',\'details\')">← Project Details</button>'
+      +'</div>'
+      +'</div>'
+      +'<div id="activities-content"><div style="text-align:center;padding:20px;color:var(--txtl)">Loading activities...</div></div>';
+    loadActivities(id, lead);
+    return;
+  }
+  var tabsHtml = '';
+
+  document.getElementById('lead-detail').innerHTML = `
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+      <div>
+        <div class="detail-title">${PTYPE[lead.project_type]||lead.project_type}</div>
+        <div class="detail-loc">📍 ${lead.location}</div>
+      </div>
+      ${actions}
+    </div>
+    ${contact}
+    <div class="fee-strip">
+      <div><div class="fee-lbl">PermitReady Success Fee</div><div class="fee-val">${fee}</div></div>
+      <div class="fee-note">1.5% of contract value · $500 deposit applied · Refunded if no deal</div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-cell"><div class="detail-cell-lbl">Budget</div><div class="detail-cell-val accent">${BUDGET[lead.budget]||lead.budget}</div></div>
+      <div class="detail-cell"><div class="detail-cell-lbl">Timeline</div><div class="detail-cell-val">${TL[lead.timeline]||lead.timeline}</div></div>
+      <div class="detail-cell"><div class="detail-cell-lbl">Sq Footage</div><div class="detail-cell-val">${lead.sqft||'Not specified'}</div></div>
+      <div class="detail-cell"><div class="detail-cell-lbl">Claims so far</div><div class="detail-cell-val">${lead.claim_count||0}</div></div>
+    </div>
+    <div class="desc-card"><h4>Homeowner's Project Brief</h4><p>"${lead.description}"</p></div>
+    <div class="desc-card">
+      <h4>Team Status</h4>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)"><span style="color:var(--txtm)">Architect / Designer</span><span style="color:${lead.has_architect==='no'?'var(--accent)':'var(--txtl)'}">${lead.has_architect==='no'?'⚠️ Not yet hired':lead.has_architect==='yes'?'✅ Already hired':'💬 In conversations'}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0"><span style="color:var(--txtm)">General Contractor</span><span style="color:${lead.has_builder==='no'?'var(--accent)':'var(--txtl)'}">${lead.has_builder==='no'?'⚠️ Not yet hired':lead.has_builder==='yes'?'✅ Already hired':'💬 In conversations'}</span></div>
+      </div>
+    </div>`;
+}
+
+async function claimLead(id){
+  const {ok,data} = await proFetch('/api/projects/'+id+'/claim',{method:'POST'});
+  if(ok){
+    claimedLeads.add(id);
+    const lead = leads.find(l=>l.id===id);
+    if(lead){ lead.my_status='claimed'; if(data.homeowner){ lead.homeowner_name=data.homeowner.name; lead.homeowner_email=data.homeowner.email; lead.homeowner_phone=data.homeowner.phone; } }
+    showToast('✓ Lead claimed — homeowner contact revealed');
+    renderLeadList();
+    renderLeadDetail(id);
+    const claimed = leads.filter(l=>l.my_status==='claimed'||claimedLeads.has(l.id));
+    document.getElementById('d-claimed').textContent = claimed.length;
+  } else {
+    showToast('Error: '+(data?.error||'Could not claim lead'));
+  }
+}
+
+async function passLead(id){
+  await proFetch('/api/projects/'+id+'/pass',{method:'POST'});
+  leads = leads.filter(l=>l.id!==id);
+  activeLeadId=null;
+  renderLeadList();
+  document.getElementById('lead-detail').innerHTML=`<div class="empty-detail"><div class="empty-icon">👍</div><div style="font-size:14px;color:var(--txtm)">Lead passed</div></div>`;
+}
+
+function logout(){
+  localStorage.removeItem('pr_api_key');
+  apiKey='';
+  location.reload();
+}
+
+async function loadActivities(leadId, lead) {
+  var el = document.getElementById('activities-content');
+  if(!el) return;
+  
+  var activities = [];
+  
+  // Add claim activity
+  var claimDate = lead.claimed_at || new Date().toISOString();
+  activities.push({
+    icon:'✅',
+    text:'Lead claimed by '+( proData ? proData.company_name : 'your company'),
+    time: claimDate,
+    type:'claim'
+  });
+
+  // Load messages if we have claim_id
+  if(lead.claim_id) {
+    try {
+      var r = await fetch(API+'/api/messages/'+lead.claim_id, {
+        headers:{'X-API-Key':apiKey}
+      });
+      var msgs = await r.json();
+      if(r.ok && msgs.length) {
+        msgs.forEach(function(m){
+          activities.push({
+            icon: m.sender==='pro' ? '📤' : '📥',
+            text: m.sender==='pro' ? 'You sent a message to the homeowner' : 'Homeowner replied',
+            time: m.created_at,
+            type:'message',
+            body: m.body,
+            thread: m.thread_id
+          });
+        });
+      }
+    } catch(e) {}
+  }
+
+  // Sort by time
+  activities.sort(function(a,b){ return new Date(a.time)-new Date(b.time); });
+
+  var feedHtml = '<div class="activity-feed">'
+    + activities.map(function(a){
+        var d = new Date(a.time);
+        var timeStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})
+          +' '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+        return '<div class="activity-item">'
+          +'<div class="activity-icon">'+a.icon+'</div>'
+          +'<div class="activity-body">'
+          +'<div class="activity-text">'+a.text+'</div>'
+          +(a.body ? '<div class="activity-msg">"'+a.body+'"</div>' : '')
+          +(a.thread ? '<div style="font-size:10px;color:var(--txtl);margin-top:3px;font-family:monospace">Thread: '+a.thread+'</div>' : '')
+          +'<div class="activity-time">'+timeStr+'</div>'
+          +'</div></div>';
+      }).join('')
+    +'</div>';
+
+  var composeHtml = '<div class="compose-box">'
+    +'<div class="policy-note">🔒 All messages are routed through PermitReady and logged. Direct contact outside this system violates your agreement and triggers a $5,000 integrity fee.</div>'
+    +'<div style="font-size:12px;font-weight:500;color:var(--forest);margin-bottom:8px">Send message to homeowner</div>'
+    +'<textarea id="msg-input" placeholder="Type your message here... The homeowner will receive it via email from PermitReady and can reply directly."></textarea>'
+    +'<div class="compose-box-footer">'
+    +'<div class="compose-note">Sent via PermitReady secure messaging · Thread ID assigned automatically</div>'
+    +'<button class="btn-send" id="send-btn" onclick="sendMsg('+leadId+','+lead.claim_id+')">Send Message →</button>'
+    +'</div></div>';
+
+  el.innerHTML = feedHtml + composeHtml;
+}
+
+async function sendMsg(leadId, claimId) {
+  var input = document.getElementById('msg-input');
+  var btn = document.getElementById('send-btn');
+  var body = input ? input.value.trim() : '';
+  if(!body){ showToast('Please type a message first'); return; }
+  if(!claimId){ showToast('Cannot find claim — please contact support at (866) 369-9698'); return; }
+  btn.disabled = true; btn.textContent = 'Sending...';
+  try {
+    var r = await fetch(API+'/api/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-API-Key':apiKey},
+      body: JSON.stringify({claim_id:claimId, body:body})
+    });
+    var data = await r.json();
+    if(r.ok){
+      input.value = '';
+      showToast('✓ Message sent — homeowner will receive it via email from PermitReady');
+      var lead = leads.find(function(l){return l.id===leadId;});
+      loadActivities(leadId, lead);
+    } else {
+      showToast('Error: '+(data.error||'Could not send message'));
+      btn.disabled = false; btn.textContent = 'Send Message →';
+    }
+  } catch(e){
+    showToast('Cannot connect to server');
+    btn.disabled = false; btn.textContent = 'Send Message →';
+  }
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.opacity='1'; t.style.transform='translateY(0)';
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';},3500);
+}
+</script>
+</body>
+</html>

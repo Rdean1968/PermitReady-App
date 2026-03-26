@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PermitReady — Pre-Qualified Homeowners for King & Snohomish County Contractors</title>
+<meta name="description" content="PermitReady connects pre-qualified homeowners with vetted builders, architects, designers and engineers in King and Snohomish County. Not leads — signed agreements.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--forest:#1e3a2f;--moss:#4a7c59;--sage:#8ab39a;--cream:#f5f0e8;--sand:#e8dfc8;--warm:#faf8f4;--txt:#1a2820;--txtm:#3d5a47;--txtl:#6b8f78;--accent:#c8863a;--acl:#e8a85a;--border:#e8dfc8}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--txt)}
+nav{background:var(--forest);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--cream)}
+.nav-logo span{color:var(--acl)}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-link{font-size:13px;color:var(--sage);text-decoration:none;transition:color .15s}
+.nav-link:hover{color:var(--cream)}
+.btn-nav{padding:8px 20px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-nav:hover{background:var(--acl);color:var(--forest)}
+.phone-bar{background:var(--accent);padding:12px 48px;text-align:center;font-size:13px;color:#fff}
+.phone-bar a{color:#fff;font-weight:600;text-decoration:none}
+
+/* HERO */
+.hero{background:var(--forest);padding:72px 48px 64px;overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(200,134,58,.12) 0%,transparent 70%);border-radius:50%}
+.hero-inner{max-width:880px;margin:0 auto;position:relative;z-index:1}
+.hero-eyebrow{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--acl);margin-bottom:14px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,5vw,56px);font-weight:600;color:var(--cream);line-height:1.1;margin-bottom:16px;max-width:760px}
+.hero-title em{font-style:italic;color:var(--acl)}
+.hero-sub{font-size:16px;color:var(--sage);max-width:560px;line-height:1.65;margin-bottom:32px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+.btn-primary{background:var(--accent);color:#fff;padding:13px 28px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;text-decoration:none;display:inline-block;transition:all .2s;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--acl);color:var(--forest)}
+.btn-ghost{background:transparent;color:var(--cream);border:1.5px solid rgba(255,255,255,.3);padding:13px 28px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-ghost:hover{border-color:var(--sage);color:var(--sage)}
+.hero-stats{display:flex;gap:36px;padding-top:32px;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--cream)}
+.stat-lbl{font-size:11px;color:var(--sage);margin-top:2px}
+
+/* NOT LEADS BANNER */
+.not-leads{background:#fff8f0;border-top:4px solid var(--accent);border-bottom:4px solid var(--accent);padding:36px 48px;text-align:center}
+.not-leads-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.not-leads-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,38px);font-weight:600;color:var(--forest);margin-bottom:12px}
+.not-leads-sub{font-size:15px;color:var(--txtm);max-width:680px;margin:0 auto 24px;line-height:1.7}
+.not-leads-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:900px;margin:0 auto}
+.nl-card{background:#fff;border:2px solid var(--accent);border-radius:10px;padding:20px;text-align:left}
+.nl-card-icon{font-size:22px;margin-bottom:8px}
+.nl-card-title{font-size:14px;font-weight:500;color:var(--forest);margin-bottom:4px}
+.nl-card-desc{font-size:12px;color:var(--txtl);line-height:1.5}
+
+/* SECTIONS */
+.section{padding:60px 48px}
+.section-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;text-align:center}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,38px);font-weight:600;color:var(--forest);text-align:center;margin-bottom:8px}
+.section-sub{font-size:13px;color:var(--txtl);text-align:center;max-width:480px;margin:0 auto 36px;line-height:1.6}
+
+/* ROLES */
+.role-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;max-width:920px;margin:0 auto}
+.role-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:22px 16px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;display:block}
+.role-card:hover{border-color:var(--moss);transform:translateY(-3px);box-shadow:0 6px 20px rgba(30,58,47,.1)}
+.role-icon{font-size:26px;margin-bottom:8px;display:block}
+.role-name{font-size:14px;font-weight:500;color:var(--forest);margin-bottom:4px}
+.role-desc{font-size:11px;color:var(--txtl);line-height:1.4;margin-bottom:10px}
+.role-cta{font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.5px}
+
+/* HOW IT WORKS */
+.steps{max-width:760px;margin:0 auto}
+.step-row{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--border)}
+.step-row:last-child{border-bottom:none}
+.step-num{width:38px;height:38px;background:var(--forest);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--cream);flex-shrink:0}
+.step-title{font-size:14px;font-weight:500;color:var(--forest);margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--txtl);line-height:1.6}
+.step-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:4px;margin-top:5px;font-weight:600}
+.tag-deposit{background:rgba(200,134,58,.12);color:var(--accent);border:1px solid rgba(200,134,58,.3)}
+.tag-escrow{background:#f0f9f4;color:var(--moss);border:1px solid rgba(74,124,89,.3)}
+.tag-protected{background:var(--forest);color:var(--cream)}
+.tag-free{background:var(--sand);color:var(--txtm)}
+
+/* MONEY FLOW */
+.money-flow{max-width:800px;margin:0 auto}
+.mf-row{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.mf-row:last-child{border-bottom:none}
+.mf-step{width:32px;height:32px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex-shrink:0}
+.mf-title{font-size:14px;font-weight:500;color:var(--forest);margin-bottom:3px}
+.mf-desc{font-size:12px;color:var(--txtl);line-height:1.6}
+.mf-amount{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--accent);margin-top:3px}
+
+/* WHY DIFFERENT */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;max-width:920px;margin:0 auto}
+.why-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:20px}
+.why-icon{font-size:20px;margin-bottom:10px}
+.why-title{font-size:13px;font-weight:500;color:var(--cream);margin-bottom:4px}
+.why-desc{font-size:12px;color:var(--sage);line-height:1.6}
+
+/* PENALTY BOX */
+.penalty-box{background:var(--forest);border-left:6px solid var(--accent);border-radius:0 10px 10px 0;padding:24px 28px;max-width:760px;margin:24px auto 0}
+.penalty-title{font-size:14px;font-weight:500;color:var(--acl);margin-bottom:8px}
+.penalty-desc{font-size:13px;color:var(--sage);line-height:1.6}
+.penalty-amount{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--acl);margin-top:8px}
+
+/* CTA */
+.cta-sec{background:var(--accent);padding:60px 48px;text-align:center}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4vw,42px);font-weight:600;color:#fff;margin-bottom:10px}
+.cta-sub{font-size:14px;color:rgba(255,255,255,.85);margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+.btn-white{background:#fff;color:var(--accent);padding:12px 26px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;text-decoration:none;display:inline-block;transition:all .2s;border:none;cursor:pointer}
+.btn-white:hover{background:var(--cream)}
+.btn-ghost2{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4);padding:12px 26px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-ghost2:hover{border-color:#fff}
+
+/* FOOTER */
+.footer{background:var(--forest);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--cream)}
+.footer-logo span{color:var(--acl)}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-link{font-size:12px;color:var(--txtl);text-decoration:none}
+.footer-link:hover{color:var(--sage)}
+.footer-copy{font-size:11px;color:var(--txtl)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--cream);transition:all .3s}
+.mobile-nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--forest);padding:20px;border-top:1px solid rgba(255,255,255,.1)}
+.mobile-nav a{display:block;padding:12px 0;color:var(--sage);text-decoration:none;font-size:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.mobile-nav a:last-child{border-bottom:none}
+.mobile-nav a:hover{color:var(--cream)}
+.mobile-nav .btn-nav{display:inline-block;margin-top:16px;text-align:center;width:100%}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}.mobile-nav.open{display:block}nav{position:relative}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Permit<span>Ready</span></div>
+  <div class="nav-links">
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="#how">How it works</a>
+    <a class="nav-link" href="#money">Fee structure</a>
+    <a class="nav-link" href="#why">Why us</a>
+    <a class="nav-link" href="#faq">FAQ</a>
+    <a class="nav-link" style="color:var(--acl)" href="tel:8663699698">(866) 369-9698</a>
+    <a class="btn-nav" href="homeowner.html">Start My Project</a>
+  </div>
+<button class="hamburger" onclick="document.getElementById('mobile-nav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="about.html">About</a>
+    <a href="#how">How it works</a>
+    <a href="#money">Fee structure</a>
+    <a href="#faq">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="tel:8663699698">(866) 369-9698</a>
+    <a class="btn-nav" href="homeowner.html">Start My Project</a>
+  </div>
+</nav>
+
+<div class="phone-bar">
+  Questions? Speak with a Project Manager: <a href="tel:8663699698">(866) 369-9698</a> &nbsp;·&nbsp; King &amp; Snohomish County &nbsp;·&nbsp; Always free for homeowners
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">King &amp; Snohomish County · Pacific Northwest</div>
+    <h1 class="hero-title">Not leads. <em>Pre-qualified homeowners</em> who have signed an agreement to work with you.</h1>
+    <p class="hero-sub">PermitReady connects homeowners who are ready to build with vetted builders, architects, designers, and engineers — before anyone else gets involved. Every homeowner on our platform has signed a platform agreement.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="homeowner.html">I'm a homeowner — start free →</a>
+      <a class="btn-ghost" href="register.html">I'm a pro — join the network</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-val">$500</div><div class="stat-lbl">Deposit to claim — applied to your fee</div></div>
+      <div><div class="stat-val">1.5%</div><div class="stat-lbl">Success fee — deducted from escrow</div></div>
+      <div><div class="stat-val">$0</div><div class="stat-lbl">Free for homeowners, always</div></div>
+      <div><div class="stat-val">(866) 369-9698</div><div class="stat-lbl">Speak with a Project Manager</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOT LEADS BANNER -->
+<section class="not-leads">
+  <div class="not-leads-eyebrow">This is different</div>
+  <h2 class="not-leads-title">These are NOT leads. These are signed clients.</h2>
+  <p class="not-leads-sub">Every homeowner on PermitReady has signed a platform agreement. They are pre-qualified, motivated, and committed to working through PermitReady. You are not chasing a name on a list — you are being introduced to a client who has already agreed to the process. All you need to do is build your estimate and agree on a price.</p>
+  <div class="not-leads-grid">
+    <div class="nl-card">
+      <div class="nl-card-icon">📋</div>
+      <div class="nl-card-title">Signed agreement</div>
+      <div class="nl-card-desc">Every homeowner has signed a PermitReady platform agreement before their project is published.</div>
+    </div>
+    <div class="nl-card">
+      <div class="nl-card-icon">✅</div>
+      <div class="nl-card-title">Pre-qualified intent</div>
+      <div class="nl-card-desc">Real budgets, real timelines, real scope. We review every brief before it goes live.</div>
+    </div>
+    <div class="nl-card">
+      <div class="nl-card-icon">🤝</div>
+      <div class="nl-card-title">Your job is simple</div>
+      <div class="nl-card-desc">Build your estimate, agree on a price. PermitReady handles everything else until your fee is paid.</div>
+    </div>
+    <div class="nl-card">
+      <div class="nl-card-icon">🔒</div>
+      <div class="nl-card-title">Fully protected</div>
+      <div class="nl-card-desc">All communications go through PermitReady until our fee is collected. You and the client are protected.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="section" style="background:var(--warm)">
+  <div class="section-eyebrow">Who it's for</div>
+  <h2 class="section-title">Every project needs a full team</h2>
+  <p class="section-sub">Select your role to get started. Homeowners are always free.</p>
+  <div class="role-grid">
+    <a class="role-card" href="homeowner.html"><span class="role-icon">🏠</span><div class="role-name">Homeowner</div><div class="role-desc">Planning a remodel, addition, ADU, or new build</div><div class="role-cta">Always free →</div></a>
+    <a class="role-card" href="register.html?type=gc"><span class="role-icon">🔨</span><div class="role-name">Builder / GC</div><div class="role-desc">Pre-qualified clients — not cold leads</div><div class="role-cta">Join network →</div></a>
+    <a class="role-card" href="register.html?type=architect"><span class="role-icon">📐</span><div class="role-name">Architect</div><div class="role-desc">Consistent pipeline of design-ready clients</div><div class="role-cta">Join network →</div></a>
+    <a class="role-card" href="register.html?type=designer"><span class="role-icon">✏️</span><div class="role-name">Designer</div><div class="role-desc">Connect with clients planning their next space</div><div class="role-cta">Join network →</div></a>
+    <a class="role-card" href="register.html?type=engineer"><span class="role-icon">⚙️</span><div class="role-name">Engineer</div><div class="role-desc">Structural and civil work on residential projects</div><div class="role-cta">Join network →</div></a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background:#fff" id="how">
+  <div class="section-eyebrow">The process</div>
+  <h2 class="section-title">From signed agreement to paid project</h2>
+  <p class="section-sub">Every step is designed to protect you, the homeowner, and the integrity of the project.</p>
+  <div class="steps">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Homeowner signs a PermitReady platform agreement</div>
+        <div class="step-desc">Before their project is published, every homeowner signs an agreement to work through PermitReady. They are not browsing — they are committed.</div>
+        <span class="step-tag tag-free">Free for homeowners</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Project brief is reviewed and published</div>
+        <div class="step-desc">Every brief is personally reviewed before going live. Real budget, real scope, real homeowner. No junk projects.</div>
+        <span class="step-tag tag-protected">Quality controlled</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">Pro pays $500 deposit to claim the project</div>
+        <div class="step-desc">Once you review the full brief and decide to claim it, a $500 deposit is collected and held in PermitReady escrow. This deposit is fully applied toward your final fee — it is not an additional cost.</div>
+        <span class="step-tag tag-deposit">$500 deposit → escrow</span>
+        <span class="step-tag tag-escrow" style="margin-left:6px">Applied to your fee</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">All communication goes through PermitReady</div>
+        <div class="step-desc">Until PermitReady's fee is collected, all emails and messages between you and the homeowner are routed through our platform. This protects both parties and ensures full transparency.</div>
+        <span class="step-tag tag-protected">Protected messaging</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div>
+        <div class="step-title">You agree on a price — homeowner's first payment goes through escrow</div>
+        <div class="step-desc">When you and the homeowner agree on a contract price, the homeowner's first project payment flows through PermitReady's escrow account. PermitReady deducts the 1.5% fee (minus the $500 deposit already paid) and releases the remainder directly to you.</div>
+        <span class="step-tag tag-escrow">Escrow → fee deducted → GC paid</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">6</div>
+      <div>
+        <div class="step-title">PermitReady steps away — you own the relationship</div>
+        <div class="step-desc">Once our fee is collected and funds are released, PermitReady has zero further involvement or liability. You and the homeowner communicate directly for the remainder of the project. It is yours entirely.</div>
+        <span class="step-tag tag-protected">PermitReady done · You take over</span>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num" style="background:#e74c3c">!</div>
+      <div>
+        <div class="step-title" style="color:#e74c3c">If the deal does not go through</div>
+        <div class="step-desc">If a project does not result in a signed contract, your $500 deposit is automatically refunded in full. No questions, no delay, no hassle.</div>
+        <span class="step-tag" style="background:#fff0f0;color:#e74c3c;border:1px solid rgba(231,76,60,.3)">$500 automatically refunded</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MONEY FLOW -->
+<section class="section" style="background:var(--warm)" id="money">
+  <div class="section-eyebrow">The fee structure</div>
+  <h2 class="section-title">Exactly how the money works</h2>
+  <p class="section-sub">No surprises. No hidden fees. Here is every dollar explained.</p>
+  <div class="money-flow">
+    <div class="mf-row">
+      <div class="mf-step">1</div>
+      <div>
+        <div class="mf-title">You pay $500 to claim the project</div>
+        <div class="mf-desc">Collected upfront when you claim a project. Goes directly into PermitReady escrow — not spent, held.</div>
+        <div class="mf-amount">$500 deposit → escrow</div>
+      </div>
+    </div>
+    <div class="mf-row">
+      <div class="mf-step">2</div>
+      <div>
+        <div class="mf-title">Homeowner's first payment flows through PermitReady</div>
+        <div class="mf-desc">When the contract is signed and the homeowner makes their first payment to start the project, that payment is routed through PermitReady's escrow account.</div>
+        <div class="mf-amount">Homeowner's deposit → PermitReady escrow</div>
+      </div>
+    </div>
+    <div class="mf-row">
+      <div class="mf-step">3</div>
+      <div>
+        <div class="mf-title">PermitReady deducts the 1.5% fee</div>
+        <div class="mf-desc">From the homeowner's payment, PermitReady deducts 1.5% of the total agreed contract value. Your $500 deposit is credited against this amount.</div>
+        <div class="mf-amount">1.5% fee − $500 credit = balance due</div>
+      </div>
+    </div>
+    <div class="mf-row">
+      <div class="mf-step">4</div>
+      <div>
+        <div class="mf-title">You receive the remainder immediately</div>
+        <div class="mf-desc">After the fee is deducted, the full remainder of the homeowner's payment is released directly to you. PermitReady's involvement ends here entirely.</div>
+        <div class="mf-amount">Remainder → your account · PermitReady done</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXAMPLE -->
+  <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:24px;max-width:600px;margin:28px auto 0">
+    <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txtl);margin-bottom:14px">Example — $250,000 project</div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--txtl)">Contract value</span><span style="font-weight:500">$250,000</span></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--txtl)">PermitReady fee (1.5%)</span><span style="font-weight:500;color:var(--accent)">$3,750</span></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--txtl)">Less deposit already paid</span><span style="font-weight:500;color:var(--moss)">− $500</span></div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px"><span style="color:var(--txtl)">Balance deducted from escrow</span><span style="font-weight:500;color:var(--accent)">$3,250</span></div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:15px;font-weight:600"><span style="color:var(--forest)">You receive</span><span style="color:var(--moss);font-family:'Cormorant Garamond',serif;font-size:22px">$246,250</span></div>
+    <div style="font-size:11px;color:var(--txtl);margin-top:8px">PermitReady's total take: $3,750 (1.5%). Your total cost: $3,250 after deposit credit. After this, the project is entirely yours.</div>
+  </div>
+</section>
+
+<!-- WHY DIFFERENT -->
+<section class="section" style="background:var(--forest)" id="why">
+  <div class="section-eyebrow" style="color:var(--acl)">Why PermitReady</div>
+  <h2 class="section-title" style="color:var(--cream)">Built differently. On purpose.</h2>
+  <p class="section-sub" style="color:var(--sage)">Every other platform gives you names. PermitReady gives you signed clients, protected communications, and a clear path to getting paid.</p>
+  <div class="why-grid">
+    <div class="why-card"><div class="why-icon">📋</div><div class="why-title">Signed agreements — not leads</div><div class="why-desc">Every homeowner has signed a platform agreement before you ever see their project. You are meeting a committed client, not chasing a cold name.</div></div>
+    <div class="why-card"><div class="why-icon">💬</div><div class="why-title">Protected communications</div><div class="why-desc">All contact between you and the homeowner goes through PermitReady until our fee is paid. Both parties are protected throughout.</div></div>
+    <div class="why-card"><div class="why-icon">💰</div><div class="why-title">Escrow-based fee collection</div><div class="why-desc">The homeowner's first payment flows through our escrow account. Your fee is deducted automatically. No invoices. No chasing. No awkwardness.</div></div>
+    <div class="why-card"><div class="why-icon">🔄</div><div class="why-title">Full refund if no deal</div><div class="why-desc">If the project does not result in a signed contract, your $500 deposit is returned automatically. You only pay when you win.</div></div>
+    <div class="why-card"><div class="why-icon">🚪</div><div class="why-title">We step away completely</div><div class="why-desc">Once our fee is collected, PermitReady has zero further involvement or liability. The project is entirely yours from that moment forward.</div></div>
+    <div class="why-card"><div class="why-icon">⚡</div><div class="why-title">Before the permit is filed</div><div class="why-desc">We catch homeowners at the idea stage — before the architect is hired, before the permit is filed. You get in first.</div></div>
+  </div>
+
+  <!-- PENALTY BOX -->
+  <div class="penalty-box">
+    <div class="penalty-title">Platform integrity policy</div>
+    <div class="penalty-desc">PermitReady's value depends on all parties operating in good faith through the platform. Any contractor found to have bypassed PermitReady and contacted a homeowner directly — before our fee is collected — will be subject to a platform integrity fee. This is not a lead service fee. It is a breach of your signed contractor agreement.</div>
+    <div style="font-size:12px;font-weight:600;color:var(--acl);margin-top:10px;letter-spacing:.5px;text-transform:uppercase">$5,000 platform integrity fee</div><div style="font-size:11px;color:var(--sage);margin-top:5px;line-height:1.7">This fee applies only to contractors who intentionally circumvent PermitReady — for example, contacting a homeowner directly outside the platform, arranging a private contract to avoid the fee, or taking any deliberate action designed to go around PermitReady after claiming a project. Honest communication errors are handled differently. This policy exists solely to protect the integrity of the platform for everyone who uses it in good faith.</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+
+<!-- FAQ -->
+<section class="section" style="background:#fff" id="faq">
+  <div class="section-eyebrow">Common questions</div>
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <p class="section-sub">Everything you need to know about working with PermitReady.</p>
+  
+  <div style="max-width:800px;margin:0 auto">
+    <div style="margin-bottom:12px;border:1px solid #e8dfc8;border-radius:10px;overflow:hidden">
+      <div onclick="this.parentElement.classList.toggle('open')" style="padding:18px 24px;background:#faf8f4;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:15px;font-weight:500;color:#1e3a2f">Is PermitReady really free for homeowners?</span>
+        <span style="font-size:20px;color:#6b8f78;transition:transform .2s">+</span>
+      </div>
+      <div style="max-height:0;overflow:hidden;transition:max-height .3s ease">
+        <div style="padding:18px 24px;font-size:14px;color:#3d5a47;line-height:1.7;border-top:1px solid #e8dfc8">
+          Yes, 100% free. Homeowners never pay PermitReady anything — not now, not ever. Our fee comes from the professional who wins your project, and only after you've signed a contract with them. You get matched with vetted pros at no cost.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;border:1px solid #e8dfc8;border-radius:10px;overflow:hidden">
+      <div onclick="this.parentElement.classList.toggle('open')" style="padding:18px 24px;background:#faf8f4;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:15px;font-weight:500;color:#1e3a2f">How do you vet the contractors and pros?</span>
+        <span style="font-size:20px;color:#6b8f78;transition:transform .2s">+</span>
+      </div>
+      <div style="max-height:0;overflow:hidden;transition:max-height .3s ease">
+        <div style="padding:18px 24px;font-size:14px;color:#3d5a47;line-height:1.7;border-top:1px solid #e8dfc8">
+          Every pro on PermitReady is manually reviewed. We verify active Washington State licenses, check insurance coverage, review past project history, and confirm they're in good standing. We only approve established professionals with a track record in King and Snohomish County.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;border:1px solid #e8dfc8;border-radius:10px;overflow:hidden">
+      <div onclick="this.parentElement.classList.toggle('open')" style="padding:18px 24px;background:#faf8f4;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:15px;font-weight:500;color:#1e3a2f">What if I don't like the pro you match me with?</span>
+        <span style="font-size:20px;color:#6b8f78;transition:transform .2s">+</span>
+      </div>
+      <div style="max-height:0;overflow:hidden;transition:max-height .3s ease">
+        <div style="padding:18px 24px;font-size:14px;color:#3d5a47;line-height:1.7;border-top:1px solid #e8dfc8">
+          No obligation whatsoever. If the match isn't right, just let us know. You're never locked in, and we can connect you with a different professional. Our goal is finding you the right fit, not just any fit.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;border:1px solid #e8dfc8;border-radius:10px;overflow:hidden">
+      <div onclick="this.parentElement.classList.toggle('open')" style="padding:18px 24px;background:#faf8f4;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:15px;font-weight:500;color:#1e3a2f">Why should contractors pay 1.5% when they can find their own leads?</span>
+        <span style="font-size:20px;color:#6b8f78;transition:transform .2s">+</span>
+      </div>
+      <div style="max-height:0;overflow:hidden;transition:max-height .3s ease">
+        <div style="padding:18px 24px;font-size:14px;color:#3d5a47;line-height:1.7;border-top:1px solid #e8dfc8">
+          These aren't leads — they're signed clients. Every homeowner has already agreed to work with the pro who claims them. No competing bids, no tire-kickers, no chasing. You pay only on projects you actually win. Most contractors spend 5-10% of revenue on marketing for uncertain results. This is 1.5% for a done deal.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;border:1px solid #e8dfc8;border-radius:10px;overflow:hidden">
+      <div onclick="this.parentElement.classList.toggle('open')" style="padding:18px 24px;background:#faf8f4;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:15px;font-weight:500;color:#1e3a2f">What makes this different from Thumbtack or Angi?</span>
+        <span style="font-size:20px;color:#6b8f78;transition:transform .2s">+</span>
+      </div>
+      <div style="max-height:0;overflow:hidden;transition:max-height .3s ease">
+        <div style="padding:18px 24px;font-size:14px;color:#3d5a47;line-height:1.7;border-top:1px solid #e8dfc8">
+          On those platforms, you're one of 5+ contractors bidding on the same job — and you pay just to send a quote. On PermitReady, when you claim a project, it's yours exclusively. No competition. The homeowner has already signed an agreement to work with you. You pay nothing until the project closes.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;border:1px solid #e8dfc8;border-radius:10px;overflow:hidden">
+      <div onclick="this.parentElement.classList.toggle('open')" style="padding:18px 24px;background:#faf8f4;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:15px;font-weight:500;color:#1e3a2f">What if the project falls through after I claim it?</span>
+        <span style="font-size:20px;color:#6b8f78;transition:transform .2s">+</span>
+      </div>
+      <div style="max-height:0;overflow:hidden;transition:max-height .3s ease">
+        <div style="padding:18px 24px;font-size:14px;color:#3d5a47;line-height:1.7;border-top:1px solid #e8dfc8">
+          Your $500 deposit is fully refundable if the deal doesn't close — minus payment processing fees, which we credit back to your account for your next claim. You only pay the 1.5% success fee when money actually changes hands and the project moves forward.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.open > div:first-child span:last-child { transform: rotate(45deg); }
+.open > div:last-child { max-height: 200px !important; }
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--cream);transition:all .3s}
+.mobile-nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--forest);padding:20px;border-top:1px solid rgba(255,255,255,.1)}
+.mobile-nav a{display:block;padding:12px 0;color:var(--sage);text-decoration:none;font-size:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.mobile-nav a:last-child{border-bottom:none}
+.mobile-nav a:hover{color:var(--cream)}
+.mobile-nav .btn-nav{display:inline-block;margin-top:16px;text-align:center;width:100%}
+@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}.mobile-nav.open{display:block}nav{position:relative}}
+</style>
+  <h2 class="cta-title">Ready to meet your next signed client?</h2>
+  <p class="cta-sub">Join the PermitReady network. Free for homeowners. Performance-based for pros. $500 deposit — applied to your fee.</p>
+  <div class="cta-btns">
+    <a class="btn-white" href="homeowner.html">I'm a homeowner — start free</a>
+    <a class="btn-ghost2" href="register.html">I'm a pro — join the network</a>
+  </div>
+  <div style="color:rgba(255,255,255,.85);font-size:14px">Or call us: <a href="tel:8663699698" style="color:#fff;font-family:Cormorant Garamond,serif;font-size:20px;font-weight:600">(866) 369-9698</a></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">Permit<span>Ready</span></div>
+  <div class="footer-links">
+    <a class="footer-link" href="homeowner.html">Homeowners</a>
+    <a class="footer-link" href="register.html">Pros</a>
+    <a class="footer-link" href="dashboard.html">Pro Dashboard</a>
+    <a class="footer-link" href="admin.html">Admin</a>
+    <a class="footer-link" href="terms.html">Terms & Conditions</a>
+  </div>
+  <div class="footer-copy">King &amp; Snohomish County · © 2026 PermitReady</div>
+</footer>
+
+</body>
+</html>

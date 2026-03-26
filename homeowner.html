@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start My Project — PermitReady</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#faf8f4;color:#1a2820}
+nav{background:#1e3a2f;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#f5f0e8;text-decoration:none}
+.logo span{color:#e8a85a}
+.pbar{background:#c8863a;padding:11px 40px;text-align:center;font-size:13px;color:#fff}
+.pbar a{color:#fff;font-weight:600;text-decoration:none}
+.hero{background:linear-gradient(135deg,#1e3a2f,#2d5441,#4a7c59);padding:36px 40px 44px}
+.hero-eye{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#e8a85a;margin-bottom:10px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:#f5f0e8;line-height:1.2;margin-bottom:8px;max-width:520px}
+.hero p{font-size:14px;color:#8ab39a;max-width:440px;line-height:1.6}
+.prog{background:#e8dfc8;padding:13px 40px;border-bottom:1px solid #e8dfc8}
+.prog-row{display:flex;justify-content:space-between;margin-bottom:7px;font-size:11px}
+.prog-name{font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#3d5a47}
+.prog-count{color:#6b8f78}
+.prog-track{height:3px;background:rgba(0,0,0,.08);border-radius:2px}
+.prog-fill{height:100%;background:linear-gradient(90deg,#4a7c59,#c8863a);border-radius:2px}
+.wrap{max-width:620px;margin:0 auto;padding:30px 40px}
+.stitle{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#1e3a2f;margin-bottom:6px}
+.ssub{font-size:13px;color:#6b8f78;margin-bottom:22px;line-height:1.5}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.opt{border:2px solid #e8dfc8;border-radius:10px;padding:18px 12px;cursor:pointer;background:white;text-align:center;font-size:13px;font-weight:500;color:#3d5a47;transition:all .2s;user-select:none}
+.opt:hover{border-color:#4a7c59;transform:translateY(-2px);box-shadow:0 4px 12px rgba(30,58,47,.1)}
+.opt.on{border-color:#1e3a2f;background:#1e3a2f;color:#f5f0e8}
+.btn-row{display:flex;gap:10px;margin-top:10px}
+.btn-next{flex:1;padding:12px;border:none;border-radius:8px;background:#1e3a2f;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#f5f0e8;cursor:pointer;transition:background .2s}
+.btn-next:hover{background:#4a7c59}
+.btn-next:disabled{background:#8ab39a;cursor:not-allowed}
+.btn-back{padding:12px 22px;border:1.5px solid #e8dfc8;border-radius:8px;background:white;font-family:'DM Sans',sans-serif;font-size:13px;color:#6b8f78;cursor:pointer}
+.btn-back:hover{border-color:#4a7c59;color:#1e3a2f}
+.step{display:none}
+.step.active{display:block}
+.field{margin-bottom:16px}
+.fl{display:block;font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#3d5a47;margin-bottom:6px}
+.fi{width:100%;padding:11px 13px;border:1.5px solid #e8dfc8;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;color:#1a2820;background:white;outline:none}
+.fi:focus{border-color:#4a7c59}
+textarea.fi{min-height:100px;resize:vertical;line-height:1.6}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
+.bopt{border:2px solid #e8dfc8;border-radius:10px;padding:14px;cursor:pointer;background:white;user-select:none;transition:all .2s}
+.bopt:hover{border-color:#4a7c59}
+.bopt.on{border-color:#1e3a2f;background:#1e3a2f}
+.bopt .amt{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:#1e3a2f;margin-bottom:2px}
+.bopt.on .amt{color:#e8a85a}
+.bopt .desc{font-size:11px;color:#6b8f78}
+.bopt.on .desc{color:#8ab39a}
+.slbl{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#3d5a47;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #e8dfc8;margin-top:4px}
+.confirm{text-align:center;padding:20px 0}
+.ccirc{width:70px;height:70px;background:#1e3a2f;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px;color:#f5f0e8}
+.ctitle{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:#1e3a2f;margin-bottom:8px}
+.csub{font-size:13px;color:#6b8f78;max-width:380px;margin:0 auto 20px;line-height:1.6}
+.ccard{background:#f5f0e8;border:1px solid #e8dfc8;border-radius:10px;padding:16px;text-align:left;max-width:360px;margin:0 auto}
+.crow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e8dfc8;font-size:12px}
+.crow:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Permit<span>Ready</span></a>
+  <a style="font-size:13px;color:#e8a85a;text-decoration:none" href="tel:8663699698">(866) 369-9698</a>
+</nav>
+<div class="pbar">Free for homeowners &nbsp;·&nbsp; Speak with a Project Manager: <a href="tel:8663699698">(866) 369-9698</a></div>
+<div class="hero">
+  <div class="hero-eye">Start Your Project</div>
+  <h1>Connect with the right builder, architect and designer</h1>
+  <p>Tell us about your project and we will match you with vetted professionals within 1 business day.</p>
+</div>
+<div class="prog">
+  <div class="prog-row"><span class="prog-name" id="pname">Project Type</span><span class="prog-count" id="pcount">Step 1 of 6</span></div>
+  <div class="prog-track"><div class="prog-fill" id="pfill" style="width:16%"></div></div>
+</div>
+
+<div class="wrap">
+
+  <!-- STEP 1 -->
+  <div class="step active" id="s1">
+    <div class="stitle">What are you building?</div>
+    <div class="ssub">Select the type of project you are planning.</div>
+    <div class="grid3">
+      <div class="opt" id="t-kitchen_bath" onclick="pickType('kitchen_bath')">Kitchen / Bath</div>
+      <div class="opt" id="t-addition" onclick="pickType('addition')">Home Addition</div>
+      <div class="opt" id="t-adu" onclick="pickType('adu')">ADU / DADU</div>
+      <div class="opt" id="t-new_construction" onclick="pickType('new_construction')">New Construction</div>
+      <div class="opt" id="t-full_remodel" onclick="pickType('full_remodel')">Full Remodel</div>
+      <div class="opt" id="t-commercial" onclick="pickType('commercial')">Commercial</div>
+    </div>
+    <div class="btn-row"><button class="btn-next" id="btn1" onclick="go(2)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="s2">
+    <div class="stitle">Where is the project?</div>
+    <div class="ssub">We serve King and Snohomish County homeowners.</div>
+    <div class="field"><label class="fl">Street Address</label><input class="fi" id="street" type="text" placeholder="e.g. 123 Main Street" oninput="updLoc()"></div>
+    <div class="frow"><div class="field"><label class="fl">City</label><input class="fi" id="city" type="text" placeholder="e.g. Bothell" oninput="updLoc()"></div><div class="field"><label class="fl">Zip Code</label><input class="fi" id="zip" type="text" placeholder="e.g. 98012" oninput="updLoc()"></div></div>
+    <div class="btn-row"><button class="btn-back" onclick="go(1)">Back</button><button class="btn-next" id="btn2" onclick="go(3)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="s3">
+    <div class="stitle">Tell us about the project</div>
+    <div class="ssub">A little detail helps us match you with the right pros.</div>
+    <div class="field"><label class="fl">Project Description</label><textarea class="fi" id="desc" placeholder="e.g. We want to build a 700 sq ft DADU in our backyard for rental income..." oninput="D.desc=this.value;tog('btn3',this.value.trim())"></textarea></div>
+    <div class="field"><label class="fl">Sq Footage <span style="font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label><input class="fi" id="sqft" type="text" placeholder="e.g. 800 sq ft" oninput="D.sqft=this.value"></div>
+    <div class="btn-row"><button class="btn-back" onclick="go(2)">Back</button><button class="btn-next" id="btn3" onclick="go(4)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="s4">
+    <div class="stitle">Budget and Timeline</div>
+    <div class="ssub">Approximate is fine — helps pros come prepared.</div>
+    <div class="slbl">Estimated Budget</div>
+    <div class="grid2">
+      <div class="bopt" id="b-under_75k" onclick="pickBudget('under_75k')"><div class="amt">Under $75K</div><div class="desc">Focused scope</div></div>
+      <div class="bopt" id="b-75_150k" onclick="pickBudget('75_150k')"><div class="amt">$75K – $150K</div><div class="desc">Mid-range remodel</div></div>
+      <div class="bopt" id="b-150_300k" onclick="pickBudget('150_300k')"><div class="amt">$150K – $300K</div><div class="desc">Large remodel or ADU</div></div>
+      <div class="bopt" id="b-300_600k" onclick="pickBudget('300_600k')"><div class="amt">$300K – $600K</div><div class="desc">Major addition</div></div>
+      <div class="bopt" id="b-600k_1m" onclick="pickBudget('600k_1m')"><div class="amt">$600K – $1M</div><div class="desc">Custom home</div></div>
+      <div class="bopt" id="b-over_1m" onclick="pickBudget('over_1m')"><div class="amt">Over $1M</div><div class="desc">High-end build</div></div>
+    </div>
+    <div class="slbl">When do you want to start?</div>
+    <div class="grid4">
+      <div class="opt" id="tl-asap" onclick="pickTl('asap')">ASAP</div>
+      <div class="opt" id="tl-3months" onclick="pickTl('3months')">1–3 Months</div>
+      <div class="opt" id="tl-6months" onclick="pickTl('6months')">3–6 Months</div>
+      <div class="opt" id="tl-exploring" onclick="pickTl('exploring')">Exploring</div>
+    </div>
+    <div class="btn-row"><button class="btn-back" onclick="go(3)">Back</button><button class="btn-next" id="btn4" onclick="go(5)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step" id="s5">
+    <div class="stitle">Your current team</div>
+    <div class="ssub">Tell us who you already have — we will match you with whoever you still need.</div>
+    <div style="background:#fff8f0;border:2px solid #c8863a;border-radius:10px;padding:16px;margin-bottom:20px">
+      <div style="font-size:12px;font-weight:500;color:#c8863a;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Not sure where to start?</div>
+      <div class="opt" id="h-confused" onclick="pickHelp()" style="background:white;border:2px solid #e8dfc8;text-align:left;padding:14px 16px;font-size:13px;color:#1e3a2f">
+        I am not sure what I need — I would like to speak with someone who can help me get started
+      </div>
+      <div id="help-cta" style="display:none;margin-top:12px;background:#1e3a2f;border-radius:8px;padding:14px 16px">
+        <div style="font-size:13px;color:#8ab39a;margin-bottom:4px">No problem — give us a call and one of our project managers will walk you through everything.</div>
+        <div style="font-family:Cormorant Garamond,serif;font-size:22px;font-weight:600;color:#e8a85a">(866) 369-9698</div>
+        <div style="font-size:11px;color:#6b8f78;margin-top:4px">Or continue filling out the form and we will call you within 1 business day.</div>
+      </div>
+    </div>
+    <div class="slbl">Do you have an Architect?</div>
+    <div class="grid4" style="margin-bottom:18px">
+      <div class="opt" id="a-yes" onclick="pickArch('yes')">Yes, hired</div>
+      <div class="opt" id="a-talking" onclick="pickArch('talking')">Talking to some</div>
+      <div class="opt" id="a-no" onclick="pickArch('no')">Not yet</div>
+      <div class="opt" id="a-notsure" onclick="pickArch('notsure')">Not sure if I need one</div>
+    </div>
+    <div class="slbl">Do you have an Interior Designer?</div>
+    <div class="grid4" style="margin-bottom:18px">
+      <div class="opt" id="d-yes" onclick="pickDes('yes')">Yes, hired</div>
+      <div class="opt" id="d-talking" onclick="pickDes('talking')">Talking to some</div>
+      <div class="opt" id="d-no" onclick="pickDes('no')">Not yet</div>
+      <div class="opt" id="d-notsure" onclick="pickDes('notsure')">Not sure if I need one</div>
+    </div>
+    <div class="slbl">Do you have a Builder or General Contractor?</div>
+    <div class="grid4" style="margin-bottom:18px">
+      <div class="opt" id="g-yes" onclick="pickBld('yes')">Yes, hired</div>
+      <div class="opt" id="g-talking" onclick="pickBld('talking')">Talking to some</div>
+      <div class="opt" id="g-no" onclick="pickBld('no')">Not yet</div>
+      <div class="opt" id="g-notsure" onclick="pickBld('notsure')">Not sure if I need one</div>
+    </div>
+    <div class="slbl">Do you need a Structural Engineer?</div>
+    <div class="grid4">
+      <div class="opt" id="e-yes" onclick="pickEng('yes')">Yes, hired</div>
+      <div class="opt" id="e-talking" onclick="pickEng('talking')">Talking to some</div>
+      <div class="opt" id="e-no" onclick="pickEng('no')">Not yet</div>
+      <div class="opt" id="e-notsure" onclick="pickEng('notsure')">Not sure if I need one</div>
+    </div>
+    <div class="btn-row" style="margin-top:20px"><button class="btn-back" onclick="go(4)">Back</button><button class="btn-next" id="btn5" onclick="go(6)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step" id="s6">
+    <div class="stitle">Last step — contact info</div>
+    <div class="ssub">We will send your matches within 1 business day. Or call us: (866) 369-9698</div>
+    <div class="frow">
+      <div class="field"><label class="fl">Full Name</label><input class="fi" id="nm" type="text" placeholder="Jane Smith" oninput="D.name=this.value;chk6()"></div>
+      <div class="field"><label class="fl">Phone (optional)</label><input class="fi" id="ph" type="tel" placeholder="(866) 369-9698" oninput="D.phone=this.value"></div>
+    </div>
+    <div class="field"><label class="fl">Email Address</label><input class="fi" id="em" type="email" placeholder="jane@email.com" oninput="D.email=this.value;chk6()"></div>
+    <div class="btn-row"><button class="btn-back" onclick="go(5)">Back</button><button class="btn-next" id="btn6" onclick="submit()" disabled>Submit My Project Brief</button></div>
+    <div style="font-size:11px;color:#6b8f78;margin-top:12px;line-height:1.5">By submitting you agree to be contacted by PermitReady and matched professionals. Always free for homeowners.</div>
+  </div>
+
+  <!-- CONFIRM -->
+  <div class="step" id="s7">
+    <div class="confirm">
+      <div class="ccirc">&#10003;</div>
+      <div class="ctitle" id="ctitle">You are on the list!</div>
+      <div class="csub" id="csub">Your project brief has been submitted. We are matching you with vetted professionals now.</div>
+      <div class="ccard" id="ccard"></div>
+      <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a href="index.html" style="display:inline-block;padding:12px 28px;background:#1e3a2f;color:#f5f0e8;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px">Back to Home</a><a href="terms.html" style="display:inline-block;padding:12px 28px;background:transparent;color:#1e3a2f;text-decoration:none;border-radius:8px;font-weight:600;font-size:14px;border:2px solid #1e3a2f">How It Works</a></div><p style="font-size:13px;color:#6b8f78;margin-top:20px">Questions? Speak with a Project Manager: <a href="tel:8663699698" style="color:#1e3a2f;font-weight:600">(866) 369-9698</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var API = 'http://localhost:5001';
+var D = {pt:'',loc:'',desc:'',sqft:'',bud:'',tl:'',arch:'',des:'',bld:'',eng:'',needsHelp:false,name:'',email:'',phone:''};
+var steps = ['Project Type','Location','Project Details','Budget and Timeline','Your Team','Contact Info'];
+
+function go(n) {
+  document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('s'+n).classList.add('active');
+  var pct = n <= 6 ? Math.round(n/6*100) : 100;
+  document.getElementById('pfill').style.width = pct+'%';
+  document.getElementById('pname').textContent = n <= 6 ? steps[n-1] : 'Complete';
+  document.getElementById('pcount').textContent = n <= 6 ? 'Step '+n+' of 6' : 'Done';
+  window.scrollTo(0,0);
+}
+
+function updLoc(){var s=document.getElementById("street").value.trim();var c=document.getElementById("city").value.trim();var z=document.getElementById("zip").value.trim();D.loc=[s,c,"WA",z].filter(Boolean).join(", ");document.getElementById("btn2").disabled=!(s&&c&&z);}
+function tog(id, val) {
+  document.getElementById(id).disabled = !val;
+}
+
+function pickType(v) {
+  document.querySelectorAll('[id^="t-"]').forEach(function(e){e.classList.remove('on');});
+  document.getElementById('t-'+v).classList.add('on');
+  D.pt = v;
+  document.getElementById('btn1').disabled = false;
+}
+
+function pickBudget(v) {
+  document.querySelectorAll('[id^="b-"]').forEach(function(e){e.classList.remove('on');});
+  document.getElementById('b-'+v).classList.add('on');
+  D.bud = v;
+  document.getElementById('btn4').disabled = !(D.bud && D.tl);
+}
+
+function pickTl(v) {
+  document.querySelectorAll('[id^="tl-"]').forEach(function(e){e.classList.remove('on');});
+  document.getElementById('tl-'+v).classList.add('on');
+  D.tl = v;
+  document.getElementById('btn4').disabled = !(D.bud && D.tl);
+}
+
+function pickHelp() {
+  var el = document.getElementById('h-confused');
+  var cta = document.getElementById('help-cta');
+  D.needsHelp = !D.needsHelp;
+  el.style.background = D.needsHelp ? '#1e3a2f' : 'white';
+  el.style.color = D.needsHelp ? '#f5f0e8' : '#1e3a2f';
+  el.style.borderColor = D.needsHelp ? '#1e3a2f' : '#e8dfc8';
+  cta.style.display = D.needsHelp ? 'block' : 'none';
+  if (D.needsHelp) {
+    D.arch = 'notsure'; D.des = 'notsure'; D.bld = 'notsure'; D.eng = 'notsure';
+    ['a','d','g','e'].forEach(function(p){
+      document.querySelectorAll('[id^="'+p+'-"]').forEach(function(e){e.classList.remove('on');});
+    });
+    document.getElementById('btn5').disabled = false;
+  } else {
+    D.arch=''; D.des=''; D.bld=''; D.eng='';
+    document.getElementById('btn5').disabled = true;
+  }
+}
+function pickArch(v) {
+  document.querySelectorAll('[id^="a-"]').forEach(function(e){e.classList.remove('on');});
+  document.getElementById('a-'+v).classList.add('on');
+  D.arch = v; chk5();
+}
+function pickDes(v) {
+  document.querySelectorAll('[id^="d-"]').forEach(function(e){e.classList.remove('on');});
+  document.getElementById('d-'+v).classList.add('on');
+  D.des = v; chk5();
+}
+function pickBld(v) {
+  document.querySelectorAll('[id^="g-"]').forEach(function(e){e.classList.remove('on');});
+  document.getElementById('g-'+v).classList.add('on');
+  D.bld = v; chk5();
+}
+function pickEng(v) {
+  document.querySelectorAll('[id^="e-"]').forEach(function(e){e.classList.remove('on');});
+  document.getElementById('e-'+v).classList.add('on');
+  D.eng = v; chk5();
+}
+function chk5() {
+  document.getElementById('btn5').disabled = !(D.arch && D.des && D.bld && D.eng);
+}
+
+function chk6() {
+  var nm = document.getElementById('nm').value.trim();
+  var em = document.getElementById('em').value.trim();
+  document.getElementById('btn6').disabled = !(nm && em);
+}
+
+async function submit() {
+  var btn = document.getElementById('btn6');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  D.name = document.getElementById('nm').value;
+  D.email = document.getElementById('em').value;
+  D.phone = document.getElementById('ph').value;
+  try {
+    var r = await fetch(API+'/api/projects', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({homeowner_name:D.name,homeowner_email:D.email,homeowner_phone:D.phone,project_type:D.pt,location:D.loc,description:D.desc,sqft:D.sqft,budget:D.bud,timeline:D.tl,has_architect:D.arch,has_designer:D.des,has_builder:D.bld,has_engineer:D.eng})
+    });
+    var data = await r.json();
+    if (r.ok) {
+      var fn = D.name.split(' ')[0];
+      document.getElementById('ctitle').textContent = 'You are on the list, '+fn+'!';
+      document.getElementById('csub').textContent = 'Your brief has been submitted. We are matching you with vetted professionals in '+D.loc+' now.';
+      var BL={under_75k:'Under $75K','75_150k':'$75K-$150K','150_300k':'$150K-$300K','300_600k':'$300K-$600K','600k_1m':'$600K-$1M',over_1m:'Over $1M'};
+      var TL={asap:'ASAP','3months':'1-3 Months','6months':'3-6 Months',exploring:'Exploring'};
+      var PL={kitchen_bath:'Kitchen/Bath',addition:'Home Addition',adu:'ADU/DADU',new_construction:'New Construction',full_remodel:'Full Remodel',commercial:'Commercial'};
+      document.getElementById('ccard').innerHTML = '<div class="crow"><span style="color:#6b8f78">Project</span><span style="font-weight:500">'+(PL[D.pt]||D.pt)+'</span></div><div class="crow"><span style="color:#6b8f78">Location</span><span style="font-weight:500">'+D.loc+'</span></div><div class="crow"><span style="color:#6b8f78">Budget</span><span style="font-weight:500">'+(BL[D.bud]||D.bud)+'</span></div><div class="crow"><span style="color:#6b8f78">Timeline</span><span style="font-weight:500">'+(TL[D.tl]||D.tl)+'</span></div><div class="crow"><span style="color:#6b8f78">Email</span><span style="font-weight:500">'+D.email+'</span></div>';
+      go(7);
+    } else {
+      alert('Error: '+data.error);
+      btn.disabled=false; btn.textContent='Submit My Project Brief';
+    }
+  } catch(e) {
+    alert('Cannot connect to API. Make sure the server is running on port 5001.');
+    btn.disabled=false; btn.textContent='Submit My Project Brief';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — PermitReady</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+body{display:flex;min-height:100vh;font-size:13px}
+.sidebar{width:210px;background:var(--forest);min-height:100vh;display:flex;flex-direction:column;flex-shrink:0}
+.sb-logo{padding:20px 18px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-logo-txt{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--cream)}
+.sb-logo-txt span{color:var(--acl)}
+.sb-sub{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-top:2px}
+.sb-user{margin:12px 14px;background:rgba(200,134,58,.12);border:1px solid rgba(200,134,58,.25);border-radius:7px;padding:10px}
+.sb-user-name{font-size:12px;font-weight:500;color:var(--cream)}
+.sb-user-role{font-size:10px;color:var(--acl);margin-top:2px}
+nav{padding:8px 0;flex:1}
+.nav-sec{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txtl);padding:10px 18px 4px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--sage);cursor:pointer;border-left:3px solid transparent;font-size:12px;transition:all .15s}
+.nav-item:hover{color:var(--cream);background:rgba(255,255,255,.05)}
+.nav-item.active{color:var(--cream);background:rgba(255,255,255,.07);border-left-color:var(--acl)}
+.nav-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px}
+.nav-badge.green{background:var(--moss)}
+.sb-footer{padding:12px 18px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:var(--txtl);line-height:1.6}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.topbar{background:white;border-bottom:1px solid var(--border);padding:12px 22px;display:flex;align-items:center;justify-content:space-between}
+.topbar-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--forest)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.api-badge{font-size:11px;padding:4px 10px;border-radius:5px;border:1px solid var(--border);color:var(--txtm);display:flex;align-items:center;gap:5px}
+.dot{width:7px;height:7px;border-radius:50%}
+.dot.ok{background:var(--ok,#2ecc71)}
+.dot.err{background:var(--err,#e74c3c)}
+.refresh-btn{padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:white;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--txtm);cursor:pointer;transition:all .15s}
+.refresh-btn:hover{border-color:var(--moss);color:var(--forest)}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.stat-box{background:white;padding:14px 18px}
+.stat-lbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txtl);margin-bottom:4px}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--forest)}
+.stat-sub{font-size:11px;color:var(--txtl);margin-top:2px}
+.stat-sub.ok{color:var(--ok,#2ecc71)}
+.stat-sub.accent{color:var(--accent)}
+.content{flex:1;overflow-y:auto;padding:18px 22px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-title{font-size:11px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--txtm)}
+.card{background:white;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:box-shadow .15s}
+.card:hover{box-shadow:0 2px 10px rgba(30,58,47,.07)}
+.card-hdr{padding:12px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;cursor:pointer}
+.card-type{font-size:13px;font-weight:500;color:var(--forest);margin-bottom:2px}
+.card-loc{font-size:11px;color:var(--txtl)}
+.card-meta{display:flex;gap:8px;margin-top:5px;flex-wrap:wrap}
+.card-meta-item{font-size:11px;color:var(--txtm)}
+.badge{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px}
+.badge-pending{background:#fff8f0;color:var(--accent);border:1px solid rgba(200,134,58,.3)}
+.badge-live{background:#f0f9f4;color:var(--moss);border:1px solid rgba(74,124,89,.3)}
+.badge-approved{background:#f0f9f4;color:var(--moss);border:1px solid rgba(74,124,89,.3)}
+.card-detail{padding:0 16px 14px;border-top:1px solid var(--border);display:none}
+.card-detail.open{display:block}
+.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.detail-cell{background:var(--warm);border-radius:6px;padding:8px 10px}
+.detail-cell-lbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txtl);margin-bottom:3px}
+.detail-cell-val{font-size:12px;font-weight:500;color:var(--txt)}
+.detail-desc{background:var(--warm);border-radius:6px;padding:10px;margin-bottom:10px;font-size:12px;color:var(--txtm);line-height:1.6;font-style:italic}
+.contact-row{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.contact-item{font-size:12px;color:var(--txtm)}
+.contact-item strong{color:var(--txt);display:block;margin-bottom:1px;font-size:11px}
+.action-row{display:flex;gap:8px}
+.btn-approve{padding:8px 18px;background:var(--forest);color:var(--cream);border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s}
+.btn-approve:hover{background:var(--moss)}
+.btn-approve:disabled{background:var(--sage);cursor:not-allowed}
+.btn-reject{padding:8px 14px;background:white;color:var(--txtm);border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .15s}
+.btn-reject:hover{border-color:#e74c3c;color:#e74c3c}
+.btn-done{padding:8px 18px;background:#f0f9f4;color:var(--moss);border:1px solid rgba(74,124,89,.3);border-radius:6px;font-size:12px;cursor:default}
+.fee-strip{background:var(--forest);border-radius:8px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;margin:12px 0}
+.fee-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-bottom:3px}
+.fee-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--acl)}
+.fee-note{font-size:11px;color:var(--sage)}
+.empty{text-align:center;padding:36px 20px;color:var(--txtl)}
+.empty-icon{font-size:32px;margin-bottom:10px}
+.config-box{background:white;border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:12px}
+.config-title{font-size:13px;font-weight:500;color:var(--forest);margin-bottom:12px}
+.config-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+.config-row:last-child{border-bottom:none}
+.config-key{font-size:12px;color:var(--txtm)}
+.config-val{font-size:12px;font-weight:500;color:var(--txt);font-family:monospace}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-txt">Permit<span>Ready</span></div>
+    <div class="sb-sub">Admin Panel</div>
+  </div>
+  <div class="sb-user">
+    <div class="sb-user-name">Project Manager</div>
+    <div class="sb-user-role">Platform Administrator</div>
+  </div>
+  <nav>
+    <div class="nav-sec">Pipeline</div>
+    <div class="nav-item active" onclick="switchView('pending',this)"><span>⏳</span> Pending Briefs <span class="nav-badge" id="nb-pending">—</span></div>
+    <div class="nav-item" onclick="switchView('live',this)"><span>📡</span> Live Leads <span class="nav-badge green" id="nb-live">—</span></div>
+    <div class="nav-item" onclick="switchView('pros',this)"><span>👷</span> Pro Accounts <span class="nav-badge" id="nb-pros">—</span></div>
+    <div class="nav-item" onclick="switchView('revenue',this)"><span>💰</span> Revenue</div>
+    <div class="nav-sec">Settings</div>
+    <div class="nav-item" onclick="switchView('config',this)"><span>⚙️</span> Config</div>
+  </nav>
+  <div class="sb-footer">API: localhost:5001<br>Admin: PermitReady2026!</div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="page-title">Pending Briefs</div>
+    <div class="topbar-right">
+      <div class="api-badge"><div class="dot ok" id="api-dot"></div><span id="api-txt">Connecting...</span></div>
+      <button class="refresh-btn" onclick="loadAll()">↺ Refresh</button>
+      <a href="index.html" class="refresh-btn">← Site</a>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-lbl">Pending Review</div><div class="stat-val" id="s-pending">—</div><div class="stat-sub" id="s-pending-sub">Loading...</div></div>
+    <div class="stat-box"><div class="stat-lbl">Live Leads</div><div class="stat-val" id="s-live">—</div><div class="stat-sub ok">Active in marketplace</div></div>
+    <div class="stat-box"><div class="stat-lbl">Approved Pros</div><div class="stat-val" id="s-pros">—</div><div class="stat-sub">In network</div></div>
+    <div class="stat-box"><div class="stat-lbl">Fees Earned</div><div class="stat-val" id="s-fees">—</div><div class="stat-sub accent" id="s-fees-sub">Loading...</div></div>
+  </div>
+  <div class="content" id="content"><div class="empty"><div class="empty-icon">⏳</div>Loading...</div></div>
+</div>
+
+<div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--forest);color:var(--cream);padding:12px 20px;border-radius:8px;font-size:13px;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;z-index:9999"></div>
+
+<script>
+const API = 'http://localhost:5001';
+const ADMIN_SECRET = 'PermitReady2026!';
+const BUDGET = {under_75k:'Under $75K','75_150k':'$75K–$150K','150_300k':'$150K–$300K','300_600k':'$300K–$600K','600k_1m':'$600K–$1M',over_1m:'Over $1M'};
+const PTYPE = {kitchen_bath:'Kitchen/Bath',addition:'Home Addition',adu:'ADU/DADU',new_construction:'New Construction',full_remodel:'Full Remodel',commercial:'Commercial'};
+const TL = {asap:'ASAP','3months':'1–3 Months','6months':'3–6 Months',exploring:'Exploring'};
+
+let currentView = 'pending';
+let projects = [];
+let pros = [];
+let statsData = {};
+let expanded = new Set();
+let approved = new Set();
+let rejected = new Set();
+let approvedPros = new Set();
+
+async function apiFetch(path,opts={}){
+  try {
+    const r = await fetch(API+path,{...opts,headers:{'Content-Type':'application/json','X-Admin-Secret':ADMIN_SECRET,...(opts.headers||{})}});
+    return await r.json();
+  } catch(e){ return null; }
+}
+
+async function loadAll(){
+  const stats = await apiFetch('/api/admin/stats');
+  if(!stats){
+    document.getElementById('api-dot').className='dot err';
+    document.getElementById('api-txt').textContent='API Offline';
+    showToast('Cannot reach API — is the server running?');
+    return;
+  }
+  document.getElementById('api-dot').className='dot ok';
+  document.getElementById('api-txt').textContent='API Connected';
+  statsData = stats;
+  document.getElementById('s-pending').textContent = stats.projects.pending;
+  document.getElementById('s-pending-sub').textContent = stats.projects.pending>0?'Needs review':'All clear';
+  document.getElementById('s-live').textContent = stats.projects.live;
+  document.getElementById('s-pros').textContent = stats.pros.approved;
+  document.getElementById('s-fees').textContent = '$'+stats.revenue.total_fees_earned.toLocaleString();
+  document.getElementById('s-fees-sub').textContent = '$'+stats.revenue.fees_outstanding.toLocaleString()+' outstanding';
+  document.getElementById('nb-pending').textContent = stats.projects.pending;
+  document.getElementById('nb-live').textContent = stats.projects.live;
+  document.getElementById('nb-pros').textContent = stats.pros.pending||'0';
+
+  const allProjects = await apiFetch('/api/admin/projects');
+  if(allProjects) projects = allProjects;
+  const allPros = await apiFetch('/api/admin/pros');
+  if(allPros) pros = allPros;
+  renderView();
+}
+
+function switchView(view,el){
+  currentView=view;
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  const titles={pending:'Pending Briefs',live:'Live Leads',pros:'Pro Accounts',revenue:'Revenue Pipeline',config:'Configuration'};
+  document.getElementById('page-title').textContent = titles[view]||view;
+  renderView();
+}
+
+function renderView(){
+  const el = document.getElementById('content');
+  if(currentView==='pending') renderPending(el);
+  else if(currentView==='live') renderLive(el);
+  else if(currentView==='pros') renderPros(el);
+  else if(currentView==='revenue') renderRevenue(el);
+  else if(currentView==='config') renderConfig(el);
+}
+
+function projectCard(p, mode){
+  const isExp = expanded.has(p.id);
+  const isDone = approved.has(p.id)||rejected.has(p.id);
+  const midpoint = {under_75k:37500,'75_150k':112500,'150_300k':225000,'300_600k':450000,'600k_1m':800000,over_1m:1200000};
+  const fee = ((midpoint[p.budget]||200000)*0.015).toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+  const badge = mode==='live'?`<span class="badge badge-live">Live</span>`:
+    isDone?(approved.has(p.id)?`<span class="badge badge-live">✓ Approved</span>`:`<span class="badge" style="background:#fff0f0;color:#e74c3c;border:1px solid rgba(231,76,60,.3)">Rejected</span>`):
+    `<span class="badge badge-pending">Pending</span>`;
+
+  const detail = isExp?`<div class="card-detail open">
+    <div class="contact-row">
+      <div class="contact-item"><strong>Homeowner</strong>${p.homeowner_name||'—'}</div>
+      <div class="contact-item"><strong>Email</strong>${p.homeowner_email||'—'}</div>
+      <div class="contact-item"><strong>Phone</strong>${p.homeowner_phone||'Not provided'}</div>
+      <div class="contact-item"><strong>Submitted</strong>${new Date(p.created_at).toLocaleDateString()}</div>
+    </div>
+    <div class="detail-desc">"${p.description}"</div>
+    <div class="detail-grid">
+      <div class="detail-cell"><div class="detail-cell-lbl">Type</div><div class="detail-cell-val">${PTYPE[p.project_type]||p.project_type}</div></div>
+      <div class="detail-cell"><div class="detail-cell-lbl">Budget</div><div class="detail-cell-val">${BUDGET[p.budget]||p.budget}</div></div>
+      <div class="detail-cell"><div class="detail-cell-lbl">Timeline</div><div class="detail-cell-val">${TL[p.timeline]||p.timeline}</div></div>
+      <div class="detail-cell"><div class="detail-cell-lbl">Sq Ft</div><div class="detail-cell-val">${p.sqft||'Not specified'}</div></div>
+      <div class="detail-cell"><div class="detail-cell-lbl">Has Architect</div><div class="detail-cell-val">${p.has_architect==='no'?'⚠️ Needs one':p.has_architect==='yes'?'✅ Hired':'💬 Talking'}</div></div>
+      <div class="detail-cell"><div class="detail-cell-lbl">Has Builder</div><div class="detail-cell-val">${p.has_builder==='no'?'⚠️ Needs one':p.has_builder==='yes'?'✅ Hired':'💬 Talking'}</div></div>
+    </div>
+    ${mode==='pending'?`
+    <div class="fee-strip">
+      <div><div class="fee-lbl">PermitReady Success Fee</div><div class="fee-val">${fee}</div></div>
+      <div class="fee-note">1.5% of est. project value · Only if a pro wins</div>
+    </div>
+    <div class="action-row">
+      ${isDone?`<div class="btn-done">${approved.has(p.id)?'✓ Approved — Pros Notified':'✗ Rejected'}</div>`:
+      `<button class="btn-approve" onclick="approveProject(${p.id},event)">✓ Approve & Publish</button>
+       <button class="btn-reject" onclick="rejectProject(${p.id},event)">✗ Reject</button>`}
+    </div>`:`<div class="action-row"><div class="btn-done">✓ Live — visible to pros</div></div>`}
+  </div>`:'';
+
+  return `<div class="card" id="card-${p.id}">
+    <div class="card-hdr" onclick="toggleCard(${p.id})">
+      <div>
+        <div class="card-type">${PTYPE[p.project_type]||p.project_type}</div>
+        <div class="card-loc">📍 ${p.location}</div>
+        <div class="card-meta">
+          <div class="card-meta-item">Budget: <strong style="color:var(--accent)">${BUDGET[p.budget]||p.budget}</strong></div>
+          <div class="card-meta-item">${TL[p.timeline]||p.timeline}</div>
+          <div class="card-meta-item">${p.claim_count||0} claims</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">${badge}<span style="color:var(--txtl);font-size:14px">${isExp?'▲':'▼'}</span></div>
+    </div>${detail}
+  </div>`;
+}
+
+function renderPending(el){
+  const items = projects.filter(p=>p.status==='pending');
+  if(!items.length){ el.innerHTML=`<div class="empty"><div class="empty-icon">✅</div><div>No pending briefs</div></div>`; return; }
+  el.innerHTML=`<div class="sec-hdr"><div class="sec-title">Awaiting Approval</div><div style="font-size:11px;color:var(--txtl)">${items.length} to review</div></div>${items.map(p=>projectCard(p,'pending')).join('')}`;
+}
+
+function renderLive(el){
+  const items = projects.filter(p=>p.status==='live');
+  if(!items.length){ el.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><div>No live leads yet — approve pending briefs first</div></div>`; return; }
+  el.innerHTML=`<div class="sec-hdr"><div class="sec-title">Published Leads</div><div style="font-size:11px;color:var(--txtl)">${items.length} live</div></div>${items.map(p=>projectCard(p,'live')).join('')}`;
+}
+
+function renderPros(el){
+  const pending = pros.filter(p=>!p.is_approved&&!approvedPros.has(p.id));
+  const app = pros.filter(p=>p.is_approved||approvedPros.has(p.id));
+  const typeLabels = {gc:'General Contractor',architect:'Architect',designer:'Designer',engineer:'Engineer'};
+  const proCard = (p,isApp)=>`<div class="card" style="margin-bottom:8px">
+    <div class="card-hdr" style="cursor:default">
+      <div>
+        <div class="card-type">${p.company_name}</div>
+        <div class="card-loc">${typeLabels[p.pro_type]||p.pro_type} · ${p.email}</div>
+        <div class="card-meta">
+          ${p.phone?`<div class="card-meta-item">📞 ${p.phone}</div>`:''}
+          ${p.service_area?`<div class="card-meta-item">📍 ${p.service_area}</div>`:''}
+          ${p.years_experience?`<div class="card-meta-item">${p.years_experience} yrs exp</div>`:''}
+        </div>
+      </div>
+      <div>${isApp?`<span class="badge badge-approved">✓ Approved</span>`:
+        `<span class="badge badge-pending" style="margin-right:8px">Pending</span>
+         <button class="btn-approve" style="padding:6px 12px;font-size:11px" onclick="approvePro(${p.id},this)">Approve</button>`}
+      </div>
+    </div>
+  </div>`;
+  el.innerHTML=`
+    <div class="sec-hdr" style="margin-bottom:6px"><div class="sec-title">Pending Applications (${pending.length})</div></div>
+    ${pending.length?pending.map(p=>proCard(p,false)).join(''):`<div class="empty" style="padding:20px"><div class="empty-icon">✅</div><div>No pending applications</div></div>`}
+    <div class="sec-hdr" style="margin-top:20px;margin-bottom:6px"><div class="sec-title">Approved Pros (${app.length})</div></div>
+    ${app.length?app.map(p=>proCard(p,true)).join(''):`<div class="empty" style="padding:20px"><div>No approved pros yet</div></div>`}`;
+}
+
+function renderRevenue(el){
+  const s = statsData;
+  if(!s.revenue){ el.innerHTML='<div class="empty">Loading...</div>'; return; }
+  el.innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px">
+      <div class="card" style="padding:16px 18px"><div class="stat-lbl">Total Fees Earned</div><div class="stat-val">$${s.revenue.total_fees_earned.toLocaleString()}</div><div class="stat-sub">@ 1.5% of contract value</div></div>
+      <div class="card" style="padding:16px 18px"><div class="stat-lbl">Fees Collected</div><div class="stat-val" style="color:var(--moss)">$${s.revenue.fees_collected.toLocaleString()}</div><div class="stat-sub ok">Paid</div></div>
+      <div class="card" style="padding:16px 18px"><div class="stat-lbl">Outstanding</div><div class="stat-val" style="color:var(--accent)">$${s.revenue.fees_outstanding.toLocaleString()}</div><div class="stat-sub">Awaiting payment</div></div>
+    </div>
+    <div class="card" style="padding:16px 18px">
+      <div class="sec-title" style="margin-bottom:12px">Project Pipeline</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:6px 8px;color:var(--txtl);font-weight:500;font-size:10px;letter-spacing:1px;text-transform:uppercase">Status</th><th style="text-align:left;padding:6px 8px;color:var(--txtl);font-weight:500;font-size:10px;text-transform:uppercase">Count</th></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Pending Review</td><td style="padding:8px">${s.projects.pending}</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Live Leads</td><td style="padding:8px">${s.projects.live}</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Closed / Won</td><td style="padding:8px">${s.projects.closed}</td></tr>
+        <tr><td style="padding:8px;font-weight:500">Total</td><td style="padding:8px;font-weight:500">${s.projects.total}</td></tr>
+      </table>
+    </div>`;
+}
+
+function renderConfig(el){
+  el.innerHTML=`
+    <div class="config-box">
+      <div class="config-title">API Connection</div>
+      <div class="config-row"><span class="config-key">Backend URL</span><span class="config-val">http://localhost:5001</span></div>
+      <div class="config-row"><span class="config-key">Admin Secret</span><span class="config-val">PermitReady2026!</span></div>
+      <div class="config-row"><span class="config-key">Status</span><span class="config-val" style="color:var(--ok,#2ecc71)">● Connected</span></div>
+    </div>
+    <div class="config-box">
+      <div class="config-title">Platform Settings</div>
+      <div class="config-row"><span class="config-key">Success Fee</span><span class="config-val">1.5%</span></div>
+      <div class="config-row"><span class="config-key">Admin Email</span><span class="config-val">roy@permitready.us</span></div>
+      <div class="config-row"><span class="config-key">Phone</span><span class="config-val">(866) 369-9698</span></div>
+      <div class="config-row"><span class="config-key">Service Area</span><span class="config-val">King & Snohomish County</span></div>
+      <div class="config-row"><span class="config-key">Database</span><span class="config-val">postgresql://localhost/permitready</span></div>
+    </div>
+    <div class="config-box">
+      <div class="config-title">Quick Links</div>
+      <div class="config-row"><span class="config-key">Landing Page</span><a href="index.html" class="config-val" style="color:var(--moss);text-decoration:none">index.html →</a></div>
+      <div class="config-row"><span class="config-key">Homeowner Form</span><a href="homeowner.html" class="config-val" style="color:var(--moss);text-decoration:none">homeowner.html →</a></div>
+      <div class="config-row"><span class="config-key">Pro Registration</span><a href="register.html" class="config-val" style="color:var(--moss);text-decoration:none">register.html →</a></div>
+      <div class="config-row"><span class="config-key">Pro Dashboard</span><a href="dashboard.html" class="config-val" style="color:var(--moss);text-decoration:none">dashboard.html →</a></div>
+      <div class="config-row"><span class="config-key">Content Engine</span><a href="articles.html" class="config-val" style="color:var(--moss);text-decoration:none">articles.html →</a></div>
+    </div>`;
+}
+
+function toggleCard(id){ if(expanded.has(id)) expanded.delete(id); else expanded.add(id); renderView(); }
+
+async function approveProject(id,e){
+  e.stopPropagation();
+  const btn=e.target; btn.disabled=true; btn.textContent='Approving...';
+  const res = await apiFetch('/api/admin/projects/'+id+'/approve',{method:'PUT'});
+  if(res&&res.message){
+    approved.add(id);
+    const p = projects.find(x=>x.id===id);
+    if(p) p.status='live';
+    statsData.projects.pending--;
+    statsData.projects.live++;
+    document.getElementById('s-pending').textContent=statsData.projects.pending;
+    document.getElementById('s-live').textContent=statsData.projects.live;
+    document.getElementById('nb-pending').textContent=statsData.projects.pending;
+    document.getElementById('nb-live').textContent=statsData.projects.live;
+    showToast('✓ Project approved — '+res.pros_notified+' pros notified');
+  } else { showToast('⚠️ Could not reach API'); btn.disabled=false; btn.textContent='✓ Approve & Publish'; }
+  renderView();
+}
+
+async function rejectProject(id,e){
+  e.stopPropagation();
+  const res = await apiFetch('/api/admin/projects/'+id+'/reject',{method:'PUT'});
+  if(res){ rejected.add(id); showToast('Project rejected'); }
+  else showToast('⚠️ Could not reach API');
+  renderView();
+}
+
+async function approvePro(id,btn){
+  btn.disabled=true; btn.textContent='Approving...';
+  const res = await apiFetch('/api/admin/pros/'+id+'/approve',{method:'PUT'});
+  if(res){ approvedPros.add(id); showToast('✓ '+res.message); }
+  else { showToast('⚠️ Could not reach API'); btn.disabled=false; btn.textContent='Approve'; }
+  renderPros(document.getElementById('content'));
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.opacity='1'; t.style.transform='translateY(0)';
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';},3500);
+}
+
+loadAll();
+</script>
+</body>
+</html>

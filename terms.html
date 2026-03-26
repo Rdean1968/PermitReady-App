@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms & Conditions — PermitReady</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--forest:#1e3a2f;--moss:#4a7c59;--sage:#8ab39a;--cream:#f5f0e8;--sand:#e8dfc8;--warm:#faf8f4;--txt:#1a2820;--txtm:#3d5a47;--txtl:#6b8f78;--accent:#c8863a;--acl:#e8a85a;--border:#e8dfc8}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--txt);line-height:1.7}
+nav{background:var(--forest);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--cream);text-decoration:none}
+.nav-logo span{color:var(--acl)}
+.nav-link{font-size:13px;color:var(--sage);text-decoration:none}
+.nav-link:hover{color:var(--cream)}
+.hero{background:var(--forest);padding:48px;border-bottom:4px solid var(--accent)}
+.hero-eye{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--acl);margin-bottom:10px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,46px);font-weight:600;color:var(--cream);margin-bottom:10px}
+.hero-sub{font-size:14px;color:var(--sage);max-width:600px;line-height:1.6}
+.hero-meta{display:flex;gap:24px;margin-top:20px;flex-wrap:wrap}
+.hero-meta-item{font-size:12px;color:var(--sage)}
+.hero-meta-item strong{color:var(--acl)}
+.layout{display:grid;grid-template-columns:240px 1fr;gap:0;max-width:1100px;margin:0 auto;padding:48px}
+.toc{position:sticky;top:24px;height:fit-content}
+.toc-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txtl);margin-bottom:12px}
+.toc-item{display:block;font-size:12px;color:var(--txtl);text-decoration:none;padding:5px 0;border-left:2px solid var(--border);padding-left:12px;transition:all .15s}
+.toc-item:hover{color:var(--forest);border-left-color:var(--moss)}
+.toc-item.active{color:var(--forest);border-left-color:var(--forest);font-weight:500}
+.content{padding-left:48px;border-left:1px solid var(--border)}
+.section{margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-num{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--forest);margin-bottom:16px}
+.section-body{font-size:14px;color:var(--txtm);line-height:1.8}
+.section-body p{margin-bottom:14px}
+.section-body p:last-child{margin-bottom:0}
+.highlight-box{background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:20px 0}
+.highlight-box.orange{background:#fff8f0;border-color:rgba(200,134,58,.3)}
+.highlight-box.red{background:#fff0f0;border-color:rgba(231,76,60,.3)}
+.highlight-box.green{background:#f0f9f4;border-color:rgba(74,124,89,.3)}
+.highlight-title{font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.orange .highlight-title{color:var(--accent)}
+.red .highlight-title{color:#e74c3c}
+.green .highlight-title{color:var(--moss)}
+.highlight-body{font-size:13px;color:var(--txtm);line-height:1.7}
+.penalty-box{background:var(--forest);border-radius:10px;padding:24px 28px;margin:24px 0}
+.penalty-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);margin-bottom:6px}
+.penalty-amount{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--acl);margin-bottom:8px}
+.penalty-desc{font-size:13px;color:var(--sage);line-height:1.7}
+.fee-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
+.fee-table th{text-align:left;padding:10px 14px;background:var(--forest);color:var(--cream);font-weight:500;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.fee-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--txtm)}
+.fee-table tr:last-child td{border-bottom:none}
+.fee-table tr:nth-child(even) td{background:var(--warm)}
+.fee-val{font-weight:600;color:var(--forest);font-family:'Cormorant Garamond',serif;font-size:16px}
+.sign-box{background:var(--warm);border:2px solid var(--border);border-radius:10px;padding:28px;margin-top:32px;text-align:center}
+.sign-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--forest);margin-bottom:8px}
+.sign-sub{font-size:13px;color:var(--txtl);margin-bottom:20px;line-height:1.6}
+.sign-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-accept{padding:12px 32px;background:var(--forest);color:var(--cream);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn-accept:hover{background:var(--moss)}
+.btn-decline{padding:12px 24px;background:white;color:var(--txtm);border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;text-decoration:none;display:inline-block}
+.footer{background:var(--forest);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:48px}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--cream)}
+.footer-logo span{color:var(--acl)}
+.footer-copy{font-size:11px;color:var(--txtl)}
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr;padding:24px}
+  .toc{display:none}
+  .content{padding-left:0;border-left:none}
+  nav{padding:0 20px}
+  .hero{padding:28px 20px}
+}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px}.hamburger span{display:block;width:24px;height:2px;background:var(--cream)}.mobile-nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--forest);padding:20px}.mobile-nav a{display:block;padding:12px 0;color:var(--sage);text-decoration:none;font-size:14px}.mobile-nav .btn-nav{display:inline-block;margin-top:16px;width:100%}@media(max-width:768px){.nav-links{display:none}.hamburger{display:flex}.mobile-nav.open{display:block}nav{position:relative}}</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Permit<span>Ready</span></a>
+  <a class="nav-link" href="index.html">← Back to home</a>
+<button class="hamburger" onclick="document.getElementById('mobile-nav').classList.toggle('open')"><span></span><span></span><span></span></button><div class="mobile-nav" id="mobile-nav"><a href="index.html">Home</a><a href="about.html">About</a><a href="contact.html">Contact</a><a class="btn-nav" href="homeowner.html">Start My Project</a></div></nav>
+
+<div class="hero">
+  <div class="hero-eye">Legal Agreement</div>
+  <h1 class="hero-title">Terms & Conditions</h1>
+  <p class="hero-sub">This agreement governs your use of the PermitReady platform. Please read it carefully before registering as a professional or submitting a project as a homeowner.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><strong>Effective:</strong> January 1, 2026</div>
+    <div class="hero-meta-item"><strong>Jurisdiction:</strong> State of Washington</div>
+    <div class="hero-meta-item"><strong>Platform:</strong> permitready.us</div>
+    <div class="hero-meta-item"><strong>Contact:</strong> roy@permitready.us · (866) 369-9698</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <a class="toc-item" href="#overview">1. Overview</a>
+    <a class="toc-item" href="#homeowner">2. Homeowner Terms</a>
+    <a class="toc-item" href="#pro">3. Professional Terms</a>
+    <a class="toc-item" href="#deposit">4. Deposit & Escrow</a>
+    <a class="toc-item" href="#fee">5. Success Fee</a>
+    <a class="toc-item" href="#messaging">6. Messaging Policy</a>
+    <a class="toc-item" href="#integrity">7. Platform Integrity</a>
+    <a class="toc-item" href="#refund">8. Refund Policy</a>
+    <a class="toc-item" href="#liability">9. Liability</a>
+    <a class="toc-item" href="#termination">10. Termination</a>
+    <a class="toc-item" href="#governing">11. Governing Law</a>
+    <a class="toc-item" href="#contact">12. Contact</a>
+  </div>
+
+  <div class="content">
+
+    <div class="section" id="overview">
+      <div class="section-num">Section 1</div>
+      <h2 class="section-title">Overview & Platform Description</h2>
+      <div class="section-body">
+        <p>PermitReady ("the Platform," "we," "us") is an online marketplace that connects homeowners planning construction projects with licensed professionals including general contractors, architects, interior designers, and structural engineers in King County and Snohomish County, Washington.</p>
+        <p>PermitReady is not a contractor, architect, designer, or engineer. We do not perform construction work, design services, or engineering services. We are a matching and communications platform only.</p>
+        <p>By registering for or using PermitReady, you agree to be bound by these Terms & Conditions in their entirety. If you do not agree, do not use the platform.</p>
+        <div class="highlight-box">
+          <div class="highlight-title">What PermitReady does</div>
+          <div class="highlight-body">We review homeowner project briefs, match them with qualified professionals, facilitate secure communications between parties, and process the platform success fee through escrow when a project contract is signed. Once our fee is collected, PermitReady has no further involvement in or liability for the project.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="homeowner">
+      <div class="section-num">Section 2</div>
+      <h2 class="section-title">Homeowner Terms</h2>
+      <div class="section-body">
+        <p>Use of PermitReady is always free for homeowners. By submitting a project brief, you agree to the following:</p>
+        <p><strong>2.1 Accuracy.</strong> The information you provide in your project brief — including project type, location, budget, and timeline — is accurate to the best of your knowledge. Materially false information may result in removal from the platform.</p>
+        <p><strong>2.2 Intent.</strong> You are genuinely planning a construction project and are open to being contacted by vetted professionals matched to your project. You understand that professionals who claim your project have paid a $500 deposit to do so and are serious about your project.</p>
+        <p><strong>2.3 Platform Agreement.</strong> By submitting a project brief, you agree to work through the PermitReady platform for all communications with matched professionals until PermitReady's success fee has been collected. You agree not to circumvent the platform by arranging a contract directly with a professional outside of PermitReady before the fee is paid.</p>
+        <p><strong>2.4 No guarantee.</strong> PermitReady does not guarantee that a professional will claim your project, that any project will be completed, or that any professional will meet your expectations. We facilitate introductions only.</p>
+        <div class="highlight-box green">
+          <div class="highlight-title">Free for homeowners</div>
+          <div class="highlight-body">PermitReady charges homeowners nothing — not to submit a project, not when a professional is matched, and not when a contract is signed. Our fee is paid by the professional on the platform.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="pro">
+      <div class="section-num">Section 3</div>
+      <h2 class="section-title">Professional Terms</h2>
+      <div class="section-body">
+        <p>By registering as a professional on PermitReady, you represent and warrant the following:</p>
+        <p><strong>3.1 Licensing.</strong> You hold all required Washington State licenses for the services you offer. General contractors must hold a valid Washington State contractor license. Architects must hold a valid Washington State architecture license. Engineers must hold a valid Washington State PE license.</p>
+        <p><strong>3.2 Insurance.</strong> You carry appropriate liability insurance for your profession and service area.</p>
+        <p><strong>3.3 Good standing.</strong> You are in good standing with all relevant Washington State licensing boards and have no active disciplinary proceedings.</p>
+        <p><strong>3.4 Accuracy.</strong> All information in your profile — including license numbers, years of experience, service area, and project types — is accurate and current. You agree to update your profile promptly if any information changes.</p>
+        <p><strong>3.5 Professional conduct.</strong> You agree to conduct yourself professionally in all interactions with homeowners facilitated through the PermitReady platform.</p>
+        <p><strong>3.6 Approval.</strong> Registration does not guarantee approval. PermitReady reserves the right to approve or deny any professional account at our sole discretion.</p>
+      </div>
+    </div>
+
+    <div class="section" id="deposit">
+      <div class="section-num">Section 4</div>
+      <h2 class="section-title">Deposit & Escrow Policy</h2>
+      <div class="section-body">
+        <p>When a professional chooses to claim a project lead on PermitReady, the following deposit and escrow terms apply:</p>
+        <p><strong>4.1 Deposit amount.</strong> A $500 deposit is required to claim any project lead. This deposit is collected at the time of claiming and held in PermitReady escrow.</p>
+        <p><strong>4.2 Deposit credit.</strong> The $500 deposit is not an additional fee. It is credited in full against the PermitReady success fee when the project contract is signed. You pay the success fee minus $500.</p>
+        <p><strong>4.3 Escrow.</strong> All deposits are held in PermitReady's escrow account and are not commingled with PermitReady's operating funds.</p>
+        <p><strong>4.4 Contact release.</strong> Upon payment of the deposit, the homeowner's full contact information — including name, email address, and phone number — is released to the claiming professional immediately.</p>
+
+        <div class="highlight-box orange">
+          <div class="highlight-title">How the deposit works — example</div>
+          <div class="highlight-body">
+            You claim a lead and pay $500 deposit → held in escrow<br>
+            You agree on a $250,000 contract with the homeowner<br>
+            PermitReady success fee: $250,000 × 1.5% = $3,750<br>
+            Less deposit credit: $3,750 − $500 = $3,250 balance due<br>
+            Homeowner's first payment flows through escrow → $3,250 deducted → remainder released to you
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="fee">
+      <div class="section-num">Section 5</div>
+      <h2 class="section-title">Success Fee Structure</h2>
+      <div class="section-body">
+        <p>PermitReady charges a success fee only when a signed contract results from a platform introduction. No contract, no fee.</p>
+
+        <table class="fee-table">
+          <tr><th>Item</th><th>Amount</th><th>When</th></tr>
+          <tr><td>Deposit to claim lead</td><td class="fee-val">$500</td><td>At time of claiming</td></tr>
+          <tr><td>Success fee</td><td class="fee-val">1.5%</td><td>Of total signed contract value</td></tr>
+          <tr><td>Deposit credit</td><td class="fee-val">− $500</td><td>Applied at closing</td></tr>
+          <tr><td>Refund if no deal</td><td class="fee-val">$500*</td><td>Upon approved refund request</td></tr>
+        </table>
+        <p style="font-size:12px;color:var(--txtl)">* Refund is net of payment processing fees. See Section 8.</p>
+
+        <p><strong>5.1 Fee calculation.</strong> The success fee is calculated as 1.5% of the total signed contract value between the professional and the homeowner.</p>
+        <p><strong>5.2 Payment through escrow.</strong> The homeowner's first project payment is routed through PermitReady's escrow account. PermitReady deducts the success fee (less the $500 deposit credit) and releases the remainder to the professional immediately.</p>
+        <p><strong>5.3 Fee finality.</strong> Once PermitReady's fee has been collected and funds released to the professional, PermitReady has no further financial interest in the project and no liability for any aspect of the project's execution, completion, or outcome.</p>
+        <p><strong>5.4 No ongoing fees.</strong> There are no monthly subscription fees, no listing fees, and no fees of any kind beyond the $500 deposit and 1.5% success fee described above.</p>
+      </div>
+    </div>
+
+    <div class="section" id="messaging">
+      <div class="section-num">Section 6</div>
+      <h2 class="section-title">Messaging & Communications Policy</h2>
+      <div class="section-body">
+        <p><strong>6.1 Platform messaging required.</strong> From the moment a professional claims a lead until PermitReady's success fee is collected, all communications between the professional and the homeowner must be conducted through PermitReady's messaging system.</p>
+        <p><strong>6.2 Thread ID tracking.</strong> Every project conversation is assigned a unique Thread ID (e.g., PR-0042-0018). All messages are logged with this Thread ID, timestamped, and archived. This record protects both parties and provides a complete project communication history.</p>
+        <p><strong>6.3 Purpose of policy.</strong> The communications policy exists to protect homeowners, ensure professionals are compensated fairly for their work in winning a project, and maintain the integrity of the platform that both parties rely on.</p>
+        <p><strong>6.4 After fee collection.</strong> Once PermitReady's fee has been collected, professionals and homeowners are free to communicate directly through any channel. PermitReady has no further involvement.</p>
+        <p><strong>6.5 File sharing.</strong> Project documents, estimates, plans, drawings, and other files may be shared through the PermitReady messaging system. PermitReady is not responsible for the content, accuracy, or completeness of any files shared between parties.</p>
+        <div class="highlight-box">
+          <div class="highlight-title">Why this policy exists</div>
+          <div class="highlight-body">PermitReady invests time and resources in sourcing, reviewing, and qualifying every homeowner project. The messaging policy ensures that professionals who benefit from this work compensate the platform fairly. It also protects homeowners by ensuring all early-stage communications are documented.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="integrity">
+      <div class="section-num">Section 7</div>
+      <h2 class="section-title">Platform Integrity Policy</h2>
+      <div class="section-body">
+        <p>PermitReady's value depends on all parties operating in good faith. The following conduct is strictly prohibited and subject to the Platform Integrity Fee described below.</p>
+        <p><strong>7.1 Prohibited conduct.</strong> The following actions constitute a platform integrity violation:</p>
+        <p>— Contacting a homeowner directly outside the PermitReady messaging system before the success fee is paid</p>
+        <p>— Arranging or executing a construction contract with a homeowner introduced through PermitReady without paying the success fee</p>
+        <p>— Deliberately structuring a transaction to avoid or reduce the PermitReady success fee</p>
+        <p>— Sharing homeowner contact information obtained through PermitReady with any third party</p>
+        <p>— Creating multiple accounts to circumvent platform policies</p>
+
+        <div class="penalty-box">
+          <div class="penalty-label">Platform Integrity Fee</div>
+          <div class="penalty-amount">$5,000</div>
+          <div class="penalty-desc">Any professional found to have intentionally circumvented PermitReady — by contacting a homeowner outside the platform, arranging a private contract to avoid the success fee, or taking any deliberate action designed to go around PermitReady after claiming a project — is subject to a $5,000 Platform Integrity Fee, in addition to any success fee owed.<br><br>This fee does not apply to honest communication errors or misunderstandings. It applies solely to deliberate, bad-faith attempts to deprive PermitReady of its earned fee. Disputes are resolved under Section 11.</div>
+        </div>
+
+        <p><strong>7.2 Detection.</strong> PermitReady monitors platform activity and reserves the right to investigate suspected integrity violations. By using the platform, professionals consent to this monitoring.</p>
+        <p><strong>7.3 Evidence.</strong> All platform messages, timestamps, login records, and deposit records are maintained and may be used as evidence in any dispute or legal proceeding related to a platform integrity violation.</p>
+        <p><strong>7.4 Account termination.</strong> In addition to the Platform Integrity Fee, professionals who commit integrity violations will have their accounts permanently terminated and will be ineligible to re-register.</p>
+      </div>
+    </div>
+
+    <div class="section" id="refund">
+      <div class="section-num">Section 8</div>
+      <h2 class="section-title">Refund Policy</h2>
+      <div class="section-body">
+        <p><strong>8.1 Refund eligibility.</strong> A professional who has claimed a project lead is eligible for a refund of their $500 deposit if no signed contract results from the introduction.</p>
+        <p><strong>8.2 Refund process.</strong> To request a refund, the professional submits a refund request through the PermitReady dashboard. PermitReady reviews and processes approved refunds within 1-2 business days.</p>
+        <p><strong>8.3 Processing fees.</strong> Refunds are issued for the full $500 deposit less payment processing fees charged by the payment processor (typically $5-15). These fees are not charged by PermitReady — they are charged by the payment network and are non-recoverable.</p>
+        <p><strong>8.4 Platform credit.</strong> The payment processing fee amount is issued as a platform credit on the professional's PermitReady account. This credit is automatically applied to the deposit on the next lead claimed, ensuring professionals never permanently lose money on a failed deal.</p>
+        <p><strong>8.5 No time limit.</strong> There is no time limit on refund requests. A professional may request a refund at any time after determining that a project will not result in a signed contract.</p>
+        <p><strong>8.6 Ineligibility.</strong> Refunds are not available if the professional has already been paid under the escrow process (i.e., the project was won and the success fee was collected). Refunds are also not available if a Platform Integrity Fee has been assessed against the professional's account.</p>
+        <div class="highlight-box green">
+          <div class="highlight-title">The credit guarantee</div>
+          <div class="highlight-body">PermitReady commits to issuing a platform credit equal to any payment processing fees deducted from refunds. You will never permanently lose money on a deal that doesn't close.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="liability">
+      <div class="section-num">Section 9</div>
+      <h2 class="section-title">Limitation of Liability</h2>
+      <div class="section-body">
+        <p><strong>9.1 Platform role.</strong> PermitReady is a matching and communications platform only. We are not a party to any construction contract, design agreement, engineering engagement, or any other agreement between a homeowner and a professional.</p>
+        <p><strong>9.2 No liability for project outcomes.</strong> PermitReady has no liability for the quality, timeliness, cost, or outcome of any construction project, design, or engineering work facilitated through the platform. All such matters are solely between the homeowner and the professional.</p>
+        <p><strong>9.3 No warranty.</strong> PermitReady makes no warranty regarding the qualifications, licensing, insurance, workmanship, or reliability of any professional listed on the platform. We verify license numbers as provided but cannot guarantee their current validity.</p>
+        <p><strong>9.4 Limitation.</strong> To the maximum extent permitted by Washington State law, PermitReady's total liability to any party for any claim arising from use of the platform shall not exceed the amount paid by that party to PermitReady in the 12 months preceding the claim.</p>
+        <p><strong>9.5 Post-fee disengagement.</strong> Once PermitReady's success fee has been collected and funds released, PermitReady has zero further involvement in or responsibility for the project. The professional and homeowner assume full responsibility for all aspects of their engagement from that point forward.</p>
+      </div>
+    </div>
+
+    <div class="section" id="termination">
+      <div class="section-num">Section 10</div>
+      <h2 class="section-title">Account Termination</h2>
+      <div class="section-body">
+        <p><strong>10.1 By PermitReady.</strong> PermitReady reserves the right to suspend or terminate any account at any time for violation of these Terms, fraudulent activity, platform integrity violations, or any conduct deemed harmful to the platform or its users.</p>
+        <p><strong>10.2 By the professional.</strong> Professionals may close their account at any time by contacting PermitReady at roy@permitready.us. Account closure does not extinguish any outstanding success fees, platform integrity fees, or deposit obligations.</p>
+        <p><strong>10.3 Effect of termination.</strong> Upon termination, the professional loses access to the platform and all claimed leads. Outstanding fees remain due and payable.</p>
+      </div>
+    </div>
+
+    <div class="section" id="governing">
+      <div class="section-num">Section 11</div>
+      <h2 class="section-title">Governing Law & Disputes</h2>
+      <div class="section-body">
+        <p><strong>11.1 Governing law.</strong> These Terms & Conditions are governed by the laws of the State of Washington, without regard to conflict of law principles.</p>
+        <p><strong>11.2 Dispute resolution.</strong> Any dispute arising from these Terms or use of the PermitReady platform shall first be subject to good-faith negotiation between the parties. If negotiation fails, disputes shall be resolved by binding arbitration in Snohomish County, Washington, under the rules of the American Arbitration Association.</p>
+        <p><strong>11.3 Attorneys fees.</strong> In any dispute where PermitReady prevails, PermitReady shall be entitled to recover reasonable attorneys fees and costs from the other party.</p>
+        <p><strong>11.4 Severability.</strong> If any provision of these Terms is found to be unenforceable, the remaining provisions shall continue in full force and effect.</p>
+      </div>
+    </div>
+
+    <div class="section" id="contact">
+      <div class="section-num">Section 12</div>
+      <h2 class="section-title">Contact & Questions</h2>
+      <div class="section-body">
+        <p>For questions about these Terms & Conditions, platform policies, or any aspect of your PermitReady account, contact us directly:</p>
+        <div class="highlight-box">
+          <div class="highlight-title">PermitReady</div>
+          <div class="highlight-body">
+            <strong>Email:</strong> roy@permitready.us<br>
+            <strong>Phone:</strong> (866) 369-9698<br>
+            <strong>Website:</strong> permitready.us<br>
+            <strong>Service area:</strong> King County & Snohomish County, Washington<br><br>
+            We respond to all inquiries within 1 business day.
+          </div>
+        </div>
+        <p>These Terms & Conditions were last updated January 1, 2026. PermitReady reserves the right to update these Terms at any time. Registered users will be notified of material changes by email.</p>
+      </div>
+    </div>
+
+    <div class="sign-box">
+      <div class="sign-title">Ready to join the PermitReady network?</div>
+      <div class="sign-sub">By registering as a professional, you confirm that you have read, understood, and agree to these Terms & Conditions in their entirety — including the Platform Integrity Policy and the $5,000 integrity fee for bypass violations.</div>
+      <div class="sign-btns">
+        <a class="btn-accept" href="register.html">I agree — Register as a Pro →</a>
+        <a class="btn-decline" href="index.html">Return to home</a>
+      </div>
+      <div style="font-size:11px;color:var(--txtl);margin-top:14px">Questions before registering? Call us at <a href="tel:8663699698" style="color:var(--accent)">(866) 369-9698</a></div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-logo">Permit<span>Ready</span></div>
+  <div style="font-size:12px;color:var(--txtl)">
+    <a href="index.html" style="color:var(--txtl);text-decoration:none;margin-right:16px">Home</a>
+    <a href="homeowner.html" style="color:var(--txtl);text-decoration:none;margin-right:16px">Homeowners</a>
+    <a href="register.html" style="color:var(--txtl);text-decoration:none">Register as a Pro</a>
+  </div>
+  <div class="footer-copy">© 2026 PermitReady · King & Snohomish County, WA</div>
+</footer>
+
+</body>
+</html>
