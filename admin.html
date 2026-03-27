@@ -2,387 +2,908 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel — PermitReady</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<title>Admin Dashboard — PermitReady</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-body{display:flex;min-height:100vh;font-size:13px}
-.sidebar{width:210px;background:var(--forest);min-height:100vh;display:flex;flex-direction:column;flex-shrink:0}
-.sb-logo{padding:20px 18px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
-.sb-logo-txt{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--cream)}
-.sb-logo-txt span{color:var(--acl)}
-.sb-sub{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-top:2px}
-.sb-user{margin:12px 14px;background:rgba(200,134,58,.12);border:1px solid rgba(200,134,58,.25);border-radius:7px;padding:10px}
-.sb-user-name{font-size:12px;font-weight:500;color:var(--cream)}
-.sb-user-role{font-size:10px;color:var(--acl);margin-top:2px}
-nav{padding:8px 0;flex:1}
-.nav-sec{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txtl);padding:10px 18px 4px}
-.nav-item{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--sage);cursor:pointer;border-left:3px solid transparent;font-size:12px;transition:all .15s}
-.nav-item:hover{color:var(--cream);background:rgba(255,255,255,.05)}
-.nav-item.active{color:var(--cream);background:rgba(255,255,255,.07);border-left-color:var(--acl)}
-.nav-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;font-weight:600;padding:1px 6px;border-radius:8px}
-.nav-badge.green{background:var(--moss)}
-.sb-footer{padding:12px 18px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:var(--txtl);line-height:1.6}
-.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
-.topbar{background:white;border-bottom:1px solid var(--border);padding:12px 22px;display:flex;align-items:center;justify-content:space-between}
-.topbar-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--forest)}
-.topbar-right{display:flex;align-items:center;gap:10px}
-.api-badge{font-size:11px;padding:4px 10px;border-radius:5px;border:1px solid var(--border);color:var(--txtm);display:flex;align-items:center;gap:5px}
-.dot{width:7px;height:7px;border-radius:50%}
-.dot.ok{background:var(--ok,#2ecc71)}
-.dot.err{background:var(--err,#e74c3c)}
-.refresh-btn{padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:white;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--txtm);cursor:pointer;transition:all .15s}
-.refresh-btn:hover{border-color:var(--moss);color:var(--forest)}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
-.stat-box{background:white;padding:14px 18px}
-.stat-lbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txtl);margin-bottom:4px}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--forest)}
-.stat-sub{font-size:11px;color:var(--txtl);margin-top:2px}
-.stat-sub.ok{color:var(--ok,#2ecc71)}
-.stat-sub.accent{color:var(--accent)}
-.content{flex:1;overflow-y:auto;padding:18px 22px}
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.sec-title{font-size:11px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:var(--txtm)}
-.card{background:white;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:box-shadow .15s}
-.card:hover{box-shadow:0 2px 10px rgba(30,58,47,.07)}
-.card-hdr{padding:12px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;cursor:pointer}
-.card-type{font-size:13px;font-weight:500;color:var(--forest);margin-bottom:2px}
-.card-loc{font-size:11px;color:var(--txtl)}
-.card-meta{display:flex;gap:8px;margin-top:5px;flex-wrap:wrap}
-.card-meta-item{font-size:11px;color:var(--txtm)}
-.badge{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px}
-.badge-pending{background:#fff8f0;color:var(--accent);border:1px solid rgba(200,134,58,.3)}
-.badge-live{background:#f0f9f4;color:var(--moss);border:1px solid rgba(74,124,89,.3)}
-.badge-approved{background:#f0f9f4;color:var(--moss);border:1px solid rgba(74,124,89,.3)}
-.card-detail{padding:0 16px 14px;border-top:1px solid var(--border);display:none}
-.card-detail.open{display:block}
-.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
-.detail-cell{background:var(--warm);border-radius:6px;padding:8px 10px}
-.detail-cell-lbl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txtl);margin-bottom:3px}
-.detail-cell-val{font-size:12px;font-weight:500;color:var(--txt)}
-.detail-desc{background:var(--warm);border-radius:6px;padding:10px;margin-bottom:10px;font-size:12px;color:var(--txtm);line-height:1.6;font-style:italic}
-.contact-row{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap}
-.contact-item{font-size:12px;color:var(--txtm)}
-.contact-item strong{color:var(--txt);display:block;margin-bottom:1px;font-size:11px}
-.action-row{display:flex;gap:8px}
-.btn-approve{padding:8px 18px;background:var(--forest);color:var(--cream);border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s}
-.btn-approve:hover{background:var(--moss)}
-.btn-approve:disabled{background:var(--sage);cursor:not-allowed}
-.btn-reject{padding:8px 14px;background:white;color:var(--txtm);border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .15s}
-.btn-reject:hover{border-color:#e74c3c;color:#e74c3c}
-.btn-done{padding:8px 18px;background:#f0f9f4;color:var(--moss);border:1px solid rgba(74,124,89,.3);border-radius:6px;font-size:12px;cursor:default}
-.fee-strip{background:var(--forest);border-radius:8px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;margin:12px 0}
-.fee-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage);margin-bottom:3px}
-.fee-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--acl)}
-.fee-note{font-size:11px;color:var(--sage)}
-.empty{text-align:center;padding:36px 20px;color:var(--txtl)}
-.empty-icon{font-size:32px;margin-bottom:10px}
-.config-box{background:white;border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:12px}
-.config-title{font-size:13px;font-weight:500;color:var(--forest);margin-bottom:12px}
-.config-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
-.config-row:last-child{border-bottom:none}
-.config-key{font-size:12px;color:var(--txtm)}
-.config-val{font-size:12px;font-weight:500;color:var(--txt);font-family:monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--forest:#1e3a2f;--moss:#4a7c59;--sage:#8ab39a;--cream:#f5f0e8;--sand:#e8dfc8;--warm:#faf8f4;--txt:#1a2820;--txtm:#3d5a47;--txtl:#6b8f78;--accent:#c8863a;--acl:#e8a85a;--border:#e8dfc8;--red:#dc2626;--green:#16a34a;--blue:#2563eb}
+body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--txt);min-height:100vh}
+
+/* NAV */
+nav{background:var(--forest);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--cream);text-decoration:none}
+.nav-logo span{color:var(--acl)}
+.nav-badge{background:var(--accent);color:#fff;font-size:11px;padding:4px 10px;border-radius:4px;margin-left:12px}
+.nav-links{display:flex;gap:12px}
+.nav-link{font-size:13px;color:var(--sage);text-decoration:none;padding:6px 12px;border-radius:4px;transition:all .2s}
+.nav-link:hover{background:rgba(255,255,255,0.1);color:var(--cream)}
+
+/* LAYOUT */
+.container{display:flex;min-height:calc(100vh - 56px)}
+.sidebar{width:220px;background:#fff;border-right:1px solid var(--border);padding:20px 0;flex-shrink:0}
+.main{flex:1;padding:24px;overflow-x:auto}
+
+/* SIDEBAR */
+.sidebar-section{padding:0 16px;margin-bottom:24px}
+.sidebar-title{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--txtl);margin-bottom:12px}
+.sidebar-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 16px;border:none;background:none;font-size:14px;color:var(--txtm);cursor:pointer;border-radius:6px;transition:all .2s;text-align:left}
+.sidebar-btn:hover{background:var(--cream)}
+.sidebar-btn.active{background:var(--forest);color:#fff}
+.sidebar-btn .icon{font-size:16px}
+.sidebar-count{margin-left:auto;background:var(--sand);color:var(--txtm);font-size:11px;padding:2px 8px;border-radius:10px}
+.sidebar-btn.active .sidebar-count{background:rgba(255,255,255,0.2);color:#fff}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--forest)}
+.stat-lbl{font-size:12px;color:var(--txtl);margin-top:4px}
+.stat-card.accent{background:var(--forest);border-color:var(--forest)}
+.stat-card.accent .stat-val{color:var(--acl)}
+.stat-card.accent .stat-lbl{color:var(--sage)}
+
+/* TABLE */
+.table-card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.table-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
+.table-title{font-size:16px;font-weight:600;color:var(--forest)}
+.table-actions{display:flex;gap:8px}
+.btn{padding:8px 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--forest);color:#fff}
+.btn-primary:hover{background:var(--moss)}
+.btn-secondary{background:var(--sand);color:var(--txtm)}
+.btn-secondary:hover{background:var(--border)}
+.btn-danger{background:var(--red);color:#fff}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+th{background:var(--warm);color:var(--txtl);font-weight:500;text-transform:uppercase;font-size:11px;letter-spacing:0.5px}
+tr:hover{background:var(--cream)}
+tr:last-child td{border-bottom:none}
+
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-new{background:#dbeafe;color:#1e40af}
+.badge-pending{background:#fef3c7;color:#92400e}
+.badge-approved{background:#d1fae5;color:#065f46}
+.badge-claimed{background:#ede9fe;color:#5b21b6}
+.badge-available{background:#d1fae5;color:#065f46}
+
+.actions-cell{display:flex;gap:6px}
+.action-btn{width:28px;height:28px;border:none;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.action-btn.view{background:#dbeafe;color:#1e40af}
+.action-btn.edit{background:#fef3c7;color:#92400e}
+.action-btn.delete{background:#fee2e2;color:#dc2626}
+.action-btn:hover{opacity:0.8}
+
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:200}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:12px;width:90%;max-width:600px;max-height:90vh;overflow:auto}
+.modal-header{display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid var(--border)}
+.modal-title{font-size:18px;font-weight:600;color:var(--forest)}
+.modal-close{width:32px;height:32px;border:none;background:var(--sand);border-radius:6px;cursor:pointer;font-size:18px}
+.modal-body{padding:20px}
+.modal-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:13px;font-weight:500;color:var(--txtm);margin-bottom:6px}
+.form-input,.form-select,.form-textarea{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:6px;font-size:14px;font-family:inherit}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--moss)}
+.form-textarea{min-height:100px;resize:vertical}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 20px;color:var(--txtl)}
+.empty-icon{font-size:48px;margin-bottom:16px}
+.empty-text{font-size:14px}
+
+/* LOADING */
+.loading{text-align:center;padding:40px;color:var(--txtl)}
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--sand);border-top-color:var(--forest);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--forest);color:#fff;padding:14px 20px;border-radius:8px;font-size:14px;display:none;z-index:300}
+.toast.show{display:block}
+.toast.error{background:var(--red)}
+.toast.success{background:var(--green)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
 
-<div class="sidebar">
-  <div class="sb-logo">
-    <div class="sb-logo-txt">Permit<span>Ready</span></div>
-    <div class="sb-sub">Admin Panel</div>
+<nav>
+  <div style="display:flex;align-items:center">
+    <a class="nav-logo" href="index.html">Permit<span>Ready</span></a>
+    <span class="nav-badge">Admin</span>
   </div>
-  <div class="sb-user">
-    <div class="sb-user-name">Project Manager</div>
-    <div class="sb-user-role">Platform Administrator</div>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">← Back to Site</a>
   </div>
-  <nav>
-    <div class="nav-sec">Pipeline</div>
-    <div class="nav-item active" onclick="switchView('pending',this)"><span>⏳</span> Pending Briefs <span class="nav-badge" id="nb-pending">—</span></div>
-    <div class="nav-item" onclick="switchView('live',this)"><span>📡</span> Live Leads <span class="nav-badge green" id="nb-live">—</span></div>
-    <div class="nav-item" onclick="switchView('pros',this)"><span>👷</span> Pro Accounts <span class="nav-badge" id="nb-pros">—</span></div>
-    <div class="nav-item" onclick="switchView('revenue',this)"><span>💰</span> Revenue</div>
-    <div class="nav-sec">Settings</div>
-    <div class="nav-item" onclick="switchView('config',this)"><span>⚙️</span> Config</div>
-  </nav>
-  <div class="sb-footer">API: localhost:5001<br>Admin: PermitReady2026!</div>
+</nav>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Overview</div>
+      <button class="sidebar-btn active" onclick="showSection('dashboard')">
+        <span class="icon">📊</span> Dashboard
+      </button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Manage</div>
+      <button class="sidebar-btn" onclick="showSection('homeowners')">
+        <span class="icon">🏠</span> Homeowners
+        <span class="sidebar-count" id="count-homeowners">0</span>
+      </button>
+      <button class="sidebar-btn" onclick="showSection('pros')">
+        <span class="icon">🔨</span> Professionals
+        <span class="sidebar-count" id="count-pros">0</span>
+      </button>
+      <button class="sidebar-btn" onclick="showSection('projects')">
+        <span class="icon">📋</span> Projects
+        <span class="sidebar-count" id="count-projects">0</span>
+      </button>
+      <button class="sidebar-btn" onclick="showSection('messages')">
+        <span class="icon">💬</span> Activity Log
+        <span class="sidebar-count" id="count-messages">0</span>
+      </button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Tools</div>
+      <button class="sidebar-btn" onclick="refreshData()">
+        <span class="icon">🔄</span> Refresh Data
+      </button>
+      <button class="sidebar-btn" onclick="exportData()">
+        <span class="icon">📥</span> Export CSV
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <!-- DASHBOARD SECTION -->
+    <section id="section-dashboard">
+      <h1 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--forest);margin-bottom:20px">Dashboard</h1>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-val" id="stat-homeowners">-</div>
+          <div class="stat-lbl">Homeowners</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="stat-pros">-</div>
+          <div class="stat-lbl">Professionals</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="stat-projects">-</div>
+          <div class="stat-lbl">Projects</div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-val" id="stat-claimed">-</div>
+          <div class="stat-lbl">Claimed Projects</div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">Recent Activity</div>
+        </div>
+        <div id="recent-activity">
+          <div class="loading"><div class="spinner"></div><p style="margin-top:12px">Loading...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOMEOWNERS SECTION -->
+    <section id="section-homeowners" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--forest)">Homeowners</h1>
+        <button class="btn btn-primary" onclick="openAddHomeownerModal()">+ Add Homeowner</button>
+      </div>
+      <div class="table-card">
+        <div id="homeowners-table">
+          <div class="loading"><div class="spinner"></div><p style="margin-top:12px">Loading...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROS SECTION -->
+    <section id="section-pros" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--forest)">Professionals</h1>
+        <button class="btn btn-primary" onclick="openAddProModal()">+ Add Professional</button>
+      </div>
+      <div class="table-card">
+        <div id="pros-table">
+          <div class="loading"><div class="spinner"></div><p style="margin-top:12px">Loading...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="section-projects" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--forest)">Projects</h1>
+      </div>
+      <div class="table-card">
+        <div id="projects-table">
+          <div class="loading"><div class="spinner"></div><p style="margin-top:12px">Loading...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MESSAGES SECTION -->
+    <section id="section-messages" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--forest)">Activity Log</h1>
+      </div>
+      <div class="table-card">
+        <div id="messages-table">
+          <div class="loading"><div class="spinner"></div><p style="margin-top:12px">Loading...</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
 
-<div class="main">
-  <div class="topbar">
-    <div class="topbar-title" id="page-title">Pending Briefs</div>
-    <div class="topbar-right">
-      <div class="api-badge"><div class="dot ok" id="api-dot"></div><span id="api-txt">Connecting...</span></div>
-      <button class="refresh-btn" onclick="loadAll()">↺ Refresh</button>
-      <a href="index.html" class="refresh-btn">← Site</a>
+<!-- HOMEOWNER MODAL -->
+<div class="modal-overlay" id="homeowner-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="homeowner-modal-title">Add Homeowner</div>
+      <button class="modal-close" onclick="closeModal('homeowner-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="homeowner-id">
+      <div class="form-group">
+        <label class="form-label">Name *</label>
+        <input type="text" class="form-input" id="homeowner-name" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input type="email" class="form-input" id="homeowner-email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone</label>
+        <input type="tel" class="form-input" id="homeowner-phone">
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label class="form-label">Street</label>
+          <input type="text" class="form-input" id="homeowner-street">
+        </div>
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input type="text" class="form-input" id="homeowner-city">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ZIP</label>
+          <input type="text" class="form-input" id="homeowner-zip">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Project Type</label>
+        <select class="form-select" id="homeowner-project-type">
+          <option value="">Select...</option>
+          <option value="new_home">New Home Construction</option>
+          <option value="adu_dadu">ADU / DADU</option>
+          <option value="addition">Addition</option>
+          <option value="remodel">Remodel</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="bathroom">Bathroom</option>
+          <option value="basement">Basement</option>
+          <option value="deck">Deck / Outdoor</option>
+          <option value="commercial">Commercial TI</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Budget</label>
+        <input type="text" class="form-input" id="homeowner-budget" placeholder="e.g. $50,000 - $75,000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="homeowner-status">
+          <option value="new">New</option>
+          <option value="contacted">Contacted</option>
+          <option value="matched">Matched</option>
+          <option value="closed">Closed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes</label>
+        <textarea class="form-textarea" id="homeowner-notes"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('homeowner-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveHomeowner()">Save</button>
     </div>
   </div>
-  <div class="stats-row">
-    <div class="stat-box"><div class="stat-lbl">Pending Review</div><div class="stat-val" id="s-pending">—</div><div class="stat-sub" id="s-pending-sub">Loading...</div></div>
-    <div class="stat-box"><div class="stat-lbl">Live Leads</div><div class="stat-val" id="s-live">—</div><div class="stat-sub ok">Active in marketplace</div></div>
-    <div class="stat-box"><div class="stat-lbl">Approved Pros</div><div class="stat-val" id="s-pros">—</div><div class="stat-sub">In network</div></div>
-    <div class="stat-box"><div class="stat-lbl">Fees Earned</div><div class="stat-val" id="s-fees">—</div><div class="stat-sub accent" id="s-fees-sub">Loading...</div></div>
-  </div>
-  <div class="content" id="content"><div class="empty"><div class="empty-icon">⏳</div>Loading...</div></div>
 </div>
 
-<div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--forest);color:var(--cream);padding:12px 20px;border-radius:8px;font-size:13px;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;z-index:9999"></div>
+<!-- PRO MODAL -->
+<div class="modal-overlay" id="pro-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="pro-modal-title">Add Professional</div>
+      <button class="modal-close" onclick="closeModal('pro-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="pro-id">
+      <div class="form-group">
+        <label class="form-label">Name *</label>
+        <input type="text" class="form-input" id="pro-name" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input type="email" class="form-input" id="pro-email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone</label>
+        <input type="tel" class="form-input" id="pro-phone">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Company</label>
+        <input type="text" class="form-input" id="pro-company">
+      </div>
+      <div class="form-group">
+        <label class="form-label">License Number</label>
+        <input type="text" class="form-input" id="pro-license">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Pro Type</label>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <label><input type="checkbox" id="pro-type-builder" value="builder"> Builder/GC</label>
+          <label><input type="checkbox" id="pro-type-architect" value="architect"> Architect</label>
+          <label><input type="checkbox" id="pro-type-designer" value="designer"> Designer</label>
+          <label><input type="checkbox" id="pro-type-engineer" value="engineer"> Engineer</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Service Area</label>
+        <input type="text" class="form-input" id="pro-service-area" placeholder="e.g. King County, Snohomish County">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="pro-status">
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Credit Balance ($)</label>
+        <input type="number" class="form-input" id="pro-credit" value="0" step="0.01">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes</label>
+        <textarea class="form-textarea" id="pro-notes"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('pro-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePro()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW MODAL -->
+<div class="modal-overlay" id="view-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="view-modal-title">Details</div>
+      <button class="modal-close" onclick="closeModal('view-modal')">&times;</button>
+    </div>
+    <div class="modal-body" id="view-modal-content">
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
-const API = 'http://localhost:5001';
-const ADMIN_SECRET = 'PermitReady2026!';
-const BUDGET = {under_75k:'Under $75K','75_150k':'$75K–$150K','150_300k':'$150K–$300K','300_600k':'$300K–$600K','600k_1m':'$600K–$1M',over_1m:'Over $1M'};
-const PTYPE = {kitchen_bath:'Kitchen/Bath',addition:'Home Addition',adu:'ADU/DADU',new_construction:'New Construction',full_remodel:'Full Remodel',commercial:'Commercial'};
-const TL = {asap:'ASAP','3months':'1–3 Months','6months':'3–6 Months',exploring:'Exploring'};
+// SUPABASE CONFIG
+const SUPABASE_URL = 'https://tamrwlkjccnwardykqdq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_RWn5kCuN0v8onyW0UYBXfA_7XxOEHnX';
 
-let currentView = 'pending';
-let projects = [];
+// Initialize Supabase Client
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Data storage
+let homeowners = [];
 let pros = [];
-let statsData = {};
-let expanded = new Set();
-let approved = new Set();
-let rejected = new Set();
-let approvedPros = new Set();
+let projects = [];
+let messages = [];
 
-async function apiFetch(path,opts={}){
+// Load all data
+async function loadData() {
   try {
-    const r = await fetch(API+path,{...opts,headers:{'Content-Type':'application/json','X-Admin-Secret':ADMIN_SECRET,...(opts.headers||{})}});
-    return await r.json();
-  } catch(e){ return null; }
+    const { data: h, error: e1 } = await db.from('homeowners').select('*').order('created_at', { ascending: false });
+    if (e1) throw e1;
+    homeowners = h || [];
+    
+    const { data: p, error: e2 } = await db.from('pros').select('*').order('created_at', { ascending: false });
+    if (e2) throw e2;
+    pros = p || [];
+    
+    const { data: pr, error: e3 } = await db.from('projects').select('*').order('created_at', { ascending: false });
+    if (e3) throw e3;
+    projects = pr || [];
+    
+    const { data: m, error: e4 } = await db.from('messages').select('*').order('created_at', { ascending: false }).limit(50);
+    if (e4) throw e4;
+    messages = m || [];
+    
+    updateCounts();
+    renderDashboard();
+    renderHomeowners();
+    renderPros();
+    renderProjects();
+    renderMessages();
+  } catch (error) {
+    console.error('Error loading data:', error);
+    showToast('Error loading data: ' + error.message, 'error');
+  }
 }
 
-async function loadAll(){
-  const stats = await apiFetch('/api/admin/stats');
-  if(!stats){
-    document.getElementById('api-dot').className='dot err';
-    document.getElementById('api-txt').textContent='API Offline';
-    showToast('Cannot reach API — is the server running?');
+// Update sidebar counts
+function updateCounts() {
+  document.getElementById('count-homeowners').textContent = homeowners.length;
+  document.getElementById('count-pros').textContent = pros.length;
+  document.getElementById('count-projects').textContent = projects.length;
+  document.getElementById('count-messages').textContent = messages.length;
+  
+  document.getElementById('stat-homeowners').textContent = homeowners.length;
+  document.getElementById('stat-pros').textContent = pros.length;
+  document.getElementById('stat-projects').textContent = projects.length;
+  document.getElementById('stat-claimed').textContent = projects.filter(p => p.status === 'claimed').length;
+}
+
+// Render dashboard
+function renderDashboard() {
+  const container = document.getElementById('recent-activity');
+  const recent = [...homeowners.slice(0, 5).map(h => ({...h, type: 'homeowner'})), 
+                  ...pros.slice(0, 5).map(p => ({...p, type: 'pro'}))]
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice(0, 10);
+  
+  if (recent.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">No activity yet. Homeowners and pros will appear here when they sign up.</div></div>';
     return;
   }
-  document.getElementById('api-dot').className='dot ok';
-  document.getElementById('api-txt').textContent='API Connected';
-  statsData = stats;
-  document.getElementById('s-pending').textContent = stats.projects.pending;
-  document.getElementById('s-pending-sub').textContent = stats.projects.pending>0?'Needs review':'All clear';
-  document.getElementById('s-live').textContent = stats.projects.live;
-  document.getElementById('s-pros').textContent = stats.pros.approved;
-  document.getElementById('s-fees').textContent = '$'+stats.revenue.total_fees_earned.toLocaleString();
-  document.getElementById('s-fees-sub').textContent = '$'+stats.revenue.fees_outstanding.toLocaleString()+' outstanding';
-  document.getElementById('nb-pending').textContent = stats.projects.pending;
-  document.getElementById('nb-live').textContent = stats.projects.live;
-  document.getElementById('nb-pros').textContent = stats.pros.pending||'0';
-
-  const allProjects = await apiFetch('/api/admin/projects');
-  if(allProjects) projects = allProjects;
-  const allPros = await apiFetch('/api/admin/pros');
-  if(allPros) pros = allPros;
-  renderView();
+  
+  container.innerHTML = `<table>
+    <thead><tr><th>Type</th><th>Name</th><th>Email</th><th>Date</th></tr></thead>
+    <tbody>${recent.map(r => `
+      <tr>
+        <td><span class="badge ${r.type === 'homeowner' ? 'badge-new' : 'badge-approved'}">${r.type === 'homeowner' ? '🏠 Homeowner' : '🔨 Pro'}</span></td>
+        <td>${r.name || '-'}</td>
+        <td>${r.email || '-'}</td>
+        <td>${formatDate(r.created_at)}</td>
+      </tr>
+    `).join('')}</tbody>
+  </table>`;
 }
 
-function switchView(view,el){
-  currentView=view;
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  el.classList.add('active');
-  const titles={pending:'Pending Briefs',live:'Live Leads',pros:'Pro Accounts',revenue:'Revenue Pipeline',config:'Configuration'};
-  document.getElementById('page-title').textContent = titles[view]||view;
-  renderView();
+// Render homeowners table
+function renderHomeowners() {
+  const container = document.getElementById('homeowners-table');
+  if (homeowners.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏠</div><div class="empty-text">No homeowners yet.</div></div>';
+    return;
+  }
+  
+  container.innerHTML = `<table>
+    <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Project</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>${homeowners.map(h => `
+      <tr>
+        <td>${h.name || '-'}</td>
+        <td>${h.email || '-'}</td>
+        <td>${h.phone || '-'}</td>
+        <td>${formatProjectType(h.project_type)}</td>
+        <td><span class="badge badge-${h.status || 'new'}">${h.status || 'new'}</span></td>
+        <td>${formatDate(h.created_at)}</td>
+        <td class="actions-cell">
+          <button class="action-btn view" onclick="viewHomeowner(${h.id})" title="View">👁</button>
+          <button class="action-btn edit" onclick="editHomeowner(${h.id})" title="Edit">✏️</button>
+          <button class="action-btn delete" onclick="deleteHomeowner(${h.id})" title="Delete">🗑</button>
+        </td>
+      </tr>
+    `).join('')}</tbody>
+  </table>`;
 }
 
-function renderView(){
-  const el = document.getElementById('content');
-  if(currentView==='pending') renderPending(el);
-  else if(currentView==='live') renderLive(el);
-  else if(currentView==='pros') renderPros(el);
-  else if(currentView==='revenue') renderRevenue(el);
-  else if(currentView==='config') renderConfig(el);
+// Render pros table
+function renderPros() {
+  const container = document.getElementById('pros-table');
+  if (pros.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🔨</div><div class="empty-text">No professionals yet.</div></div>';
+    return;
+  }
+  
+  container.innerHTML = `<table>
+    <thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Type</th><th>Status</th><th>Credit</th><th>Actions</th></tr></thead>
+    <tbody>${pros.map(p => `
+      <tr>
+        <td>${p.name || '-'}</td>
+        <td>${p.company || '-'}</td>
+        <td>${p.email || '-'}</td>
+        <td>${Array.isArray(p.pro_type) ? p.pro_type.join(', ') : (p.pro_type || '-')}</td>
+        <td><span class="badge badge-${p.status || 'pending'}">${p.status || 'pending'}</span></td>
+        <td>$${(p.credit_balance || 0).toFixed(2)}</td>
+        <td class="actions-cell">
+          <button class="action-btn view" onclick="viewPro(${p.id})" title="View">👁</button>
+          <button class="action-btn edit" onclick="editPro(${p.id})" title="Edit">✏️</button>
+          <button class="action-btn delete" onclick="deletePro(${p.id})" title="Delete">🗑</button>
+        </td>
+      </tr>
+    `).join('')}</tbody>
+  </table>`;
 }
 
-function projectCard(p, mode){
-  const isExp = expanded.has(p.id);
-  const isDone = approved.has(p.id)||rejected.has(p.id);
-  const midpoint = {under_75k:37500,'75_150k':112500,'150_300k':225000,'300_600k':450000,'600k_1m':800000,over_1m:1200000};
-  const fee = ((midpoint[p.budget]||200000)*0.015).toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
-  const badge = mode==='live'?`<span class="badge badge-live">Live</span>`:
-    isDone?(approved.has(p.id)?`<span class="badge badge-live">✓ Approved</span>`:`<span class="badge" style="background:#fff0f0;color:#e74c3c;border:1px solid rgba(231,76,60,.3)">Rejected</span>`):
-    `<span class="badge badge-pending">Pending</span>`;
-
-  const detail = isExp?`<div class="card-detail open">
-    <div class="contact-row">
-      <div class="contact-item"><strong>Homeowner</strong>${p.homeowner_name||'—'}</div>
-      <div class="contact-item"><strong>Email</strong>${p.homeowner_email||'—'}</div>
-      <div class="contact-item"><strong>Phone</strong>${p.homeowner_phone||'Not provided'}</div>
-      <div class="contact-item"><strong>Submitted</strong>${new Date(p.created_at).toLocaleDateString()}</div>
-    </div>
-    <div class="detail-desc">"${p.description}"</div>
-    <div class="detail-grid">
-      <div class="detail-cell"><div class="detail-cell-lbl">Type</div><div class="detail-cell-val">${PTYPE[p.project_type]||p.project_type}</div></div>
-      <div class="detail-cell"><div class="detail-cell-lbl">Budget</div><div class="detail-cell-val">${BUDGET[p.budget]||p.budget}</div></div>
-      <div class="detail-cell"><div class="detail-cell-lbl">Timeline</div><div class="detail-cell-val">${TL[p.timeline]||p.timeline}</div></div>
-      <div class="detail-cell"><div class="detail-cell-lbl">Sq Ft</div><div class="detail-cell-val">${p.sqft||'Not specified'}</div></div>
-      <div class="detail-cell"><div class="detail-cell-lbl">Has Architect</div><div class="detail-cell-val">${p.has_architect==='no'?'⚠️ Needs one':p.has_architect==='yes'?'✅ Hired':'💬 Talking'}</div></div>
-      <div class="detail-cell"><div class="detail-cell-lbl">Has Builder</div><div class="detail-cell-val">${p.has_builder==='no'?'⚠️ Needs one':p.has_builder==='yes'?'✅ Hired':'💬 Talking'}</div></div>
-    </div>
-    ${mode==='pending'?`
-    <div class="fee-strip">
-      <div><div class="fee-lbl">PermitReady Success Fee</div><div class="fee-val">${fee}</div></div>
-      <div class="fee-note">1.5% of est. project value · Only if a pro wins</div>
-    </div>
-    <div class="action-row">
-      ${isDone?`<div class="btn-done">${approved.has(p.id)?'✓ Approved — Pros Notified':'✗ Rejected'}</div>`:
-      `<button class="btn-approve" onclick="approveProject(${p.id},event)">✓ Approve & Publish</button>
-       <button class="btn-reject" onclick="rejectProject(${p.id},event)">✗ Reject</button>`}
-    </div>`:`<div class="action-row"><div class="btn-done">✓ Live — visible to pros</div></div>`}
-  </div>`:'';
-
-  return `<div class="card" id="card-${p.id}">
-    <div class="card-hdr" onclick="toggleCard(${p.id})">
-      <div>
-        <div class="card-type">${PTYPE[p.project_type]||p.project_type}</div>
-        <div class="card-loc">📍 ${p.location}</div>
-        <div class="card-meta">
-          <div class="card-meta-item">Budget: <strong style="color:var(--accent)">${BUDGET[p.budget]||p.budget}</strong></div>
-          <div class="card-meta-item">${TL[p.timeline]||p.timeline}</div>
-          <div class="card-meta-item">${p.claim_count||0} claims</div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">${badge}<span style="color:var(--txtl);font-size:14px">${isExp?'▲':'▼'}</span></div>
-    </div>${detail}
-  </div>`;
+// Render projects table
+function renderProjects() {
+  const container = document.getElementById('projects-table');
+  if (projects.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">No projects yet.</div></div>';
+    return;
+  }
+  
+  container.innerHTML = `<table>
+    <thead><tr><th>ID</th><th>Homeowner</th><th>Claimed By</th><th>Status</th><th>Deposit</th><th>Value</th><th>Date</th></tr></thead>
+    <tbody>${projects.map(p => {
+      const ho = homeowners.find(h => h.id === p.homeowner_id);
+      const pro = pros.find(pr => pr.id === p.claimed_by);
+      return `
+      <tr>
+        <td>#${p.id}</td>
+        <td>${ho ? ho.name : '-'}</td>
+        <td>${pro ? pro.name : '-'}</td>
+        <td><span class="badge badge-${p.status || 'available'}">${p.status || 'available'}</span></td>
+        <td>${p.deposit_paid ? '✅ Paid' : '❌ No'}</td>
+        <td>${p.project_value ? '$' + p.project_value.toLocaleString() : '-'}</td>
+        <td>${formatDate(p.created_at)}</td>
+      </tr>
+    `}).join('')}</tbody>
+  </table>`;
 }
 
-function renderPending(el){
-  const items = projects.filter(p=>p.status==='pending');
-  if(!items.length){ el.innerHTML=`<div class="empty"><div class="empty-icon">✅</div><div>No pending briefs</div></div>`; return; }
-  el.innerHTML=`<div class="sec-hdr"><div class="sec-title">Awaiting Approval</div><div style="font-size:11px;color:var(--txtl)">${items.length} to review</div></div>${items.map(p=>projectCard(p,'pending')).join('')}`;
+// Render messages table
+function renderMessages() {
+  const container = document.getElementById('messages-table');
+  if (messages.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">💬</div><div class="empty-text">No activity logged yet.</div></div>';
+    return;
+  }
+  
+  container.innerHTML = `<table>
+    <thead><tr><th>Date</th><th>Type</th><th>Sender</th><th>Message</th></tr></thead>
+    <tbody>${messages.map(m => `
+      <tr>
+        <td>${formatDate(m.created_at)}</td>
+        <td><span class="badge badge-new">${m.message_type || 'note'}</span></td>
+        <td>${m.sender || '-'}</td>
+        <td>${m.message || '-'}</td>
+      </tr>
+    `).join('')}</tbody>
+  </table>`;
 }
 
-function renderLive(el){
-  const items = projects.filter(p=>p.status==='live');
-  if(!items.length){ el.innerHTML=`<div class="empty"><div class="empty-icon">📡</div><div>No live leads yet — approve pending briefs first</div></div>`; return; }
-  el.innerHTML=`<div class="sec-hdr"><div class="sec-title">Published Leads</div><div style="font-size:11px;color:var(--txtl)">${items.length} live</div></div>${items.map(p=>projectCard(p,'live')).join('')}`;
+// Section navigation
+function showSection(section) {
+  document.querySelectorAll('.main > section').forEach(s => s.style.display = 'none');
+  document.getElementById(`section-${section}`).style.display = 'block';
+  document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+  event.target.closest('.sidebar-btn').classList.add('active');
 }
 
-function renderPros(el){
-  const pending = pros.filter(p=>!p.is_approved&&!approvedPros.has(p.id));
-  const app = pros.filter(p=>p.is_approved||approvedPros.has(p.id));
-  const typeLabels = {gc:'General Contractor',architect:'Architect',designer:'Designer',engineer:'Engineer'};
-  const proCard = (p,isApp)=>`<div class="card" style="margin-bottom:8px">
-    <div class="card-hdr" style="cursor:default">
-      <div>
-        <div class="card-type">${p.company_name}</div>
-        <div class="card-loc">${typeLabels[p.pro_type]||p.pro_type} · ${p.email}</div>
-        <div class="card-meta">
-          ${p.phone?`<div class="card-meta-item">📞 ${p.phone}</div>`:''}
-          ${p.service_area?`<div class="card-meta-item">📍 ${p.service_area}</div>`:''}
-          ${p.years_experience?`<div class="card-meta-item">${p.years_experience} yrs exp</div>`:''}
-        </div>
-      </div>
-      <div>${isApp?`<span class="badge badge-approved">✓ Approved</span>`:
-        `<span class="badge badge-pending" style="margin-right:8px">Pending</span>
-         <button class="btn-approve" style="padding:6px 12px;font-size:11px" onclick="approvePro(${p.id},this)">Approve</button>`}
-      </div>
-    </div>
-  </div>`;
-  el.innerHTML=`
-    <div class="sec-hdr" style="margin-bottom:6px"><div class="sec-title">Pending Applications (${pending.length})</div></div>
-    ${pending.length?pending.map(p=>proCard(p,false)).join(''):`<div class="empty" style="padding:20px"><div class="empty-icon">✅</div><div>No pending applications</div></div>`}
-    <div class="sec-hdr" style="margin-top:20px;margin-bottom:6px"><div class="sec-title">Approved Pros (${app.length})</div></div>
-    ${app.length?app.map(p=>proCard(p,true)).join(''):`<div class="empty" style="padding:20px"><div>No approved pros yet</div></div>`}`;
+// Modal helpers
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
 }
 
-function renderRevenue(el){
-  const s = statsData;
-  if(!s.revenue){ el.innerHTML='<div class="empty">Loading...</div>'; return; }
-  el.innerHTML=`
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px">
-      <div class="card" style="padding:16px 18px"><div class="stat-lbl">Total Fees Earned</div><div class="stat-val">$${s.revenue.total_fees_earned.toLocaleString()}</div><div class="stat-sub">@ 1.5% of contract value</div></div>
-      <div class="card" style="padding:16px 18px"><div class="stat-lbl">Fees Collected</div><div class="stat-val" style="color:var(--moss)">$${s.revenue.fees_collected.toLocaleString()}</div><div class="stat-sub ok">Paid</div></div>
-      <div class="card" style="padding:16px 18px"><div class="stat-lbl">Outstanding</div><div class="stat-val" style="color:var(--accent)">$${s.revenue.fees_outstanding.toLocaleString()}</div><div class="stat-sub">Awaiting payment</div></div>
-    </div>
-    <div class="card" style="padding:16px 18px">
-      <div class="sec-title" style="margin-bottom:12px">Project Pipeline</div>
-      <table style="width:100%;border-collapse:collapse;font-size:12px">
-        <tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:6px 8px;color:var(--txtl);font-weight:500;font-size:10px;letter-spacing:1px;text-transform:uppercase">Status</th><th style="text-align:left;padding:6px 8px;color:var(--txtl);font-weight:500;font-size:10px;text-transform:uppercase">Count</th></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Pending Review</td><td style="padding:8px">${s.projects.pending}</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Live Leads</td><td style="padding:8px">${s.projects.live}</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px">Closed / Won</td><td style="padding:8px">${s.projects.closed}</td></tr>
-        <tr><td style="padding:8px;font-weight:500">Total</td><td style="padding:8px;font-weight:500">${s.projects.total}</td></tr>
-      </table>
-    </div>`;
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
 }
 
-function renderConfig(el){
-  el.innerHTML=`
-    <div class="config-box">
-      <div class="config-title">API Connection</div>
-      <div class="config-row"><span class="config-key">Backend URL</span><span class="config-val">http://localhost:5001</span></div>
-      <div class="config-row"><span class="config-key">Admin Secret</span><span class="config-val">PermitReady2026!</span></div>
-      <div class="config-row"><span class="config-key">Status</span><span class="config-val" style="color:var(--ok,#2ecc71)">● Connected</span></div>
-    </div>
-    <div class="config-box">
-      <div class="config-title">Platform Settings</div>
-      <div class="config-row"><span class="config-key">Success Fee</span><span class="config-val">1.5%</span></div>
-      <div class="config-row"><span class="config-key">Admin Email</span><span class="config-val">roy@permitready.us</span></div>
-      <div class="config-row"><span class="config-key">Phone</span><span class="config-val">(866) 369-9698</span></div>
-      <div class="config-row"><span class="config-key">Service Area</span><span class="config-val">King & Snohomish County</span></div>
-      <div class="config-row"><span class="config-key">Database</span><span class="config-val">postgresql://localhost/permitready</span></div>
-    </div>
-    <div class="config-box">
-      <div class="config-title">Quick Links</div>
-      <div class="config-row"><span class="config-key">Landing Page</span><a href="index.html" class="config-val" style="color:var(--moss);text-decoration:none">index.html →</a></div>
-      <div class="config-row"><span class="config-key">Homeowner Form</span><a href="homeowner.html" class="config-val" style="color:var(--moss);text-decoration:none">homeowner.html →</a></div>
-      <div class="config-row"><span class="config-key">Pro Registration</span><a href="register.html" class="config-val" style="color:var(--moss);text-decoration:none">register.html →</a></div>
-      <div class="config-row"><span class="config-key">Pro Dashboard</span><a href="dashboard.html" class="config-val" style="color:var(--moss);text-decoration:none">dashboard.html →</a></div>
-      <div class="config-row"><span class="config-key">Content Engine</span><a href="articles.html" class="config-val" style="color:var(--moss);text-decoration:none">articles.html →</a></div>
-    </div>`;
+// Homeowner CRUD
+function openAddHomeownerModal() {
+  document.getElementById('homeowner-modal-title').textContent = 'Add Homeowner';
+  document.getElementById('homeowner-id').value = '';
+  document.getElementById('homeowner-name').value = '';
+  document.getElementById('homeowner-email').value = '';
+  document.getElementById('homeowner-phone').value = '';
+  document.getElementById('homeowner-street').value = '';
+  document.getElementById('homeowner-city').value = '';
+  document.getElementById('homeowner-zip').value = '';
+  document.getElementById('homeowner-project-type').value = '';
+  document.getElementById('homeowner-budget').value = '';
+  document.getElementById('homeowner-status').value = 'new';
+  document.getElementById('homeowner-notes').value = '';
+  openModal('homeowner-modal');
 }
 
-function toggleCard(id){ if(expanded.has(id)) expanded.delete(id); else expanded.add(id); renderView(); }
-
-async function approveProject(id,e){
-  e.stopPropagation();
-  const btn=e.target; btn.disabled=true; btn.textContent='Approving...';
-  const res = await apiFetch('/api/admin/projects/'+id+'/approve',{method:'PUT'});
-  if(res&&res.message){
-    approved.add(id);
-    const p = projects.find(x=>x.id===id);
-    if(p) p.status='live';
-    statsData.projects.pending--;
-    statsData.projects.live++;
-    document.getElementById('s-pending').textContent=statsData.projects.pending;
-    document.getElementById('s-live').textContent=statsData.projects.live;
-    document.getElementById('nb-pending').textContent=statsData.projects.pending;
-    document.getElementById('nb-live').textContent=statsData.projects.live;
-    showToast('✓ Project approved — '+res.pros_notified+' pros notified');
-  } else { showToast('⚠️ Could not reach API'); btn.disabled=false; btn.textContent='✓ Approve & Publish'; }
-  renderView();
+function editHomeowner(id) {
+  const h = homeowners.find(x => x.id === id);
+  if (!h) return;
+  document.getElementById('homeowner-modal-title').textContent = 'Edit Homeowner';
+  document.getElementById('homeowner-id').value = h.id;
+  document.getElementById('homeowner-name').value = h.name || '';
+  document.getElementById('homeowner-email').value = h.email || '';
+  document.getElementById('homeowner-phone').value = h.phone || '';
+  document.getElementById('homeowner-street').value = h.street || '';
+  document.getElementById('homeowner-city').value = h.city || '';
+  document.getElementById('homeowner-zip').value = h.zip || '';
+  document.getElementById('homeowner-project-type').value = h.project_type || '';
+  document.getElementById('homeowner-budget').value = h.budget || '';
+  document.getElementById('homeowner-status').value = h.status || 'new';
+  document.getElementById('homeowner-notes').value = h.notes || '';
+  openModal('homeowner-modal');
 }
 
-async function rejectProject(id,e){
-  e.stopPropagation();
-  const res = await apiFetch('/api/admin/projects/'+id+'/reject',{method:'PUT'});
-  if(res){ rejected.add(id); showToast('Project rejected'); }
-  else showToast('⚠️ Could not reach API');
-  renderView();
+function viewHomeowner(id) {
+  const h = homeowners.find(x => x.id === id);
+  if (!h) return;
+  document.getElementById('view-modal-title').textContent = 'Homeowner Details';
+  document.getElementById('view-modal-content').innerHTML = `
+    <p><strong>Name:</strong> ${h.name || '-'}</p>
+    <p><strong>Email:</strong> ${h.email || '-'}</p>
+    <p><strong>Phone:</strong> ${h.phone || '-'}</p>
+    <p><strong>Address:</strong> ${[h.street, h.city, h.zip].filter(Boolean).join(', ') || '-'}</p>
+    <p><strong>Project Type:</strong> ${formatProjectType(h.project_type)}</p>
+    <p><strong>Budget:</strong> ${h.budget || '-'}</p>
+    <p><strong>Timeline:</strong> ${h.timeline || '-'}</p>
+    <p><strong>Description:</strong> ${h.description || '-'}</p>
+    <p><strong>Status:</strong> ${h.status || 'new'}</p>
+    <p><strong>Notes:</strong> ${h.notes || '-'}</p>
+    <p><strong>Created:</strong> ${formatDate(h.created_at)}</p>
+  `;
+  openModal('view-modal');
 }
 
-async function approvePro(id,btn){
-  btn.disabled=true; btn.textContent='Approving...';
-  const res = await apiFetch('/api/admin/pros/'+id+'/approve',{method:'PUT'});
-  if(res){ approvedPros.add(id); showToast('✓ '+res.message); }
-  else { showToast('⚠️ Could not reach API'); btn.disabled=false; btn.textContent='Approve'; }
-  renderPros(document.getElementById('content'));
+async function saveHomeowner() {
+  const id = document.getElementById('homeowner-id').value;
+  const data = {
+    name: document.getElementById('homeowner-name').value,
+    email: document.getElementById('homeowner-email').value,
+    phone: document.getElementById('homeowner-phone').value,
+    street: document.getElementById('homeowner-street').value,
+    city: document.getElementById('homeowner-city').value,
+    zip: document.getElementById('homeowner-zip').value,
+    project_type: document.getElementById('homeowner-project-type').value,
+    budget: document.getElementById('homeowner-budget').value,
+    status: document.getElementById('homeowner-status').value,
+    notes: document.getElementById('homeowner-notes').value
+  };
+  
+  try {
+    if (id) {
+      const { error } = await db.from('homeowners').update(data).eq('id', id);
+      if (error) throw error;
+      showToast('Homeowner updated!', 'success');
+    } else {
+      const { error } = await db.from('homeowners').insert(data);
+      if (error) throw error;
+      showToast('Homeowner added!', 'success');
+    }
+    closeModal('homeowner-modal');
+    loadData();
+  } catch (error) {
+    showToast('Error: ' + error.message, 'error');
+  }
 }
 
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.style.opacity='1'; t.style.transform='translateY(0)';
-  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';},3500);
+async function deleteHomeowner(id) {
+  if (!confirm('Are you sure you want to delete this homeowner?')) return;
+  try {
+    const { error } = await db.from('homeowners').delete().eq('id', id);
+    if (error) throw error;
+    showToast('Homeowner deleted!', 'success');
+    loadData();
+  } catch (error) {
+    showToast('Error: ' + error.message, 'error');
+  }
 }
 
-loadAll();
+// Pro CRUD
+function openAddProModal() {
+  document.getElementById('pro-modal-title').textContent = 'Add Professional';
+  document.getElementById('pro-id').value = '';
+  document.getElementById('pro-name').value = '';
+  document.getElementById('pro-email').value = '';
+  document.getElementById('pro-phone').value = '';
+  document.getElementById('pro-company').value = '';
+  document.getElementById('pro-license').value = '';
+  document.getElementById('pro-type-builder').checked = false;
+  document.getElementById('pro-type-architect').checked = false;
+  document.getElementById('pro-type-designer').checked = false;
+  document.getElementById('pro-type-engineer').checked = false;
+  document.getElementById('pro-service-area').value = '';
+  document.getElementById('pro-status').value = 'pending';
+  document.getElementById('pro-credit').value = '0';
+  document.getElementById('pro-notes').value = '';
+  openModal('pro-modal');
+}
+
+function editPro(id) {
+  const p = pros.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('pro-modal-title').textContent = 'Edit Professional';
+  document.getElementById('pro-id').value = p.id;
+  document.getElementById('pro-name').value = p.name || '';
+  document.getElementById('pro-email').value = p.email || '';
+  document.getElementById('pro-phone').value = p.phone || '';
+  document.getElementById('pro-company').value = p.company || '';
+  document.getElementById('pro-license').value = p.license_number || '';
+  const types = Array.isArray(p.pro_type) ? p.pro_type : [];
+  document.getElementById('pro-type-builder').checked = types.includes('builder');
+  document.getElementById('pro-type-architect').checked = types.includes('architect');
+  document.getElementById('pro-type-designer').checked = types.includes('designer');
+  document.getElementById('pro-type-engineer').checked = types.includes('engineer');
+  document.getElementById('pro-service-area').value = p.service_area || '';
+  document.getElementById('pro-status').value = p.status || 'pending';
+  document.getElementById('pro-credit').value = p.credit_balance || 0;
+  document.getElementById('pro-notes').value = p.notes || '';
+  openModal('pro-modal');
+}
+
+function viewPro(id) {
+  const p = pros.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('view-modal-title').textContent = 'Professional Details';
+  document.getElementById('view-modal-content').innerHTML = `
+    <p><strong>Name:</strong> ${p.name || '-'}</p>
+    <p><strong>Company:</strong> ${p.company || '-'}</p>
+    <p><strong>Email:</strong> ${p.email || '-'}</p>
+    <p><strong>Phone:</strong> ${p.phone || '-'}</p>
+    <p><strong>License:</strong> ${p.license_number || '-'}</p>
+    <p><strong>Type:</strong> ${Array.isArray(p.pro_type) ? p.pro_type.join(', ') : (p.pro_type || '-')}</p>
+    <p><strong>Service Area:</strong> ${p.service_area || '-'}</p>
+    <p><strong>Status:</strong> ${p.status || 'pending'}</p>
+    <p><strong>Credit Balance:</strong> $${(p.credit_balance || 0).toFixed(2)}</p>
+    <p><strong>Total Credits Earned:</strong> $${(p.total_credits_earned || 0).toFixed(2)}</p>
+    <p><strong>Notes:</strong> ${p.notes || '-'}</p>
+    <p><strong>Created:</strong> ${formatDate(p.created_at)}</p>
+  `;
+  openModal('view-modal');
+}
+
+async function savePro() {
+  const id = document.getElementById('pro-id').value;
+  const proTypes = [];
+  if (document.getElementById('pro-type-builder').checked) proTypes.push('builder');
+  if (document.getElementById('pro-type-architect').checked) proTypes.push('architect');
+  if (document.getElementById('pro-type-designer').checked) proTypes.push('designer');
+  if (document.getElementById('pro-type-engineer').checked) proTypes.push('engineer');
+  
+  const data = {
+    name: document.getElementById('pro-name').value,
+    email: document.getElementById('pro-email').value,
+    phone: document.getElementById('pro-phone').value,
+    company: document.getElementById('pro-company').value,
+    license_number: document.getElementById('pro-license').value,
+    pro_type: proTypes,
+    service_area: document.getElementById('pro-service-area').value,
+    status: document.getElementById('pro-status').value,
+    credit_balance: parseFloat(document.getElementById('pro-credit').value) || 0,
+    notes: document.getElementById('pro-notes').value
+  };
+  
+  try {
+    if (id) {
+      const { error } = await db.from('pros').update(data).eq('id', id);
+      if (error) throw error;
+      showToast('Professional updated!', 'success');
+    } else {
+      const { error } = await db.from('pros').insert(data);
+      if (error) throw error;
+      showToast('Professional added!', 'success');
+    }
+    closeModal('pro-modal');
+    loadData();
+  } catch (error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+async function deletePro(id) {
+  if (!confirm('Are you sure you want to delete this professional?')) return;
+  try {
+    const { error } = await db.from('pros').delete().eq('id', id);
+    if (error) throw error;
+    showToast('Professional deleted!', 'success');
+    loadData();
+  } catch (error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+// Helpers
+function formatDate(dateStr) {
+  if (!dateStr) return '-';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+}
+
+function formatProjectType(type) {
+  const types = {
+    new_home: 'New Home',
+    adu_dadu: 'ADU/DADU',
+    addition: 'Addition',
+    remodel: 'Remodel',
+    kitchen: 'Kitchen',
+    bathroom: 'Bathroom',
+    basement: 'Basement',
+    deck: 'Deck/Outdoor',
+    commercial: 'Commercial TI'
+  };
+  return types[type] || type || '-';
+}
+
+function showToast(message, type = '') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = 'toast show ' + type;
+  setTimeout(() => toast.className = 'toast', 3000);
+}
+
+function refreshData() {
+  showToast('Refreshing...');
+  loadData();
+}
+
+function exportData() {
+  const csv = [
+    ['Type', 'Name', 'Email', 'Phone', 'Status', 'Created'],
+    ...homeowners.map(h => ['Homeowner', h.name, h.email, h.phone, h.status, h.created_at]),
+    ...pros.map(p => ['Pro', p.name, p.email, p.phone, p.status, p.created_at])
+  ].map(row => row.join(',')).join('\n');
+  
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `permitready-export-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  showToast('Exported!', 'success');
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  loadData();
+  
+  // Subscribe to realtime updates
+  db.channel('public:homeowners')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'homeowners' }, () => {
+      loadData();
+      showToast('New homeowner!', 'success');
+    })
+    .subscribe();
+  
+  db.channel('public:pros')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'pros' }, () => {
+      loadData();
+      showToast('New professional!', 'success');
+    })
+    .subscribe();
+  
+  db.channel('public:projects')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => {
+      loadData();
+    })
+    .subscribe();
+});
 </script>
+
 </body>
 </html>

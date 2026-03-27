@@ -211,8 +211,11 @@ textarea.fi{min-height:100px;resize:vertical;line-height:1.6}
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-var API = 'http://localhost:5001';
+// SUPABASE CONFIG
+const SUPABASE_URL = 'https://tamrwlkjccnwardykqdq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_RWn5kCuN0v8onyW0UYBXfA_7XxOEHnX';
 var D = {pt:'',loc:'',desc:'',sqft:'',bud:'',tl:'',arch:'',des:'',bld:'',eng:'',needsHelp:false,name:'',email:'',phone:''};
 var steps = ['Project Type','Location','Project Details','Budget and Timeline','Your Team','Contact Info'];
 
@@ -309,27 +312,32 @@ async function submit() {
   D.email = document.getElementById('em').value;
   D.phone = document.getElementById('ph').value;
   try {
-    var r = await fetch(API+'/api/projects', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({homeowner_name:D.name,homeowner_email:D.email,homeowner_phone:D.phone,project_type:D.pt,location:D.loc,description:D.desc,sqft:D.sqft,budget:D.bud,timeline:D.tl,has_architect:D.arch,has_designer:D.des,has_builder:D.bld,has_engineer:D.eng})
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { error } = await db.from('homeowners').insert({
+      name: D.name,
+      email: D.email,
+      phone: D.phone,
+      street: D.street,
+      city: D.city,
+      zip: D.zip,
+      project_type: D.pt,
+      budget: D.bud,
+      timeline: D.tl,
+      description: D.desc,
+      status: 'new'
     });
-    var data = await r.json();
-    if (r.ok) {
-      var fn = D.name.split(' ')[0];
-      document.getElementById('ctitle').textContent = 'You are on the list, '+fn+'!';
-      document.getElementById('csub').textContent = 'Your brief has been submitted. We are matching you with vetted professionals in '+D.loc+' now.';
-      var BL={under_75k:'Under $75K','75_150k':'$75K-$150K','150_300k':'$150K-$300K','300_600k':'$300K-$600K','600k_1m':'$600K-$1M',over_1m:'Over $1M'};
-      var TL={asap:'ASAP','3months':'1-3 Months','6months':'3-6 Months',exploring:'Exploring'};
-      var PL={kitchen_bath:'Kitchen/Bath',addition:'Home Addition',adu:'ADU/DADU',new_construction:'New Construction',full_remodel:'Full Remodel',commercial:'Commercial'};
-      document.getElementById('ccard').innerHTML = '<div class="crow"><span style="color:#6b8f78">Project</span><span style="font-weight:500">'+(PL[D.pt]||D.pt)+'</span></div><div class="crow"><span style="color:#6b8f78">Location</span><span style="font-weight:500">'+D.loc+'</span></div><div class="crow"><span style="color:#6b8f78">Budget</span><span style="font-weight:500">'+(BL[D.bud]||D.bud)+'</span></div><div class="crow"><span style="color:#6b8f78">Timeline</span><span style="font-weight:500">'+(TL[D.tl]||D.tl)+'</span></div><div class="crow"><span style="color:#6b8f78">Email</span><span style="font-weight:500">'+D.email+'</span></div>';
-      go(7);
-    } else {
-      alert('Error: '+data.error);
-      btn.disabled=false; btn.textContent='Submit My Project Brief';
-    }
+    if (error) throw error;
+    var fn = D.name.split(' ')[0];
+    document.getElementById('ctitle').textContent = 'You are on the list, '+fn+'!';
+    document.getElementById('csub').textContent = 'Your brief has been submitted. We are matching you with vetted professionals in '+D.loc+' now.';
+    var BL={under_75k:'Under $75K','75_150k':'$75K-$150K','150_300k':'$150K-$300K','300_600k':'$300K-$600K','600k_1m':'$600K-$1M',over_1m:'Over $1M'};
+    var TL={asap:'ASAP','3months':'1-3 Months','6months':'3-6 Months',exploring:'Exploring'};
+    var PL={kitchen_bath:'Kitchen/Bath',addition:'Home Addition',adu:'ADU/DADU',new_construction:'New Construction',full_remodel:'Full Remodel',commercial:'Commercial'};
+    document.getElementById('ccard').innerHTML = '<div class="crow"><span style="color:#6b8f78">Project</span><span style="font-weight:500">'+(PL[D.pt]||D.pt)+'</span></div><div class="crow"><span style="color:#6b8f78">Location</span><span style="font-weight:500">'+D.loc+'</span></div><div class="crow"><span style="color:#6b8f78">Budget</span><span style="font-weight:500">'+(BL[D.bud]||D.bud)+'</span></div><div class="crow"><span style="color:#6b8f78">Timeline</span><span style="font-weight:500">'+(TL[D.tl]||D.tl)+'</span></div><div class="crow"><span style="color:#6b8f78">Email</span><span style="font-weight:500">'+D.email+'</span></div>';
+    go(7);
   } catch(e) {
-    alert('Cannot connect to API. Make sure the server is running on port 5001.');
+    alert('Error submitting: ' + e.message);
     btn.disabled=false; btn.textContent='Submit My Project Brief';
   }
 }
