@@ -1,0 +1,38 @@
+{
+  "name": "PermitReady Marketplace",
+  "short_name": "PermitReady",
+  "description": "Connect with vetted builders, architects, and designers for your construction project",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e3a2f",
+  "theme_color": "#1e3a2f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "lifestyle"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Start a Project",
+      "url": "/homeowner.html",
+      "description": "Submit your project for free"
+    },
+    {
+      "name": "Join as Pro",
+      "url": "/register.html",
+      "description": "Register as a professional"
+    }
+  ]
+}

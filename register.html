@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- PWA Meta Tags -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1e3a2f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PermitReady">
+<link rel="apple-touch-icon" href="icon-192.png">
+
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -640,6 +648,107 @@ function engSubmit(){
 // Handle URL param
 var urlType = new URLSearchParams(window.location.search).get('type');
 if(urlType && headers[urlType]) switchType(urlType);
+</script>
+
+<!-- PWA Install Banner -->
+<style>
+.pwa-install-banner{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#1e3a2f,#2d5441);padding:16px 20px;display:none;align-items:center;justify-content:space-between;gap:12px;z-index:9999;box-shadow:0 -4px 20px rgba(0,0,0,0.3)}
+.pwa-install-banner.show{display:flex}
+.pwa-banner-content{display:flex;align-items:center;gap:12px;flex:1}
+.pwa-banner-icon{width:48px;height:48px;border-radius:10px}
+.pwa-banner-text h4{color:#f5f0e8;font-size:15px;margin:0 0 2px 0;font-weight:600}
+.pwa-banner-text p{color:#8ab39a;font-size:12px;margin:0}
+.pwa-install-btn{background:#e8a85a;color:#1e3a2f;border:none;padding:12px 20px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}
+.pwa-install-btn:hover{background:#c8863a}
+.pwa-close-btn{background:none;border:none;color:#6b8f78;font-size:24px;cursor:pointer;padding:4px 8px}
+.pwa-close-btn:hover{color:#f5f0e8}
+.pwa-ios-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:10000;padding:20px}
+.pwa-ios-modal.show{display:flex}
+.pwa-ios-content{background:#f5f0e8;border-radius:16px;padding:24px;max-width:320px;text-align:center}
+.pwa-ios-content h3{color:#1e3a2f;font-size:20px;margin:0 0 16px 0}
+.pwa-ios-step{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 0;border-bottom:1px solid #e8dfc8}
+.pwa-ios-step:last-of-type{border-bottom:none}
+.pwa-ios-num{width:28px;height:28px;background:#1e3a2f;color:#e8a85a;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex-shrink:0}
+.pwa-ios-step p{color:#1e3a2f;font-size:14px;margin:0;line-height:1.4}
+.pwa-ios-step .icon{font-size:20px}
+.pwa-ios-close{margin-top:20px;background:#1e3a2f;color:#f5f0e8;border:none;padding:14px 32px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;width:100%}
+</style>
+<div class="pwa-install-banner" id="pwa-banner">
+  <div class="pwa-banner-content">
+    <img src="icon-192.png" alt="PermitReady" class="pwa-banner-icon">
+    <div class="pwa-banner-text">
+      <h4>Install PermitReady</h4>
+      <p>Add to your home screen for quick access</p>
+    </div>
+  </div>
+  <button class="pwa-install-btn" id="pwa-install-btn">Install App</button>
+  <button class="pwa-close-btn" id="pwa-close-btn">&times;</button>
+</div>
+<div class="pwa-ios-modal" id="pwa-ios-modal">
+  <div class="pwa-ios-content">
+    <h3>Install PermitReady</h3>
+    <div class="pwa-ios-step">
+      <div class="pwa-ios-num">1</div>
+      <p>Tap the <span class="icon">⬆️</span> <strong>Share</strong> button at the bottom of Safari</p>
+    </div>
+    <div class="pwa-ios-step">
+      <div class="pwa-ios-num">2</div>
+      <p>Scroll down and tap <strong>"Add to Home Screen"</strong></p>
+    </div>
+    <div class="pwa-ios-step">
+      <div class="pwa-ios-num">3</div>
+      <p>Tap <strong>"Add"</strong> in the top right corner</p>
+    </div>
+    <button class="pwa-ios-close" onclick="document.getElementById('pwa-ios-modal').classList.remove('show')">Got it!</button>
+  </div>
+</div>
+<script>
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW error:', err));
+}
+// PWA Install Handler
+(function() {
+  let deferredPrompt;
+  const banner = document.getElementById('pwa-banner');
+  const installBtn = document.getElementById('pwa-install-btn');
+  const closeBtn = document.getElementById('pwa-close-btn');
+  const iosModal = document.getElementById('pwa-ios-modal');
+  if (!banner) return;
+  if (window.matchMedia('(display-mode: standalone)').matches) return;
+  if (window.navigator.standalone === true) return;
+  const dismissed = localStorage.getItem('pwa-dismissed');
+  if (dismissed && Date.now() - parseInt(dismissed) < 86400000) return;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  const isMobile = isIOS || isAndroid;
+  if (!isMobile) return;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    banner.classList.add('show');
+  });
+  if (isIOS) {
+    setTimeout(() => { banner.classList.add('show'); }, 3000);
+  }
+  installBtn.addEventListener('click', async () => {
+    if (isIOS) {
+      iosModal.classList.add('show');
+    } else if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') { banner.classList.remove('show'); }
+      deferredPrompt = null;
+    }
+  });
+  closeBtn.addEventListener('click', () => {
+    banner.classList.remove('show');
+    localStorage.setItem('pwa-dismissed', Date.now().toString());
+  });
+  iosModal.addEventListener('click', (e) => {
+    if (e.target === iosModal) { iosModal.classList.remove('show'); }
+  });
+})();
 </script>
 </body>
 </html>
