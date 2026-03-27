@@ -423,7 +423,7 @@ if ('serviceWorker' in navigator) {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const isAndroid = /Android/.test(navigator.userAgent);
   const isMobile = isIOS || isAndroid;
-  if (!isMobile) return;
+  // Show on all devices
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
